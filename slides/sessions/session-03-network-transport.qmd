@@ -1,0 +1,28 @@
+# Session 3
+
+## 3. Network Transport {.theory-slide}
+
+::: {.theory-card}
+### Main topics
+
+- Optical fiber and radio links.
+- Backhaul architectures.
+- Star, ring, and mesh topologies.
+- Aggregation and oversubscription.
+- Latency, synchronization, and reliability.
+:::
+
+## 3. Network Transport: Use Case {.use-case-slide}
+
+::: {.use-case-card}
+### Example prompt
+
+Choose a transport design for a suburban access network that aggregates traffic from several radio sites.
+
+### Expected student task
+
+- Select topology.
+- Estimate backhaul requirements.
+- Explain resilience choices.
+- Relate transport constraints to service quality.
+:::

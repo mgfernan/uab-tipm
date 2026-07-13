@@ -1,0 +1,24 @@
+project:
+  title: "PTIG Presentation"
+  output-dir: dist
+  resources:
+    - assets/
+    - docs/
+    - slides/
+
+format:
+  revealjs:
+    theme: default
+    css: assets/styles.css
+    slide-number: true
+    hash: true
+    transition: fade
+    chalkboard: false
+    smaller: false
+    center: false
+    navigation-mode: linear
+    controls-layout: edges
+    pdf-separate-fragments: false
+    slide-level: 2
+
+editor: source

@@ -1,0 +1,27 @@
+---
+title: "Planning and Management of Telecommunication Infrastructures"
+subtitle: "Course Presentation Scaffold"
+author: "UAB"
+---
+
+{{< include slides/sections/course-frame.qmd >}}
+
+{{< include slides/sections/learning-setup.qmd >}}
+
+{{< include slides/sections/course-objectives.qmd >}}
+
+{{< include slides/sessions/session-01-demand-to-design.qmd >}}
+
+{{< include slides/sessions/session-02-radio-dimensioning.qmd >}}
+
+{{< include slides/sessions/session-03-network-transport.qmd >}}
+
+{{< include slides/sessions/session-04-economic-aspects.qmd >}}
+
+{{< include slides/sessions/session-05-energy-efficiency.qmd >}}
+
+{{< include slides/sessions/session-06-regulation-and-spectrum.qmd >}}
+
+{{< include slides/sessions/session-07-deployment-strategies.qmd >}}
+
+{{< include slides/sections/assessment-and-closing.qmd >}}

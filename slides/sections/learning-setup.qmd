@@ -1,0 +1,33 @@
+# Learning Setup
+
+## Prerequisites {.theory-slide}
+
+::: {.theory-card}
+- Telecommunication systems and networks fundamentals.
+- Digital transmission and mobile communications.
+- Radio propagation and spectrum basics.
+- Elementary network dimensioning and traffic analysis.
+- Basic use of calculation, simulation, or programming tools.
+:::
+
+## Learning Method {.theory-slide}
+
+::: {.theory-card}
+- Theoretical lectures for models and decision criteria.
+- Case analysis to connect concepts to real deployments.
+- Practical sessions around an integrative network design project.
+- Comparative perspective across terrestrial and satellite cases.
+:::
+
+## Integrative Project {.use-case-slide}
+
+::: {.use-case-card}
+Students define a scenario, dimension the access layer, design transport, add economic and regulatory criteria, and defend the result in a final presentation.
+
+### Milestones
+
+- CP1: Scenario and requirements.
+- CP2: Access design.
+- CP3: Transport and feasibility.
+- CP4: Integration and deployment strategy.
+:::

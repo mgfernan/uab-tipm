@@ -1,0 +1,5 @@
+/.quarto/
+/.cache/
+/dist/
+/*.html
+/*_files/

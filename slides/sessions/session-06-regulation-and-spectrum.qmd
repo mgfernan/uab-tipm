@@ -1,0 +1,28 @@
+# Session 6
+
+## 6. Regulation and Spectrum {.theory-slide}
+
+::: {.theory-card}
+### Main topics
+
+- Spectrum allocation and licensing.
+- Frequency band characteristics.
+- Emission limits and exposure constraints.
+- Coverage obligations.
+- Infrastructure and spectrum sharing.
+:::
+
+## 6. Regulation and Spectrum: Use Case {.use-case-slide}
+
+::: {.use-case-card}
+### Example prompt
+
+Analyze how regulatory obligations affect the choice between private deployment, shared infrastructure, or hybrid models.
+
+### Expected student task
+
+- Map the binding constraints.
+- Explain the impact on the architecture choice.
+- Compare ownership and sharing models.
+- Defend a compliant rollout path.
+:::

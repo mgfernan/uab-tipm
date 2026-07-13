@@ -1,0 +1,28 @@
+# Session 1
+
+## 1. From Demand to Design {.theory-slide}
+
+::: {.theory-card}
+### Main topics
+
+- Service needs and technical requirements.
+- Demand models and user density.
+- Traffic estimation and quality-of-service targets.
+- Network KPIs: capacity, latency, availability.
+- Scenario types: urban, rural, industrial, mobility.
+:::
+
+## 1. From Demand to Design: Use Case {.use-case-slide}
+
+::: {.use-case-card}
+### Example prompt
+
+Compare a dense urban district and a rural county.
+
+### Expected student task
+
+- Estimate demand profiles.
+- Define measurable KPIs.
+- Separate hard requirements from assumptions.
+- Explain why the two scenarios need different design targets.
+:::
