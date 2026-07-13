@@ -3,11 +3,11 @@
 ## Subject Overview {.theory-slide}
 
 ::: {.theory-card}
-### Focus
+**Focus**
 
 This course connects service demand, technical design, regulation, and economic feasibility in telecommunication infrastructure planning.
 
-### Core lens
+**Core lens**
 
 - Translate needs into requirements.
 - Dimension access and transport layers.
@@ -18,11 +18,11 @@ This course connects service demand, technical design, regulation, and economic 
 ## Why It Matters {.use-case-slide}
 
 ::: {.use-case-card}
-### Reference use case
+**Reference use case**
 
 An operator must decide how to deploy connectivity in a mixed territory with dense urban demand, rural gaps, and mobility corridors.
 
-### Questions to answer
+**Questions to answer**
 
 - Which access technology best fits each area?
 - How much capacity is required?

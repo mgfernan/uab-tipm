@@ -3,7 +3,7 @@
 ## 4. Economic Aspects {.theory-slide}
 
 ::: {.theory-card}
-### Main topics
+**Main topics**
 
 - CAPEX and OPEX structure.
 - Cost per user and cost per Mbps.
@@ -14,11 +14,11 @@
 ## 4. Economic Aspects: Use Case {.use-case-slide}
 
 ::: {.use-case-card}
-### Example prompt
+**Example prompt**
 
 Assess whether a rural deployment remains viable under lower user density and higher infrastructure cost.
 
-### Expected student task
+**Expected student task**
 
 - Build a simplified cost model.
 - Compare deployment alternatives.

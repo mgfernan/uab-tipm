@@ -1,9 +1,73 @@
 # Session 1
 
-## 1. From Demand to Design {.theory-slide}
+From demand to design
+
+## Main topics
+
+- What are Non-Terrestrial Networks (NTN)?
+- Service needs and technical requirements.
+- Demand models and user density.
+- Traffic estimation and quality-of-service targets.
+- Network KPIs: capacity, latency, availability.
+- Scenario types: urban, rural, industrial, mobility.
+
+
+## What are NTNs?
+
+::: {style="text-align:center;"}
+
+*"An NTN is a wireless communication network that utilizes radio network equipment placed on an airborne or spaceborne vehicle"*
+
+
+
+[@TripathiReed2025NTN]
+:::
+
+## Why NTN?
+
+- Service in
+  - Sparsely populated areas
+  - Remote areas when base station deployment is not possible
+
+## NTN use cases
+
+
+![](assets/01_ntn_use_cases.svg)
+
+::: notes
+**Continuity: steering through a satelite** Scattered factories badly connected
+with TN, workaround with NTN
+**Continuity: Satellite transborder** Roaming accross countries with different
+agreements in terms of TN.
+**Continuity; Indirect connection through a 5G satellite access network** UE unable
+to connect to NTN networks in remote areas (no TN coverage) may still connect to
+non-NTN layers that act as access relays to the NTN network.
+
+:::
+
+
+## NTN Platforms
+
+![NTN platforms (source: Ericsson)](assets/01_ntn_platforms.svg)
+
+## NTN Platforms
+
+| platform type  | altitude |
+|:---------------|:--------:|
+| Airborne (Unmanned Aerial Vehicles or UAV) | ~10km |
+| High Altitude Platform System (HAPS)       | 20 km - 50 km |
+| Satellite at Low Earth Orbit (LEO)         | 300 km - 3000 km |
+| Satellite at Medium Earth Orbit (MEO)      | 6000 km - 8000 km |
+| Satellite at Geostationary Orbit (GEO)     | ~36000km |
+
+## From Demand to Design {.theory-slide}
+
+**Main topics**
+
+## From Demand to Design {.theory-slide}
 
 ::: {.theory-card}
-### Main topics
+**Main topics**
 
 - Service needs and technical requirements.
 - Demand models and user density.
@@ -15,11 +79,11 @@
 ## 1. From Demand to Design: Use Case {.use-case-slide}
 
 ::: {.use-case-card}
-### Example prompt
+**Example prompt**
 
 Compare a dense urban district and a rural county.
 
-### Expected student task
+**Expected student task**
 
 - Estimate demand profiles.
 - Define measurable KPIs.

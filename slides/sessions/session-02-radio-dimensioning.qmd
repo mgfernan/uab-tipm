@@ -3,7 +3,7 @@
 ## 2. Radio Dimensioning {.theory-slide}
 
 ::: {.theory-card}
-### Main topics
+**Main topics**
 
 - Coverage, capacity, and spectrum.
 - Simplified link budget.
@@ -16,11 +16,11 @@
 ## 2. Radio Dimensioning: Use Case {.use-case-slide}
 
 ::: {.use-case-card}
-### Example prompt
+**Example prompt**
 
 Dimension radio access for an industrial campus with high reliability and a city center with peak-hour congestion.
 
-### Expected student task
+**Expected student task**
 
 - Estimate required spectrum.
 - Size the number of radio nodes.

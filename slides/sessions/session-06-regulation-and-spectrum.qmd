@@ -3,7 +3,7 @@
 ## 6. Regulation and Spectrum {.theory-slide}
 
 ::: {.theory-card}
-### Main topics
+**Main topics**
 
 - Spectrum allocation and licensing.
 - Frequency band characteristics.
@@ -15,11 +15,11 @@
 ## 6. Regulation and Spectrum: Use Case {.use-case-slide}
 
 ::: {.use-case-card}
-### Example prompt
+**Example prompt**
 
 Analyze how regulatory obligations affect the choice between private deployment, shared infrastructure, or hybrid models.
 
-### Expected student task
+**Expected student task**
 
 - Map the binding constraints.
 - Explain the impact on the architecture choice.

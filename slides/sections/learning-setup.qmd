@@ -24,7 +24,7 @@
 ::: {.use-case-card}
 Students define a scenario, dimension the access layer, design transport, add economic and regulatory criteria, and defend the result in a final presentation.
 
-### Milestones
+**Milestones**
 
 - CP1: Scenario and requirements.
 - CP2: Access design.

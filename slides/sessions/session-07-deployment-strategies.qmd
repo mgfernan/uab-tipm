@@ -3,7 +3,7 @@
 ## 7. Deployment Strategies {.theory-slide}
 
 ::: {.theory-card}
-### Main topics
+**Main topics**
 
 - Decision-making in real-world environments.
 - Deployment phases from coverage to densification.
@@ -15,11 +15,11 @@
 ## 7. Deployment Strategies: Use Case {.use-case-slide}
 
 ::: {.use-case-card}
-### Example prompt
+**Example prompt**
 
 Plan a phased operator rollout that starts with broad coverage and evolves toward higher capacity in the most demanding areas.
 
-### Expected student task
+**Expected student task**
 
 - Prioritize the first deployment phase.
 - Explain when densification becomes necessary.

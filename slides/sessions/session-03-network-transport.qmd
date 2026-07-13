@@ -3,7 +3,7 @@
 ## 3. Network Transport {.theory-slide}
 
 ::: {.theory-card}
-### Main topics
+**Main topics**
 
 - Optical fiber and radio links.
 - Backhaul architectures.
@@ -15,11 +15,11 @@
 ## 3. Network Transport: Use Case {.use-case-slide}
 
 ::: {.use-case-card}
-### Example prompt
+**Example prompt**
 
 Choose a transport design for a suburban access network that aggregates traffic from several radio sites.
 
-### Expected student task
+**Expected student task**
 
 - Select topology.
 - Estimate backhaul requirements.

@@ -23,3 +23,4 @@ Generated output is written to `dist/` and ignored by Git.
 
 - The VS Code tasks redirect Quarto and Deno caches to `.cache/` inside the workspace because the container home cache may be read-only.
 - The reveal.js theme is styled in `assets/styles.css`, with print-specific adjustments to improve PDF export without requiring a TeX installation.
+- Bibliography is configured globally in `_quarto.yml` using `docs/references.bib`, so citations can be used in any slide partial (for example: `[@TripathiReed2025NTN]`).

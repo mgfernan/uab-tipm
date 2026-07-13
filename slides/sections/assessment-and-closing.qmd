@@ -13,7 +13,7 @@ Passing requires both exams to reach the minimum threshold before the weighted p
 ## Final Defense {.use-case-slide}
 
 ::: {.use-case-card}
-### What the presentation should show
+**What the presentation should show**
 
 - Clear scenario assumptions.
 - Coherent technical design.
@@ -33,4 +33,11 @@ For each class block, reuse the same logic:
 2. Use-case slide: scenario, decision prompt, expected reasoning.
 
 This makes the deck easy to extend while keeping a clear visual separation between explanation and application.
+:::
+
+## References
+
+::: {data-latex=""}
+::: {#refs}
+:::
 :::

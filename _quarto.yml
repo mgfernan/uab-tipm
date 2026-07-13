@@ -6,6 +6,10 @@ project:
     - docs/
     - slides/
 
+# Shared citation database available to all slides in the project.
+bibliography: docs/references.bib
+link-citations: true
+
 format:
   revealjs:
     theme: default

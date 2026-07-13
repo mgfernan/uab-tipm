@@ -3,7 +3,7 @@
 ## 5. Energy Efficiency {.theory-slide}
 
 ::: {.theory-card}
-### Main topics
+**Main topics**
 
 - Energy consumption in telecommunication networks.
 - Impact of traffic and frequency band.
@@ -14,11 +14,11 @@
 ## 5. Energy Efficiency: Use Case {.use-case-slide}
 
 ::: {.use-case-card}
-### Example prompt
+**Example prompt**
 
 Compare the energy implications of dense small-cell deployment versus fewer macro sites.
 
-### Expected student task
+**Expected student task**
 
 - Estimate energy drivers.
 - Connect energy to OPEX.
