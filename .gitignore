@@ -1,5 +1,21 @@
-/.quarto/
-/.cache/
-/dist/
-/*.html
-/*_files/
+.venv
+
+# Quarto/Knitr caches and temp artifacts
+.quarto/
+.cache/
+
+# Quarto render outputs
+_site/
+_book/
+dist/
+*.html
+*_files/
+
+# Notebook and editor byproducts commonly used with Quarto
+.ipynb_checkpoints/
+.DS_Store
+
+# R session artifacts (if rendering with R)
+.Rhistory
+.RData
+.Rproj.user/
