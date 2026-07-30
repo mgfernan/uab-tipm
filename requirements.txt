@@ -1,0 +1,9 @@
+ipyleaflet
+ipython
+ipywidgets
+jupyterlab-quarto
+matplotlib
+pandas
+pygnss
+seaborn>=0.13
+tabulate

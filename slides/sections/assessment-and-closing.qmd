@@ -41,3 +41,9 @@ This makes the deck easy to extend while keeping a clear visual separation betwe
 ::: {#refs}
 :::
 :::
+
+<!--
+Additional references with useful information
+https://www.slideshare.net/slideshow/fundamentalssatellitecommunicationpart1/13642993#2
+
+-->

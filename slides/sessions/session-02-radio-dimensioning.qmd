@@ -13,6 +13,16 @@
 - Trade-offs between coverage and densification.
 :::
 
+## Link budget: Beam design
+
+- Antenna dimensioning: Beam design (https://www.satsig.net/satellite/satellite-beam-design.htm)
+
+Ref: https://www.youtube.com/watch?v=bQpu14JgNz0
+https://www.ni.com/es/solutions/semiconductor/non-terrestrial-network-test/nonterrestrial-networks-for-5g-and-beyond.html
+
+See example in Section 3.3.2 of [@vanelli20245g]
+
+
 ## 2. Radio Dimensioning: Use Case {.use-case-slide}
 
 ::: {.use-case-card}
@@ -27,3 +37,532 @@ Dimension radio access for an industrial campus with high reliability and a city
 - Justify the chosen band.
 - Discuss the coverage-capacity trade-off.
 :::
+
+
+## Reference
+
+[@vanelli20245g]
+
+## Architecture stack: overview
+
+![source: Perplexity AI](assets/architecture__stack.png)
+
+
+## Architecture stack: Layer 1 - PHY
+
+Controls **physical layer** (PHY, ,i.e. "radio") aspects[^l1_ref]:
+
+- Radio interface
+- Channel coding and modulation schemes.
+- MIMO processing and beamforming
+- Hybrid Automatic Repeat reQuest (HARQ) buffering
+
+[^l1_ref]: See [5G NTN Stack Architecture](https://gatehousesatcom.com/product/5g-ntn-new-radio/5g-ntn-new-radio-gnodeb/){target="_blank"}
+
+## Architecture stack: Layer 2 - MAC
+
+Controls **Medium Access Control** (MAC, i.e. protocol) aspects of the radio interface:
+
+- Manages scheduling and multiplexing
+- Hybrid Automatic Repeat reQuest (HARQ) management and execution:
+  - Combine retransmissions to improve reliability and reduce latency.
+  - Replay a packet after an error
+  - Manage ACK/NACK feedback from the receiver
+- For NTN, MAC includes HARQ adaptations for longer round‑trip time (RTT) delays.
+
+## Frequency bands: use cases
+
+- **Lower bands** (narrowband)
+  - Good coverage/ubiquity
+  - Limited capacity
+  - Application: IoT and M2M. Not intended for high data rate applications
+
+- **Upper bands** (wideband)
+  - Limited coverage
+  - High capacity
+  - Application: high data rate applications, dense urban areas and hotspots
+
+## Lower Frequency bands: FR1
+
+```{python}
+#| hide: true
+
+FR1_bands_L = {
+
+    "n255": { "Uplink": (1626.5, 1660.5), "Downlink": (1525, 1559), },
+    "n253": { "Uplink": (1668, 1675), "Downlink": (1518, 1525), },
+}
+
+FR1_bands_S = {
+    "n256": { "Uplink": (1980, 2010), "Downlink": (2170, 2200), },
+    "n254": { "Uplink": (1610, 1626.5), "Downlink": (2483.5, 2500), },
+    "n252": { "Uplink": (2000, 2020), "Downlink": (2180, 2200), },
+}
+
+
+FR1_bands_Ku = {
+    "n248": { "Uplink": (14000, 14500), "Downlink": (10700, 12750), },
+    "n247": { "Uplink": (13750, 14000), "Downlink": (10700, 12750), },
+}
+
+FR2_bands_Ka = {
+    "n510": { "Uplink": (27500, 28350), "Downlink": (17700, 20200), },
+    "n511": { "Uplink": (28350, 30000), "Downlink": (17700, 20200), },
+    "n512": { "Uplink": (27500, 30000), "Downlink": (17700, 20200), },
+}
+```
+
+```{python}
+#| label: fig-freqs_fr1
+#| fig-cap: "Frequency bands allocated for FR1-NTN"
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+import matplotlib.ticker as ticker # Import ticker module
+
+sns.set_theme(style="whitegrid") # Apply a seaborn style for better aesthetics
+plt.rc('axes', unicode_minus=False) # Ensure minus signs are displayed correctly
+
+all_bands = {"FR1-L": FR1_bands_L, "FR1-S": FR1_bands_S, "FR1-Ku": FR1_bands_Ku, "FR2-Ka": FR2_bands_Ka}
+
+colors = {'Uplink': 'skyblue', 'Downlink': 'lightcoral'}
+
+# Helper function to plot bands on a given axis
+def plot_bands_on_axis(ax, band_type_names_for_this_subplot, xlim_range, title_text, num_xticks=5):
+    current_y_pos = 0
+    y_tick_positions = []
+    y_tick_labels = []
+
+    # First pass to determine y_tick_positions and y_tick_labels
+    for band_type_name in band_type_names_for_this_subplot:
+        bands_dict = all_bands[band_type_name]
+        for band_name, freqs in bands_dict.items():
+            y_tick_positions.append(current_y_pos)
+
+            # Calculate downlink bandwidth for the label
+            if 'Downlink' in freqs:
+                start_freq_dl, end_freq_dl = freqs['Downlink']
+                bandwidth_dl = end_freq_dl - start_freq_dl
+                y_tick_labels.append(f'{band_name} ({bandwidth_dl:.1f} MHz)') # Format bandwidth with 1 decimal place
+            else:
+                y_tick_labels.append(band_name) # Fallback if no downlink specified
+
+            current_y_pos += 1
+        current_y_pos += 1 # Add a gap between band types
+
+    # Second pass to plot and add band type labels
+    current_y_pos_for_plotting = 0 # Reset for plotting
+    for band_type_name in band_type_names_for_this_subplot:
+        bands_dict = all_bands[band_type_name]
+
+        for band_name, freqs in bands_dict.items():
+            for link_type, (start_freq, end_freq) in freqs.items():
+                width = end_freq - start_freq
+                # Only add legend label once per link type in this subplot
+                legend_label = link_type if (band_name == list(bands_dict.keys())[0] and band_type_name == band_type_names_for_this_subplot[0]) else ""
+                ax.barh(current_y_pos_for_plotting, width, left=start_freq, height=0.8, color=colors[link_type], edgecolor='white', linewidth=0.8, label=legend_label) # Changed height to 0.8
+                # Frequency Text Label (below the bar)
+                ax.text(start_freq + width / 2, current_y_pos_for_plotting - 0.4, f'{start_freq}-{end_freq}', va='top', ha='center', fontsize=7, color='dimgray') # Increased fontsize to 7
+            current_y_pos_for_plotting += 1
+        current_y_pos_for_plotting += 1 # Add a small gap between band types
+
+    ax.set_xlabel('Frequency (MHz)', fontsize=12)
+    ax.set_title(title_text, fontsize=14)
+    # Use a softer grid color from seaborn palette
+    ax.grid(axis='x', linestyle='--', alpha=0.7, color=sns.color_palette("muted")[7])
+    ax.grid(axis='y', linestyle='--', alpha=0.7, color=sns.color_palette("muted")[7])
+
+    # Set custom y-ticks and labels
+    ax.set_yticks(y_tick_positions)
+    ax.set_yticklabels(y_tick_labels, fontsize=9) # Use band IDs as labels, adjusted fontsize
+    ax.tick_params(axis='y', left=False) # Remove default tick marks
+
+    # Control x-axis tick frequency
+    ax.xaxis.set_major_locator(ticker.MaxNLocator(nbins=num_xticks))
+
+    handles, labels = ax.get_legend_handles_labels()
+    by_label = dict(zip(labels, handles))
+    if by_label: # Only show legend if there are items
+        ax.legend(by_label.values(), by_label.keys(), title='Link Type', loc='upper right', frameon=True, borderpad=1)
+    ax.set_xlim(xlim_range[0], xlim_range[1])
+    ax.set_ylim(-1, current_y_pos - 1) # Adjust y-limits to fit all bars properly
+    sns.despine(ax=ax, top=True, right=True) # Remove top and right spines for cleaner look
+
+# --- First Plot: FR1 Bands ---
+# Adjusted figsize for slightly more horizontal space
+fig_fr1, (ax1_fr1, ax2_fr1) = plt.subplots(2, 1, figsize=(15, 10), sharex=False, gridspec_kw={'height_ratios': [1.8, 0.6]})
+
+# Plot for FR1-L and FR1-S bands
+plot_bands_on_axis(ax1_fr1, ["FR1-L", "FR1-S"], (1400, 2600), '5G NR Band Allocation (FR1-L/S Bands)', num_xticks=5) # Adjusted xlim_range for better focus
+
+# Plot for FR1-Ku band
+plot_bands_on_axis(ax2_fr1, ["FR1-Ku"], (10000, 15000), '5G NR Band Allocation (FR1-Ku Band)', num_xticks=6)
+
+plt.tight_layout()
+plt.show()
+```
+
+## Upper Frequency bands: FR2
+
+```{python}
+#| label: fig-freqs_fr2
+#| fig-cap: "Frequency bands allocated for FR2-NTN"
+
+# --- Second Plot: FR2 Band ---
+# Adjusted figsize for slightly more horizontal space
+fig_fr2, ax_fr2 = plt.subplots(1, 1, figsize=(15, 5), sharex=False)
+
+# Plot for FR2-Ka band
+plot_bands_on_axis(ax_fr2, ["FR2-Ka"], (15000, 32000), '5G NR Band Allocation (FR2-Ka Band)', num_xticks=7)
+
+plt.tight_layout()
+plt.show()
+```
+
+## Waveforms
+
+- Usage of Orthogonal Frequency Division Multiplexing (OFDM) waveform in 5G NR, which is robust against multipath fading and allows for flexible spectrum usage.
+- Sub-carrier spacing (SCS) depend on the frequency band:
+  - For FR1 (L and S bands): 15 kHz, 30 kHz, 60 kHz
+  - For FR1 (Ku band) and FR2 (Ka band): 60 kHz, 120 kHz, 240 kHz
+- QAM modulation schemes are used, with higher-order QAM (e.g., up to 1024-QAM in downlink ) providing higher spectral efficiency but requiring better signal quality.
+- Different modulations for data transmission and control channels (L1 and L2)
+
+## Multiple access strategies
+
+![source: Perplexity AI](assets/multiple_access.png)
+
+## Multiple access strategies
+
+How different users share the same radio resources:
+
+- **OFDMA** (Orthogonal Frequency Division Multiple Access): Users are allocated different sub-carriers within the same time slot.
+- **TDMA** (Time Division Multiple Access): Users are allocated the same frequency band but in different time slots.
+- **SDMA** (Space Division Multiple Access): Users are separated by spatial beams.
+
+# Link budget
+
+```{python}
+altitude_km = 550
+elevation_angle_deg = 30
+bw_user_MHz = 0.36  # S band
+tx_power_dBm = 30
+```
+
+## Inputs
+
+```{python}
+#| label: tbl-link-budget-inputs
+#| tbl-cap: Link budget basic inputs
+
+from IPython.display import Markdown
+from tabulate import tabulate
+table = [["Altitude (km)","$h_{sat}$", altitude_km, "Satellite altitude above the Earth's surface"],
+         ["Elevation angle (deg)", "$\\varepsilon$",elevation_angle_deg, "Angle between the line of sight to the satellite and the local horizontal plane"],
+         ["User Bandwidth (MHz)", "$B_{user}$",bw_user_MHz, "Bandwidth allocated for the user terminal"],
+         ["Tx power (dBm)", "$P_{tx}$", tx_power_dBm, "Transmit power of the user terminal"],
+]
+Markdown(tabulate(
+  table,
+    headers=["Parameter", "Notation", "Value", "Description"],
+))
+```
+
+##  Earth–Platform Geometry: slant range
+
+Slant range, computed from the elevation $\varepsilon$ (note: $R_E$ is the Earth's radius):
+
+$$
+\label{eq-slant_range}
+d = \sqrt{(R_E + h_{sat})^2 - R_E^2 \cdot \cos^2(\varepsilon)} - R_E \cdot \sin(\varepsilon)
+$$
+
+```{python}
+#| echo: false
+import numpy as np
+
+def compute_slant_range(altitude_km, elevation_angle_deg):
+    R_E_km = 6371  # Earth's radius in km
+    slant_range_km = np.sqrt((R_E_km + altitude_km)**2 - R_E_km**2 * np.cos(np.radians(elevation_angle_deg))**2) - R_E_km * np.sin(np.radians(elevation_angle_deg))
+    return slant_range_km
+
+slant_range_km = compute_slant_range(altitude_km, elevation_angle_deg)
+Markdown(f"Slant range (km): {slant_range_km:.2f} km")
+```
+
+If we define the two-way latency as $\tau = \frac{2d}{c}$, where $c$ is the speed of light, we can compute the latency for the given slant range.
+
+```{python}
+c_km_per_s = 299792.458  # Speed of light in km/s
+two_way_latency_s = (2 * slant_range_km) / c_km_per_s
+Markdown(f"Two-way latency (ms): {two_way_latency_s * 1000.0:.1f} ms")
+```
+
+##  Earth–Platform Geometry: slant ranges
+
+```{python}
+#| label: fig-slant_range
+#| fig-cap: "Slant range vs. elevation angle for different satellite altitudes"
+import plotly.graph_objects as go
+import plotly.io as pio
+import numpy as np
+from IPython.display import HTML
+
+heights_km = [500, 1200, 36000]
+
+elevation_angle_grid_deg = np.linspace(0, 90, 100)  # 0 to 90 degrees
+slant_ranges = {h: compute_slant_range(h, elevation_angle_grid_deg) for h in heights_km}
+
+fig = go.Figure()
+
+for h in heights_km:
+    fig.add_trace(
+        go.Scatter(
+            x=elevation_angle_grid_deg,
+            y=slant_ranges[h],
+            mode="lines",
+            name=f"Altitude: {h} km"
+        )
+    )
+
+fig.update_layout(
+    title="Slant Range vs. Elevation Angle",
+    xaxis_title="Elevation Angle (degrees)",
+    yaxis_title="Slant Range (km)",
+    template="plotly_white",
+    legend_title_text="",
+)
+
+fig.update_xaxes(range=[0, 90], showgrid=True)
+fig.update_yaxes(showgrid=True)
+
+# Avoid injecting MathJax from Plotly; Quarto already handles page-level LaTeX.
+HTML(pio.to_html(fig, full_html=False, include_plotlyjs="cdn", include_mathjax=False))
+```
+
+## Satellite FoV footprint
+
+- See [satellite FoV footprint derivation in the annexes of this deck](#sec-annex_fov_footprint) for the derivation of the footprint radius as a function of satellite altitude and elevation angle.
+- Footprint assumes that there is minimum elevation $\varepsilon_{min}$ for the user terminal to communicate with the satellite (see Section 3.3.1 of [@corici2024ntnQos]).
+
+```{python}
+import math
+import numpy as np
+import plotly.graph_objects as go
+import pygnss
+from pygnss.geodetic import lla_to_xyz, xyz_to_lla
+
+
+
+# -----------------------------
+# Geometry / FoV computation
+# -----------------------------
+# Earth radius (mean equatorial radius)
+R_E = 6378.137  # km
+
+# Elevation angles (degrees) for boundaries: ε = 0°,2°,4°,6°,8°,10°
+elevations_deg = [0, 5, 10]
+
+def compute_perpendicular_unit_vector(a: np.ndarray) -> np.ndarray:
+    """
+    >>> compute_perpendicular_unit_vector(np.array([1, 0, 0]))
+    array([0., 0., 1.])
+    """
+    a = np.asarray(a, dtype=float)
+    if a.shape != (3,):
+        raise ValueError("a must be a shape (3,) vector")
+
+    # Choose the axis least aligned with a to avoid tiny cross products
+    axes = np.eye(3)
+    e = axes[np.argmin(np.abs(a))]  # e is x/y/z axis with smallest |a_i|
+
+    b = np.cross(a, e)
+    r_b = np.linalg.norm(b)
+    if r_b == 0:
+        raise ValueError("Cannot compute a perpendicular vector (a is zero vector).")
+
+    return b / r_b
+
+
+def compute_boundary_lat_lon(lat_sat_deg, lon_sat_deg, height_sat_km, nadir_angle_deg, n_points=361):
+    """
+    """
+
+    # Compute the $\gamma$ angle at the Earth center between the subsatellite point and P
+    r_s_km = R_E + height_sat_km
+    nadir_angle_rad = np.radians(nadir_angle_deg)
+    gamma_rad = np.arcsin(r_s_km / R_E * np.sin(nadir_angle_rad)) - nadir_angle_rad
+
+    # Satellite ECEF coordinates
+    s = np.array(tuple(lla_to_xyz(lon_sat_deg, lat_sat_deg, height_sat_km)))
+    r_s = np.linalg.norm(s)
+
+    u = s / r_s
+    k = compute_perpendicular_unit_vector(u)
+
+    e = np.cross(k, u)
+    e = e / np.linalg.norm(e)
+
+    n = np.cross(u, e)
+
+    u = u.reshape(3, 1)
+    e = e.reshape(3, 1)
+    n = n.reshape(3, 1)
+
+    # Create points by varying azimuth around center
+    az = np.linspace(0, 2.0 * np.pi, n_points)
+    az = az.reshape(1, -1)         # (1, 361)
+    cos_az = np.cos(az)            # (1, 361)
+    sin_az = np.sin(az)            # (1, 361)
+
+    cos_gamma = np.cos(gamma_rad) # shape should be (1, 361) or (361,)
+    sin_gamma = np.sin(gamma_rad)
+
+    p = R_E * 1000.0 * (u * cos_gamma + e * sin_gamma * cos_az + n * sin_gamma * sin_az)
+    # p shape: (3, 361)
+
+    xs_m = p[0, :]
+    ys_m = p[1, :]
+    zs_m = p[2, :]
+
+    lon_deg, lat_deg, _ = xyz_to_lla(xs_m, ys_m, zs_m)
+
+    return lat_deg, lon_deg
+
+def plot_fov_boundaries(lat0_deg, lon0_deg, h, elevations_deg, R_E):
+    """
+    Generates and displays a Plotly globe visualization of satellite FoV boundaries.
+
+    Args:
+        lat0_deg (float): Latitude of the sub-satellite point in degrees.
+        lon0_deg (float): Longitude of the sub-satellite point in degrees.
+        h (float): Altitude of the satellite above Earth's surface in km.
+        elevations_deg (list): List of minimum elevation angles in degrees.
+        R_E (float): Earth's radius in km.
+    """
+
+    # Hardcoded colors list
+    colors = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b"]
+
+    # Compute maximum nadir angle for all the min elevations
+    nadir_max = np.degrees(np.arcsin(R_E/(R_E + h)* np.cos(np.radians(elevations_deg))))
+
+    fig = go.Figure()
+
+    for i, nadir_deg in enumerate(nadir_max):
+        lat_curve, lon_curve = compute_boundary_lat_lon(lat0_deg, lon0_deg, h, nadir_deg, n_points=361)
+        elev = elevations_deg[i]
+
+        fig.add_trace(
+            go.Scattergeo(
+                lon=lon_curve,
+                lat=lat_curve,
+                mode="lines",
+                line=dict(width=2, color=colors[i % len(colors)]),
+                name=f"ε_min = {elev}º"
+            )
+        )
+
+    # Sub-satellite point marker
+    fig.add_trace(
+        go.Scattergeo(
+            lon=[lon0_deg],
+            lat=[lat0_deg],
+            mode="markers",
+            marker=dict(size=7, color="black"),
+            name="Sub-satellite point"
+        )
+    )
+
+    fig.update_layout(
+        title=f"Satellite FoV Footprint: Lat {lat0_deg}°, Lon {lon0_deg}°, Alt {h} km",
+        showlegend=True,
+        margin=dict(l=10, r=10, t=50, b=10),
+        geo=dict(
+            projection_type="equirectangular",
+            showland=True,
+            landcolor="rgb(240,240,240)",
+            showcountries=True,
+            showocean=True,
+            oceancolor="rgb(210,230,255)",
+            showframe=False,
+            bgcolor="white",
+            lataxis=dict(range=[-90, 90]),
+            lonaxis=dict(range=[-180, 180])
+        )
+    )
+
+    return fig
+```
+
+## Satellite FoV footprint: GEO
+
+```{python}
+fig = plot_fov_boundaries(0.0, 0.0, 36000, elevations_deg, R_E)
+
+# Avoid injecting MathJax from Plotly; Quarto already handles page-level LaTeX.
+HTML(pio.to_html(fig, full_html=False, include_plotlyjs="cdn", include_mathjax=False))
+```
+
+## Satellite FoV footprint: MEO
+
+```{python}
+fig = plot_fov_boundaries(0.0, 0.0, 10000, elevations_deg, R_E)
+
+# Avoid injecting MathJax from Plotly; Quarto already handles page-level LaTeX.
+HTML(pio.to_html(fig, full_html=False, include_plotlyjs="cdn", include_mathjax=False))
+```
+
+## Satellite FoV footprint: LEO
+
+```{python}
+fig = plot_fov_boundaries(0.0, 0.0, 1200, elevations_deg, R_E)
+
+# Avoid injecting MathJax from Plotly; Quarto already handles page-level LaTeX.
+HTML(pio.to_html(fig, full_html=False, include_plotlyjs="cdn", include_mathjax=False))
+```
+
+## Link performance
+
+
+
+
+<!-- ------------------------------------------------------------------      -->
+<!-- ----------------    Starlink case study   ------------------------      -->
+<!-- ------------------------------------------------------------------      -->
+
+# Session 2 Starlink case study {.use-case-slide background-image="assets/starry_sky.png"}
+
+
+## Frequency plan {.use-case-slide background-image="assets/starry_sky.png"}
+
+- Downlink signal in 10.7 to 12.7 GHz (Ku band)
+- 250 MHz channels
+- Spot beams with 2.5° beamwidth
+- To avoid interference between spot beams, different frequency channels are used for adjacent beams.
+- Effective Isotropic Radiated Power (EIRP) of -56.2 dBW/Hz to -52.8 dBW/Hz
+- bidirectional links with user terminals at
+X/Ku band[^starlink_fcc_freq_filings] and with gateways at Ka band using left‐handed
+or right‐handed circular polarisation (LHCP or RHCP)
+
+
+
+- OFDM modulation
+
+See [@humphreys2023signal; @blazquez2024capabilities] for more details on Starlink's radio dimensioning
+
+[^starlink_fcc_freq_filings]: [FCC regulatory filings](https://fcc.report/IBFS/SAT-LOA-20161115-00118) for Starlink's first test Microsat satellites.
+
+
+## Frequency plan {.use-case-slide background-image="assets/starry_sky.png"}
+
+Info extracted from Space Exploration Holdings, LLC (Starlink) FCC regulatory filings
+
+
+|Frequency range | Band | Usage |
+|:----------------:|:-----:|:------:|
+| 10700 - 14500 | Ku | [@fccreport_SATLOA2016111500118;@fccreport_SATLOA2017072600110;@fccreport_SATLOA2020052600055] |
+| 17800 - 30000 | Ka | [@fccreport_SATLOA2016111500118;@fccreport_SATLOA2017072600110;@fccreport_SATLOA2020052600055] |
+| 37500 - 52400 | V | [@fccreport_SATLOA2017030100027] |
+| 71000	- 76000 | V | [@fccreport_SATLOA2020052600055] |
+| 76000 - 86000 | W | [@fccreport_SATLOA2020052600055] |

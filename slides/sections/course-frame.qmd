@@ -1,19 +1,9 @@
 # Course Frame
 
-## Subject Overview {.theory-slide}
+## Project ideas {.theory-slide}
 
-::: {.theory-card}
-**Focus**
+- Communication system for Mars exploration (sounders, orbiters, ...). Challenges (orbital period, tenuous atmosphere, ...)
 
-This course connects service demand, technical design, regulation, and economic feasibility in telecommunication infrastructure planning.
-
-**Core lens**
-
-- Translate needs into requirements.
-- Dimension access and transport layers.
-- Evaluate cost, energy, and regulation.
-- Defend deployment decisions in realistic scenarios.
-:::
 
 ## Why It Matters {.use-case-slide}
 

@@ -12,17 +12,23 @@ link-citations: true
 
 format:
   revealjs:
-    theme: default
-    css: assets/styles.css
     slide-number: true
-    hash: true
-    transition: fade
-    chalkboard: false
-    smaller: false
-    center: false
+    preview-links: auto
+    css: assets/styles.css
+    footer: "Master's Degree in Telecommunication Engineering | UAB"
+    #theme: default
+    #transition: fade
+    #smaller: false
+    #center: false
     navigation-mode: linear
-    controls-layout: edges
-    pdf-separate-fragments: false
-    slide-level: 2
-
+    #controls-layout: edges
+    #pdf-separate-fragments: false
+    slide-level: 3
+    embed-resources: true
+    include-in-header:
+      text: |
+        <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
+        <script src="assets/01_theory_beam_interactive.js"></script>
+    code:
+      show: false
 editor: source

@@ -12,17 +12,15 @@
 - Infrastructure and spectrum sharing.
 :::
 
-## 6. Regulation and Spectrum: Use Case {.use-case-slide}
+## Regulatory agencies
 
-::: {.use-case-card}
-**Example prompt**
+- ITU (International Telecommunication Union)
+- ETSI (European Telecommunications Standards Institute)
+- 3GPP (3rd Generation Partnership Project)
 
-Analyze how regulatory obligations affect the choice between private deployment, shared infrastructure, or hybrid models.
 
-**Expected student task**
+# Session 6 Starlink case study {.use-case-slide background-image="assets/starry_sky.png"}
 
-- Map the binding constraints.
-- Explain the impact on the architecture choice.
-- Compare ownership and sharing models.
-- Defend a compliant rollout path.
-:::
+## Regulation and Spectrum {.use-case-slide background-image="assets/starry_sky.png"}
+
+- [FCC regulatory filings](https://apps.fcc.gov/els/GetAtt.html?id=185534&x=) for Starlink's first test Microsat satellites.

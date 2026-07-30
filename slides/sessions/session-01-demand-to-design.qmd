@@ -11,6 +11,7 @@ From demand to design
 - Network KPIs: capacity, latency, availability.
 - Scenario types: urban, rural, industrial, mobility.
 
+Note: only addressing 5G NTN, not 4G LTE NTN.
 
 ## What are NTNs?
 
@@ -18,10 +19,11 @@ From demand to design
 
 *"An NTN is a wireless communication network that utilizes radio network equipment placed on an airborne or spaceborne vehicle"*
 
+:::
 
+5G NTN was standardized in 3GPP Release 17
 
 [@TripathiReed2025NTN]
-:::
 
 ## Why NTN?
 
@@ -31,8 +33,13 @@ From demand to design
 
 ## NTN use cases
 
+<img
+src="assets/01_ntn_use_cases.svg"
+alt="NTN use cases diagram"
+style="display: block; width: 100%; max-height: 70vh; margin: 0.5rem auto 0;"
+/>
 
-![](assets/01_ntn_use_cases.svg)
+see [@3gpp-2018b-satellites-5g-tr22-822]
 
 ::: notes
 **Continuity: steering through a satelite** Scattered factories badly connected
@@ -45,48 +52,336 @@ non-NTN layers that act as access relays to the NTN network.
 
 :::
 
+## NTN architecture
+
+
+<img
+src="assets/architecture__nt_vs_tnt.svg"
+alt="NT and NTN architecture comparison"
+style="display: block; width: 100%; max-height: 70vh; margin: 0.5rem auto 0;"
+/>
+
+
+## Transparent vs regenerative arch.
+
+
+<img
+src="assets/architecture__transp_vs_regen.svg"
+alt="NT and NTN architecture comparison"
+style="display: block; width: 100%; max-height: 70vh; margin: 0.5rem auto 0;"
+/>
+
+
+## NTN architecture
+
+- *Transparent* (bent-pipe/relay) or *regenerative* (on-board processing) payloads
+- Regenerative payloads: implement on-board switching and routing (i.e. gNB tasks)⇒ less dependent on the terrestrial network, and can provide direct access to the NTN user equipment (UE). Ideal for areas with limited terrestrial coverage.
+- **Gateways** have different roles: in transparent provides a bridge between the NTN and the terrestrial network, while in regenerative connects the NTN payload to 5G Core Network.
+
+
+## Architecture: The Starlink case {.use-case-slide background-image="assets/starry_sky.png"}
+
+![source: [Starlink Network Update](https://starlink.com/updates/network-update){target="_blank"}](assets/starlink__architecture.png)
 
 ## NTN Platforms
 
-![NTN platforms (source: Ericsson)](assets/01_ntn_platforms.svg)
+
+<img
+src="assets/01_ntn_platforms.svg"
+alt="NTN platforms (source: Ericsson)"
+style="display: block; width: 100%; max-height: 70vh; margin: 0.5rem auto 0;"
+/>
+
 
 ## NTN Platforms
 
-| platform type  | altitude |
+| Platform type  | Altitude |
 |:---------------|:--------:|
-| Airborne (Unmanned Aerial Vehicles or UAV) | ~10km |
+| Airborne (Unmanned Aerial Vehicles or UAV) | ~10 km |
 | High Altitude Platform System (HAPS)       | 20 km - 50 km |
 | Satellite at Low Earth Orbit (LEO)         | 300 km - 3000 km |
 | Satellite at Medium Earth Orbit (MEO)      | 6000 km - 8000 km |
-| Satellite at Geostationary Orbit (GEO)     | ~36000km |
+| Satellite at Geostationary Orbit (GEO)     | ~36000 km |
 
-## From Demand to Design {.theory-slide}
+## NTN Platform: satellite
 
-**Main topics**
+Qualitative comparison between satellite platforms
 
-## From Demand to Design {.theory-slide}
+| Characteristic |    GEO   |     MEO  |    LEO   |
+|:---------------|:--------:|:--------:|:--------:|
+| Propagation delay |  ~120 ms | 23-83 ms | 1-5 ms |
+| Num. sats for Earth coverage    | 3 |  ~6 | Hundreds  |
+| Type of beams       | fixed | Quasi-fixed / moving | Quasi-fixed / moving |
+| Num. gateways  | very few   | few | numerous |
+| Target service | low-rate, delay-tolerant | medium-rate, medium-latency | high-rate, low-latency |
 
-::: {.theory-card}
-**Main topics**
+## NTN Platform: satellite orbits
 
-- Service needs and technical requirements.
-- Demand models and user density.
-- Traffic estimation and quality-of-service targets.
-- Network KPIs: capacity, latency, availability.
-- Scenario types: urban, rural, industrial, mobility.
+Orbital period
+
+$$
+T = 2\pi \sqrt{\frac{a^3}{\mu}}
+$$
+
+where:
+
+- $a$ is the semi-major axis of the orbit and
+- $\mu$ is the standard gravitational parameter of the pulling body (i.e., Earth).
+
+## NTN Platform: satellite orbits (examples)
+
+Some examples of gravitational parameters:
+$$
+\begin{array}{l}
+\mu_{Earth} = 3.986 \times 10^{14} m^3/s^2 \\
+\mu_{Moon} = 4.904 \times 10^{12} m^3/s^2 \\
+\mu_{Mars} = 4.282 \times 10^{13} m^3/s^2 \\
+\end{array}
+$$
+
+$$
+T_{GEO} \approx 2\pi \sqrt{\frac{(42,164 km)^3}{3.986 \times 10^{14} m^3/s^2}} \approx 86,161 s \approx 24 h
+$$
+
+## NTN Beams
+
+- Define radio coverage
+- Beam type defines *NTN cell mobility* ⇒ *handover strategy*
+
+| Characteristics | Fixed | Quasi-fixed | moving |
+|:---------------:|:-----:|:-----:|:-----:|
+| Coverage | Fixed region all the time |
+
+## NTN Beams: Fixed
+
+<div id="sketch-geo"></div>
+
+## NTN Beams: Quasi-fixed
+
+<div id="sketch-quasi"></div>
+
+## NTN Beams: Moving
+
+<div id="sketch-moving"></div>
+
+## NTN Beams: Beam steering
+
+<div id="sketch-steering"></div>
+
+## Service and requirements
+
+```{mermaid}
+---
+config:
+  sankey:
+    showValues: false
+---
+sankey-beta
+
+  Coverage,Footprint,1
+  Coverage,Link budget,1
+  Coverage,Propagation resilience,1
+  Coverage,Compatible with sparse ground infrastructure,1
+  Coverage,Beam configuration,1
+  Coverage,Has adaptive resource allocation,1
+
+  Continuity,Has seamless mobility management,1
+  Continuity,Has handover support,1
+  Continuity,Has session persistence,1
+  Continuity,Has multi-layer network integration,1
+
+  Connectivity,Efficient spectrum strategy,1
+  Connectivity,Signaling,1
+
+  Resilience,Availability,1
+  Resilience,Redundancy,1
+  Resilience,Has fallback connectivity,1
+  Resilience,Operation under degraded conditions,1
+
+  IoT / Low-power messaging,Power consumption,1
+  IoT / Low-power messaging,Footprint,1
+  IoT / Low-power messaging,Scalable access,1
+
+  Higher-throughput services,Bandwidth,1
+  Higher-throughput services,Latency,1
+  Higher-throughput services,Efficient spectrum strategy,1
+  Higher-throughput services,Scalable access,1
+
+  Low-latency-sensitive services,Latency,1
+  Low-latency-sensitive services,Routing and architecture,1
+  Low-latency-sensitive services,Platform,1
+
+  Mobility services,Beam configuration,1
+  Mobility services,Has Doppler compensation,1
+  Mobility services,Has handover support,1
+
+  Multi-operator services,Supported networks,1
+  Multi-operator services,Interface,1
+  Multi-operator services,Spectrum coordination,1
+```
+
+
+## Service and requirements (definitions)
+
+- *Reach*: Broad reach for disconnected or hard-to-reach users
+- *Connectivity*: Refers to direct-to-device or direct-to-handset connectivity.
+- *Resilience*: Suitable for service that demand critical communications, such as emergency services, disaster recovery, and mission-critical applications.
+- *Scalable access*: "How many terminals can be served simultaneously?""
+
+## Requirement definition guidelines
+
+- Requirements should be **quantifiable** in terms of measurable KPIs
+- Requirements should be **specific and unambiguous**, avoiding vague/subjective terms like "high", "low", or "good".
+- One requirement should address **one aspect** of the system, avoiding compound requirements that combine multiple aspects.
+
+In general, a requirement is poorly defined if no **test** can be designed to verify its fulfillment.
+
+## Requirement definition (examples)
+
+| Poorly defined requirement ❌ | Problem | Corrected version ✅  |
+|:---------------------------|:-----------------|:-----------------|
+| "The system should provide high throughput" | Is not quantifiable | "The system should provide a minimum throughput of 10 Mbps/user in rural areas" |
+| "IoT coverage should be high" | Not specific/not quantified | "IoT coverage should reach >90% in Iberian Peninsula" |
+| "The system should provide >10 Mbps/user in rural areas and >100 Mbps/user in urban areas" | Multiple aspects | Split requirement in two, one for *rural* and another for *urban* |
+
+## Demand models and user density
+
+$$
+\begin{eqnarray}
+D & = & demand(pos, t) \\
+C & = & f()
+\end{eqnarray}
+$$
+
+
+## Traffic + QoS: overview
+
+Simplified QoS model:
+
+- **Packet Data Unit (PDU) session**: a logical connection between the UE and the 5G Core Network.
+- **Quality of Service (QoS) flow**: a logical channel within a PDU session with specific requirements (e.g. latency, throughput, and reliability). Defined by:
+  - **5QI** (5G QoS Identifier): a standardized identifier that defines the characteristics of a QoS flow (see Table 5.7.4-1 in [@etsi_ts123501_v181000p])
+  - **ARP** (Allocation and Retention Priority): a parameter that determines the priority of a QoS flow in case of network congestion
+
+## Traffic + QoS: example
+
+::: {style="text-align:center;"}
+*"John Doe starts a session in her smartphone. He wants to do a live stream in Instagram and, occasionally, send some e-mails to his viewers."*
 :::
 
-## 1. From Demand to Design: Use Case {.use-case-slide}
+![Simplified QoS model](assets/qos__overview.svg){width=100}
 
-::: {.use-case-card}
-**Example prompt**
+## Traffic + QoS: example (continued)
 
-Compare a dense urban district and a rural county.
+- PDU session *contains* both the live stream and the e-mail traffic.
+- Live stream mapped to a **QoS flow** with a **5QI** of **2** (*high-throughput*): Guaranteed Bit Rate (GBR), default priority level of 20, packet delay budget of 100ms (low-latency), packet error rate of $10^{-2}$.
+- E-mail flow mapped to a QoS flow with a 5QI of **10** (*best effort*): non-GBR, default priority level of 90, packet delay budget of 1100ms (high latency), packet error rate of $10^{-6}$.
 
-**Expected student task**
+## Traffic + QoS: estimation and targets
 
-- Estimate demand profiles.
-- Define measurable KPIs.
-- Separate hard requirements from assumptions.
-- Explain why the two scenarios need different design targets.
+::: {.callout-important appearance="simple" icon=false title="Start from traffic class/type, ignore QoS assumptions"}
+[@corici2024ntnQos]
 :::
+
+::: {.callout-note appearance="simple" icon=false title="Determine the type of traffic"}
+![](assets/traffic_classes.svg)
+:::
+
+## Traffic + QoS: estimation and targets (continued)
+
+::: {.callout-warning appearance="simple" title="Short, sporadic packets or sustained sessions?"}
+This will place different demands on satellite resources and scheduling
+:::
+
+::: {.callout-note appearance="simple" icon=false title="Keep the 5G QoS language"}
+Map each service (identified with QoS flows, 5QI, ...) to an NTN-feasible target
+:::
+
+::: {.callout-warning appearance="simple" title="Low-latency traffic deserves special attention"}
+Must be validated against the orbit, architecture, and service path.
+:::
+
+Takeaway: Keep the standard 5G QoS framework, but only assign targets that the satellite path can realistically honor.
+
+## Traffic + QoS: Impact on NTN
+
+QoS is constrained by both policy and physics, important to consider aspects such as:
+
+- **Long propagation delay** impacts packet delay budget
+  - Requirements on orbit type (LEO, MEO, GEO) or usage of HAPS
+- **Moving cells**, frequent handover, and service interruption risk
+  - Requirements on beam type (fixed, quasi-fixed, moving) and handover strategy
+- **Control loops** (scheduling, HARQ, ...) are slower than in TN counterpart
+  - Requirements on scheduling and retransmission strategies (number of retransmissions, HARQ, etc.)
+
+## Traffic + QoS: Recommended target
+
+Due to the physical limitations, the question is not *"which 5QI do we want?"* but rather...
+
+::: {style="text-align:center;"}
+*"Which traffic classes can this NTN path actually honor?"*
+:::
+
+- 🟢 Good NTN candidates: reliability and coverage matter more than very low latency. Examples: messaging, alerts, control-style traffic, and IoT telemetry.
+
+- 🟠 Feasible with adapted targets: general data access and some conversational services (might be limited to regenerative LEO architectures).
+
+- 🔴 High-risk: strict delay-critical flows (terrestrial-style 5 ms budgets are generally incompatible with conventional satellite delay, but might be achievable with HAPS).
+
+
+## Traffic + QoS: The Starlink case {.use-case-slide background-image="assets/starry_sky.png"}
+
+Some key parameters of Starlink's network:
+
+| Characteristic | Value |
+|:---------------|:-----:|
+| Latency | 25 ms [@starlink2024latency] due to LEO orbits |
+| Download speed | ~170 Mbps |
+| Coverage | Polar orbits ⇒ access to high-latitude regions |
+
+Most 5QI classes are feasible, but some delay-critical flows (e.g., 5 ms required in V2X, autonomous driving, etc.) are not compatible with the Starlink network.
+
+## Network KPIs: capacity, latency, availability.
+
+## Scenario types: urban, rural, industrial, mobility.
+
+<!-- ------------------------------------------------------------------      -->
+<!-- ----------------    Starlink case study   ------------------------      -->
+<!-- ------------------------------------------------------------------      -->
+
+# Session 1 Starlink case study {.use-case-slide background-image="assets/starry_sky.png"}
+
+
+## Platform: Satellites {.use-case-slide background-image="assets/starry_sky.png"}
+
+
+![source: CGTrader](assets/01_starlink_satellite.png)
+
+
+## Platform: LEO constellation {.use-case-slide background-image="assets/starry_sky.png"}
+
+- LEO satellite at a Walker orbit at height ~550km and inclination $50^\circ$ [@ali2026starlink]
+- Number of satellites ~6,750[^starlink_tech], >10000[^satellitemap]
+
+![source: satellitemap[^satellitemap]](assets/01_starlink_constellation.png)
+
+## Platform: LEO constellation {.use-case-slide background-image="assets/starry_sky.png"}
+
+
+[Orbital elements](https://celestrak.org/NORAD/elements/gp.php?GROUP=starlink&FORMAT=csv) in Two Line Elements (TLE) format.[^sgp4_python]
+
+
+[^starlink_tech]:  Starlink. [Starlink Technology](https://starlink.com/technology)
+[^sgp4_python]: Rhodes, Brandon. [Python SGP4 Orbit propagator](https://pypi.org/project/sgp4/)
+[^satellitemap]: Satellitemap. [Starlink constellation](https://satellitemap.space/vis/constellation/starlink)
+
+
+## Beams {.use-case-slide}
+
+![source: Perplexity AI](assets/01_starlink_beam_switching.png)
+
+[@huston2026protocol; @neinavaie2022unveiling]
+
+## Latency {.use-case-slide background-image="assets/starry_sky.png"}
+
+![source [Starlink Network Update](https://starlink.com/updates/network-update){target="_blank"}](assets/starlink__latency_capacity.png)

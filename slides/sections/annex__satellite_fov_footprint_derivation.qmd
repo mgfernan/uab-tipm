@@ -1,0 +1,132 @@
+
+# Annex: Derivation of a Satellite FOV Footprint in Latitude–Longitude {#sec-annex_fov_footprint}
+
+## Problem setup
+
+We model Earth as a sphere of radius $R$, and the satellite position in ECEF as
+
+$$
+\mathbf{s} = (s_x,s_y,s_z), \qquad \|\mathbf{s}\| = r_s > R.
+$$
+
+The instrument has a circular field of view with half-angle $\eta$, and for **nadir pointing** the cone axis is aligned with $-\mathbf{s}$.
+
+![FoV geometry](assets/fov_computation.svg){#fig-fov_computation}
+
+## Cross-section geometry
+
+Take the 2D plane containing the Earth center $O$, the satellite $S$, and one footprint edge point $P$. In that plane (see @fig-fov_computation):
+
+- $|OS| = r_s$
+- $|OP| = R$
+- $\eta$ is the angle at the satellite between nadir and the line of sight to the edge
+- $\gamma$ is the angle at the Earth center between the subsatellite point and $P$.
+
+This reduces the 3D cone–sphere intersection to a triangle problem in the plane $OSP$.
+
+## Triangle relation
+
+In triangle $OSP$:
+
+- side $|OP| = R$,
+- side $|OS| = r_s$,
+- angle at $S$ is $\eta$,
+- angle at $O$ is $\gamma$,
+- angle at $P$ is $\pi - (\eta + \gamma)$.
+
+Applying the law of sines,
+$$
+\frac{\sin \eta}{R} = \frac{\sin \gamma}{|SP|} = \frac{\sin\bigl(\pi-(\eta+\gamma)\bigr)}{r_s}.
+$$
+
+## Triangle relation (continued)
+
+Since $\sin(\pi-x)=\sin x$, this becomes
+$$
+\frac{\sin \eta}{R} = \frac{\sin(\eta+\gamma)}{r_s}.
+$$
+
+To solve for $\gamma$, we first expand the $\sin$ term:
+
+$$
+r_s \sin\eta = R\sin(\eta+\gamma)
+= R(\sin\eta\cos\gamma + \cos\eta\sin\gamma).
+$$
+
+## Triangle relation (continued)
+
+Rearrange:
+$$
+(r_s - R\cos\gamma)\sin\eta = R\cos\eta\sin\gamma.
+$$
+Dividing by $\cos\eta\,(r_s - R\cos\gamma)$ gives
+$$
+\tan\eta = \frac{R\sin\gamma}{r_s - R\cos\gamma}.
+$$
+This is the clean geometric relation between the sensor half-angle $\eta$ and the footprint central half-angle $\gamma$.
+
+## Equivalent explicit form
+
+Starting from
+$$
+\tan\eta = \frac{R\sin\gamma}{r_s - R\cos\gamma},
+$$
+one can solve numerically for $\gamma$, or rewrite it as
+$$
+r_s\sin\eta = R\sin(\eta+\gamma).
+$$
+A convenient explicit form is
+$$
+\gamma = \arcsin\!\left(\frac{r_s}{R}\sin\eta\right) - \eta,
+$$
+valid for the nadir-pointing spherical-Earth geometry as long as the FOV edge intersects the Earth. The horizon-limited maximum occurs when the line of sight is tangent to the Earth.
+
+## Circle center on Earth
+
+The footprint is a small circle centered at the subsatellite point, which is the intersection of the radial line through $\mathbf{s}$ with the Earth sphere:
+$$
+\mathbf{c} = \frac{R}{r_s}\,\mathbf{s}.
+$$
+Its angular radius on the sphere is $\gamma$. Therefore every boundary point lies on the sphere at central angle $\gamma$ from the unit radial direction
+$$
+\hat{\mathbf{u}} = \frac{\mathbf{c}}{R} = \frac{\mathbf{s}}{r_s}.
+$$
+
+## Local basis at the subsatellite point
+
+Choose an orthonormal basis tangent to the sphere at $\mathbf{c}$:
+$$
+\hat{\mathbf{u}} = \frac{\mathbf{s}}{r_s}.
+$$
+Select a reference vector $\mathbf{k}=(0,0,1)$; if it is nearly parallel to $\hat{\mathbf{u}}$, use $(0,1,0)$ instead. Then define
+$$
+\hat{\mathbf{e}} = \frac{\mathbf{k}\times\hat{\mathbf{u}}}{\|\mathbf{k}\times\hat{\mathbf{u}}\|},
+\qquad
+\hat{\mathbf{n}} = \hat{\mathbf{u}}\times\hat{\mathbf{e}}.
+$$
+These vectors span the local east–north tangent plane at the subsatellite point.
+
+## ECEF parameterization of the footprint
+
+A boundary point of the footprint can then be parameterized by an azimuth angle $\theta\in[0,2\pi)$:
+$$
+\mathbf{p}(\theta) = R\Bigl(
+\hat{\mathbf{u}}\cos\gamma
++ \hat{\mathbf{e}}\sin\gamma\cos\theta
++ \hat{\mathbf{n}}\sin\gamma\sin\theta
+\Bigr).
+$$
+This is the standard parameterization of a small circle on a sphere centered on direction $\hat{\mathbf{u}}$ with angular radius $\gamma$.
+
+Writing $\mathbf{p}(\theta)=(x(\theta),y(\theta),z(\theta))$ gives the footprint directly in ECEF.
+
+## Convert to latitude and longitude
+
+For a spherical Earth, convert each ECEF boundary point to geocentric longitude and latitude using
+$$
+\lambda(\theta) = \operatorname{atan2}(y(\theta),x(\theta)),
+$$
+$$
+\phi(\theta) = \arctan\left(\frac{z(\theta)}{\sqrt{x(\theta)^2+y(\theta)^2}}\right).
+$$
+Sampling $\theta$ over $[0,2\pi)$ yields the full lat–lon contour of the footprint.

@@ -1,7 +1,8 @@
 ---
 title: "Planning and Management of Telecommunication Infrastructures"
-subtitle: "Course Presentation Scaffold"
+subtitle: "Master's Degree in Telecommunication Engineering"
 author: "UAB"
+from: markdown+emoji
 ---
 
 {{< include slides/sections/course-frame.qmd >}}
@@ -24,4 +25,8 @@ author: "UAB"
 
 {{< include slides/sessions/session-07-deployment-strategies.qmd >}}
 
+{{< include slides/sections/ntn_terms.qmd >}}
+
 {{< include slides/sections/assessment-and-closing.qmd >}}
+
+{{< include slides/sections/annex__satellite_fov_footprint_derivation.qmd >}}
