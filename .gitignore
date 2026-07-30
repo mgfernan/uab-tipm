@@ -3,6 +3,7 @@
 # Quarto/Knitr caches and temp artifacts
 .quarto/
 .cache/
+.deno/
 
 # Quarto render outputs
 _site/
