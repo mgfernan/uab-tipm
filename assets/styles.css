@@ -1,124 +1,56 @@
-:root {
-  --theory-bg: linear-gradient(135deg, #0b1f33 0%, #163a59 100%);
-  --theory-accent: #7dd3fc;
-  --use-case-bg: linear-gradient(135deg, #f3efe3 0%, #d8c9a7 100%);
-  --use-case-accent: #8a4b08;
-  --ink-dark: #102033;
-  --ink-light: #f7fbff;
-  --card-shadow: 0 20px 50px rgba(10, 24, 38, 0.18);
+
+table td, table th {
+  font-size: 75%;
 }
 
-.reveal {
-  font-family: "Source Sans 3", "Segoe UI", sans-serif;
-  font-size: 34px;
+ul, ol {
+  font-size: 80%;
 }
 
-.reveal .title-slide h1,
-.reveal .title-slide h2,
-.reveal .title-slide p {
-  text-shadow: 0 12px 30px rgba(16, 32, 51, 0.18);
+ul li::marker {
+  font-size: 80%;
+  line-height: 1;
 }
 
-.reveal h1,
-.reveal h2,
-.reveal h3 {
-  font-family: "Alegreya Sans", "Segoe UI", sans-serif;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  text-transform: none;
+strong {
+  /* color:#B86B2B; */
+  color: teal;
 }
 
-.reveal .slides section {
-  text-align: left;
-  padding: 1.4rem 1.8rem;
+/* Reveal.js/Quarto figure captions */
+.reveal .slide img.r-stretch + p.caption {
+  font-size: 50%;
 }
 
-.reveal .slides section.theory-slide,
+/* -------------------------------------------------------------------------- */
+/* ------------------------------ Use case slides --------------------------- */
+/* -------------------------------------------------------------------------- */
+
+/* If a slide has a background image, make text light */
 .reveal .slides section.use-case-slide {
-  background-size: cover;
-  background-position: center;
+  color: #f5f5f5 !important;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.6); /* Optional*/
+
 }
 
-.reveal .slides section.title-slide {
-  background:
-    radial-gradient(circle at top left, rgba(125, 211, 252, 0.35), transparent 32%),
-    linear-gradient(135deg, #f7fbff 0%, #dbe8f2 46%, #c4d8eb 100%);
-  color: var(--ink-dark);
+/* Headings and paragraphs */
+.reveal .slides section.use-case-slide  h1,
+.reveal .slides section.use-case-slide  h2,
+.reveal .slides section.use-case-slide  h3,
+.reveal .slides section.use-case-slide  p{
+  color: #f5f5f5 !important;
 }
 
-.reveal .slides section.theory-slide {
-  background: var(--theory-bg);
-  color: var(--ink-light);
+/* Any links */
+.reveal .slides section.use-case-slide  a{
+  color: #ffd9a8 !important; /* “bone”/warm light color */
 }
 
-.reveal .slides section.use-case-slide {
-  background: var(--use-case-bg);
-  color: var(--ink-dark);
+.reveal .slides section.use-case-slide  h1,
+.reveal .slides section.use-case-slide  h2,
+.reveal .slides section.use-case-slide  h3,
+.reveal .slides section.use-case-slide  p{
+  text-shadow: 0 2px 12px rgba(0,0,0,0.6);
 }
 
-.reveal .slides section.theory-slide h2,
-.reveal .slides section.theory-slide h3,
-.reveal .slides section.theory-slide strong {
-  color: var(--ink-light);
-}
-
-.reveal .slides section.use-case-slide h2,
-.reveal .slides section.use-case-slide h3,
-.reveal .slides section.use-case-slide strong {
-  color: var(--ink-dark);
-}
-
-.theory-card,
-.use-case-card {
-  border-radius: 24px;
-  padding: 1.1rem 1.3rem;
-  box-shadow: var(--card-shadow);
-  max-width: 88%;
-}
-
-.theory-card {
-  background: rgba(255, 255, 255, 0.08);
-  border-left: 10px solid var(--theory-accent);
-  backdrop-filter: blur(6px);
-}
-
-.use-case-card {
-  background: rgba(255, 252, 245, 0.92);
-  border-left: 10px solid var(--use-case-accent);
-}
-
-.theory-card h3,
-.use-case-card h3 {
-  margin-top: 0;
-}
-
-.reveal ul,
-.reveal ol {
-  display: block;
-  margin-top: 0.6rem;
-}
-
-.reveal li {
-  margin-bottom: 0.35rem;
-}
-
-.reveal .slide-number {
-  font-size: 0.55em;
-}
-
-@media print {
-  .reveal {
-    font-size: 22px;
-  }
-
-  .reveal .slides section {
-    padding: 0.9rem 1.1rem;
-  }
-
-  .theory-card,
-  .use-case-card {
-    max-width: 100%;
-    box-shadow: none;
-    break-inside: avoid;
-  }
-}
+/* -------------------------------------------------------------------------- */
