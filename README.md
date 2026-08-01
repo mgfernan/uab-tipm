@@ -1,6 +1,6 @@
-# PTIG Presentation Scaffold
+# TIPM Presentation Scaffold
 
-This repository contains a Quarto-based scaffold for the course presentation of Planning and Management of Telecommunication Infrastructures.
+This repository contains a Quarto-based scaffold for the course presentation of Planning and Management of Telecommunication Infrastructures (TIPM).
 
 ## Structure
 

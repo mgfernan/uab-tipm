@@ -88,7 +88,7 @@ Controls **Medium Access Control** (MAC, i.e. protocol) aspects of the radio int
 #| label: fig-freqs_fr1
 #| fig-cap: "Frequency bands allocated for FR1-NTN"
 
-from ptig.plots import plot_frequency_bands
+from tipm.plots import plot_frequency_bands
 
 plot_frequency_bands()
 ```
@@ -99,7 +99,7 @@ plot_frequency_bands()
 #| label: fig-freqs_fr2
 #| fig-cap: "Frequency bands allocated for FR2-NTN"
 
-from ptig.plots import plot_frequency_bands
+from tipm.plots import plot_frequency_bands
 
 plot_frequency_bands()
 ```
@@ -141,10 +141,10 @@ import importlib
 from IPython.display import Markdown
 from tabulate import tabulate
 
-import ptig.link_budget as link_budget_module
+import tipm.link_budget as link_budget_module
 importlib.reload(link_budget_module)
 
-from ptig.link_budget import (
+from tipm.link_budget import (
     Band,
     BitErrorRateThreshold,
     DataChannel,
@@ -473,7 +473,7 @@ HTML(pio.to_html(fig, full_html=False, include_plotlyjs="cdn", include_mathjax=F
 - Footprint assumes that there is minimum elevation $\varepsilon_{min}$ for the user terminal to communicate with the satellite (see Section 3.3.1 of [@corici2024ntnQos]).
 
 ```{python}
-from ptig.geometry import plot_fov_boundaries
+from tipm.geometry import plot_fov_boundaries
 
 # Earth radius (mean equatorial radius)
 R_E = 6378.137  # km

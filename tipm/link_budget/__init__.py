@@ -1,4 +1,4 @@
-"""Link-budget models and calculations for the PTIG presentation."""
+"""Link-budget models and calculations for the TIPM presentation."""
 
 from .calculations import (
     build_link_budget_state,
