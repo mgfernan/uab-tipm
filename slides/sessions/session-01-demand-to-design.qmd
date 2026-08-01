@@ -4,7 +4,7 @@ From demand to design
 
 ## Main topics
 
-- What are Non-Terrestrial Networks (NTN)?
+- What are \acr{NTN}?
 - Service needs and technical requirements.
 - Demand models and user density.
 - Traffic estimation and quality-of-service targets.
@@ -39,7 +39,7 @@ alt="NTN use cases diagram"
 style="display: block; width: 100%; max-height: 70vh; margin: 0.5rem auto 0;"
 />
 
-see [@3gpp-2018b-satellites-5g-tr22-822]
+see [@3gpp_tr22822_study_satellite_access_5g]
 
 ::: notes
 **Continuity: steering through a satelite** Scattered factories badly connected
@@ -254,16 +254,18 @@ C & = & f()
 $$
 
 
-## Traffic + QoS: overview
+## Traffic and QoS
 
-Simplified QoS model:
+### Overview
+
+Simplified \acr{QoS} model:
 
 - **Packet Data Unit (PDU) session**: a logical connection between the UE and the 5G Core Network.
 - **Quality of Service (QoS) flow**: a logical channel within a PDU session with specific requirements (e.g. latency, throughput, and reliability). Defined by:
   - **5QI** (5G QoS Identifier): a standardized identifier that defines the characteristics of a QoS flow (see Table 5.7.4-1 in [@etsi_ts123501_v181000p])
   - **ARP** (Allocation and Retention Priority): a parameter that determines the priority of a QoS flow in case of network congestion
 
-## Traffic + QoS: example
+### QoS definition example: statement
 
 ::: {style="text-align:center;"}
 *"John Doe starts a session in her smartphone. He wants to do a live stream in Instagram and, occasionally, send some e-mails to his viewers."*
@@ -271,13 +273,13 @@ Simplified QoS model:
 
 ![Simplified QoS model](assets/qos__overview.svg){width=100}
 
-## Traffic + QoS: example (continued)
+### QoS definition example: mapping
 
 - PDU session *contains* both the live stream and the e-mail traffic.
 - Live stream mapped to a **QoS flow** with a **5QI** of **2** (*high-throughput*): Guaranteed Bit Rate (GBR), default priority level of 20, packet delay budget of 100ms (low-latency), packet error rate of $10^{-2}$.
 - E-mail flow mapped to a QoS flow with a 5QI of **10** (*best effort*): non-GBR, default priority level of 90, packet delay budget of 1100ms (high latency), packet error rate of $10^{-6}$.
 
-## Traffic + QoS: estimation and targets
+### Estimation and targets
 
 ::: {.callout-important appearance="simple" icon=false title="Start from traffic class/type, ignore QoS assumptions"}
 [@corici2024ntnQos]
@@ -287,7 +289,7 @@ Simplified QoS model:
 ![](assets/traffic_classes.svg)
 :::
 
-## Traffic + QoS: estimation and targets (continued)
+### Estimation and targets (continued)
 
 ::: {.callout-warning appearance="simple" title="Short, sporadic packets or sustained sessions?"}
 This will place different demands on satellite resources and scheduling
@@ -303,7 +305,7 @@ Must be validated against the orbit, architecture, and service path.
 
 Takeaway: Keep the standard 5G QoS framework, but only assign targets that the satellite path can realistically honor.
 
-## Traffic + QoS: Impact on NTN
+### Impact of QoS on NTN
 
 QoS is constrained by both policy and physics, important to consider aspects such as:
 
@@ -314,7 +316,7 @@ QoS is constrained by both policy and physics, important to consider aspects suc
 - **Control loops** (scheduling, HARQ, ...) are slower than in TN counterpart
   - Requirements on scheduling and retransmission strategies (number of retransmissions, HARQ, etc.)
 
-## Traffic + QoS: Recommended target
+### Recommended QoS target in NTN
 
 Due to the physical limitations, the question is not *"which 5QI do we want?"* but rather...
 
@@ -329,7 +331,7 @@ Due to the physical limitations, the question is not *"which 5QI do we want?"* b
 - 🔴 High-risk: strict delay-critical flows (terrestrial-style 5 ms budgets are generally incompatible with conventional satellite delay, but might be achievable with HAPS).
 
 
-## Traffic + QoS: The Starlink case {.use-case-slide background-image="assets/starry_sky.png"}
+### QoS in Starlink {.use-case-slide background-image="assets/starry_sky.png"}
 
 Some key parameters of Starlink's network:
 

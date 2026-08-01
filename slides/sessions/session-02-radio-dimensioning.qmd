@@ -85,121 +85,12 @@ Controls **Medium Access Control** (MAC, i.e. protocol) aspects of the radio int
 ## Lower Frequency bands: FR1
 
 ```{python}
-#| hide: true
-
-FR1_bands_L = {
-
-    "n255": { "Uplink": (1626.5, 1660.5), "Downlink": (1525, 1559), },
-    "n253": { "Uplink": (1668, 1675), "Downlink": (1518, 1525), },
-}
-
-FR1_bands_S = {
-    "n256": { "Uplink": (1980, 2010), "Downlink": (2170, 2200), },
-    "n254": { "Uplink": (1610, 1626.5), "Downlink": (2483.5, 2500), },
-    "n252": { "Uplink": (2000, 2020), "Downlink": (2180, 2200), },
-}
-
-
-FR1_bands_Ku = {
-    "n248": { "Uplink": (14000, 14500), "Downlink": (10700, 12750), },
-    "n247": { "Uplink": (13750, 14000), "Downlink": (10700, 12750), },
-}
-
-FR2_bands_Ka = {
-    "n510": { "Uplink": (27500, 28350), "Downlink": (17700, 20200), },
-    "n511": { "Uplink": (28350, 30000), "Downlink": (17700, 20200), },
-    "n512": { "Uplink": (27500, 30000), "Downlink": (17700, 20200), },
-}
-```
-
-```{python}
 #| label: fig-freqs_fr1
 #| fig-cap: "Frequency bands allocated for FR1-NTN"
 
-import matplotlib.pyplot as plt
-import seaborn as sns
-import matplotlib.ticker as ticker # Import ticker module
+from ptig.plots import plot_frequency_bands
 
-sns.set_theme(style="whitegrid") # Apply a seaborn style for better aesthetics
-plt.rc('axes', unicode_minus=False) # Ensure minus signs are displayed correctly
-
-all_bands = {"FR1-L": FR1_bands_L, "FR1-S": FR1_bands_S, "FR1-Ku": FR1_bands_Ku, "FR2-Ka": FR2_bands_Ka}
-
-colors = {'Uplink': 'skyblue', 'Downlink': 'lightcoral'}
-
-# Helper function to plot bands on a given axis
-def plot_bands_on_axis(ax, band_type_names_for_this_subplot, xlim_range, title_text, num_xticks=5):
-    current_y_pos = 0
-    y_tick_positions = []
-    y_tick_labels = []
-
-    # First pass to determine y_tick_positions and y_tick_labels
-    for band_type_name in band_type_names_for_this_subplot:
-        bands_dict = all_bands[band_type_name]
-        for band_name, freqs in bands_dict.items():
-            y_tick_positions.append(current_y_pos)
-
-            # Calculate downlink bandwidth for the label
-            if 'Downlink' in freqs:
-                start_freq_dl, end_freq_dl = freqs['Downlink']
-                bandwidth_dl = end_freq_dl - start_freq_dl
-                y_tick_labels.append(f'{band_name} ({bandwidth_dl:.1f} MHz)') # Format bandwidth with 1 decimal place
-            else:
-                y_tick_labels.append(band_name) # Fallback if no downlink specified
-
-            current_y_pos += 1
-        current_y_pos += 1 # Add a gap between band types
-
-    # Second pass to plot and add band type labels
-    current_y_pos_for_plotting = 0 # Reset for plotting
-    for band_type_name in band_type_names_for_this_subplot:
-        bands_dict = all_bands[band_type_name]
-
-        for band_name, freqs in bands_dict.items():
-            for link_type, (start_freq, end_freq) in freqs.items():
-                width = end_freq - start_freq
-                # Only add legend label once per link type in this subplot
-                legend_label = link_type if (band_name == list(bands_dict.keys())[0] and band_type_name == band_type_names_for_this_subplot[0]) else ""
-                ax.barh(current_y_pos_for_plotting, width, left=start_freq, height=0.8, color=colors[link_type], edgecolor='white', linewidth=0.8, label=legend_label) # Changed height to 0.8
-                # Frequency Text Label (below the bar)
-                ax.text(start_freq + width / 2, current_y_pos_for_plotting - 0.4, f'{start_freq}-{end_freq}', va='top', ha='center', fontsize=7, color='dimgray') # Increased fontsize to 7
-            current_y_pos_for_plotting += 1
-        current_y_pos_for_plotting += 1 # Add a small gap between band types
-
-    ax.set_xlabel('Frequency (MHz)', fontsize=12)
-    ax.set_title(title_text, fontsize=14)
-    # Use a softer grid color from seaborn palette
-    ax.grid(axis='x', linestyle='--', alpha=0.7, color=sns.color_palette("muted")[7])
-    ax.grid(axis='y', linestyle='--', alpha=0.7, color=sns.color_palette("muted")[7])
-
-    # Set custom y-ticks and labels
-    ax.set_yticks(y_tick_positions)
-    ax.set_yticklabels(y_tick_labels, fontsize=9) # Use band IDs as labels, adjusted fontsize
-    ax.tick_params(axis='y', left=False) # Remove default tick marks
-
-    # Control x-axis tick frequency
-    ax.xaxis.set_major_locator(ticker.MaxNLocator(nbins=num_xticks))
-
-    handles, labels = ax.get_legend_handles_labels()
-    by_label = dict(zip(labels, handles))
-    if by_label: # Only show legend if there are items
-        ax.legend(by_label.values(), by_label.keys(), title='Link Type', loc='upper right', frameon=True, borderpad=1)
-    ax.set_xlim(xlim_range[0], xlim_range[1])
-    ax.set_ylim(-1, current_y_pos - 1) # Adjust y-limits to fit all bars properly
-    sns.despine(ax=ax, top=True, right=True) # Remove top and right spines for cleaner look
-
-# --- First Plot: FR1 Bands ---
-# Adjusted figsize for slightly more horizontal space
-fig_fr1, (ax1_fr1, ax2_fr1) = plt.subplots(2, 1, figsize=(15, 10), sharex=False, gridspec_kw={'height_ratios': [1.8, 0.6]})
-
-# Plot for FR1-L and FR1-S bands
-plot_bands_on_axis(ax1_fr1, ["FR1-L", "FR1-S"], (1400, 2600), '5G NR Band Allocation (FR1-L/S Bands)', num_xticks=5) # Adjusted xlim_range for better focus
-
-# Plot for FR1-Ku band
-plot_bands_on_axis(ax2_fr1, ["FR1-Ku"], (10000, 15000), '5G NR Band Allocation (FR1-Ku Band)', num_xticks=6)
-
-plt.tight_layout()
-plt.show()
+plot_frequency_bands()
 ```
 
 ## Upper Frequency bands: FR2
@@ -208,15 +99,9 @@ plt.show()
 #| label: fig-freqs_fr2
 #| fig-cap: "Frequency bands allocated for FR2-NTN"
 
-# --- Second Plot: FR2 Band ---
-# Adjusted figsize for slightly more horizontal space
-fig_fr2, ax_fr2 = plt.subplots(1, 1, figsize=(15, 5), sharex=False)
+from ptig.plots import plot_frequency_bands
 
-# Plot for FR2-Ka band
-plot_bands_on_axis(ax_fr2, ["FR2-Ka"], (15000, 32000), '5G NR Band Allocation (FR2-Ka Band)', num_xticks=7)
-
-plt.tight_layout()
-plt.show()
+plot_frequency_bands()
 ```
 
 ## Waveforms
@@ -242,60 +127,294 @@ How different users share the same radio resources:
 
 # Link budget
 
-```{python}
-altitude_km = 550
-elevation_angle_deg = 30
-bw_user_MHz = 0.36  # S band
-tx_power_dBm = 30
-```
 
-## Inputs
+::: {.callout-note title="Goal"}
+Compute the link budget (i.e. $C/N$) and compare it to the minimum C/N value (${C/N}_{ref}$) required at the link reception to achieve a **target link performance**
+:::
+
+
+Link budget analysis based on [@mathworks2026nbiot_ntn_link_budget_analysis] provides a link budget example for NB-IoT NTN, which can be adapted to other NTN scenarios.
 
 ```{python}
-#| label: tbl-link-budget-inputs
-#| tbl-cap: Link budget basic inputs
+import importlib
 
 from IPython.display import Markdown
 from tabulate import tabulate
-table = [["Altitude (km)","$h_{sat}$", altitude_km, "Satellite altitude above the Earth's surface"],
-         ["Elevation angle (deg)", "$\\varepsilon$",elevation_angle_deg, "Angle between the line of sight to the satellite and the local horizontal plane"],
-         ["User Bandwidth (MHz)", "$B_{user}$",bw_user_MHz, "Bandwidth allocated for the user terminal"],
-         ["Tx power (dBm)", "$P_{tx}$", tx_power_dBm, "Transmit power of the user terminal"],
-]
-Markdown(tabulate(
-  table,
-    headers=["Parameter", "Notation", "Value", "Description"],
-))
+
+import ptig.link_budget as link_budget_module
+importlib.reload(link_budget_module)
+
+from ptig.link_budget import (
+    Band,
+    BitErrorRateThreshold,
+    DataChannel,
+    FreqBandType,
+    Link,
+    LinkDirection,
+    ModulationScheme,
+    OrbitType,
+    PropagationLosses,
+    Satellite,
+    UserEquipment,
+    WaveformParameters,
+    build_link_budget_state,
+    compute_cnr,
+    compute_cnr_ref,
+    compute_eirp,
+    compute_free_space_path_loss,
+    compute_modulation_order,
+    compute_r_eff,
+    compute_slant_range,
+    compute_two_way_latency_s,
+)
 ```
 
-##  Earth–Platform Geometry: slant range
+```{python}
+state = build_link_budget_state()
 
-Slant range, computed from the elevation $\varepsilon$ (note: $R_E$ is the Earth's radius):
+USER_EQUIPMENT = state["user_equipment"]
+SATELLITES = state["satellites"]
+BANDS = state["bands"]
+LINKS = state["links"]
+PROPAGATION_LOSSES = state["propagation_losses"]
+DATA_CHANNEL = state["data_channel"]
+WAVEFORM_PARAMETERS = state["waveform_parameters"]
+BER_THRESHOLDS = state["ber_thresholds"]
+```
+
+## Assumption: User Equipment
+
+User equipment parameters for NB-IoT 4G LTE NTN are defined following the PC3 guidelines (see [@3gpp_tr36763_nbioteMTC_ntn]). For an updated version for 5G NTN (Rel 19) see [@3gpp_tr38863_ntn_rf_coexistence]:
+
+```{python}
+LINK_DIRECTION = LinkDirection.UPLINK
+```
+
+```{python}
+headers = ["Parameter", "Symbol", "Unit", "User Equipment"]
+table = [["Transmit power", "$P_{tx}$", "dBm", f"{USER_EQUIPMENT.power_tx_dBm:.1f}"],
+         ["Transmit antenna gain", "$G_{tx}$", "dBi", f"{USER_EQUIPMENT.gain_tx_dBi:.1f}"],
+         ["Cable loss", "$L_{cable}$", "dB", f"{USER_EQUIPMENT.loss_cable_tx_dB:.1f}"],
+         ["Noise figure", "$N_f$", "dB", f"{USER_EQUIPMENT.noise_figure_dB:.1f}"],
+         ["Receive antenna gain", "$G_{rx}$", "dBi", f"{USER_EQUIPMENT.gain_rx_dBi:.1f}"],
+         ["Antenna temperature", "$T_{ant}$", "K", f"{USER_EQUIPMENT.temperature_antenna_K:.1f}"],
+         ["Ambient temperature", "$T_{amb}$", "K", f"{USER_EQUIPMENT.temperature_ambient_K:.1f}"],
+         ["Altitude", "$h_{UE}$", "m", f"{USER_EQUIPMENT.altitude_m:.1f}"]]
+
+md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=('left', 'center', 'center', 'center'))
+Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
+```
+
+## Assumption: Satellites
+
+For the working example, two satellites will be considered:
+
+Table 6.2-4: Set 1 from [@3gpp_tr36763_nbioteMTC_ntn].
+
+```{python}
+# Satellite state is provided by the package helper above.
+
+hl_geo = lambda value: f"<span class='link_perf_GEO'>{value}</span>"
+hl_leo = lambda value: f"<span class='link_perf_LEO'>{value}</span>"
+
+headers = ["Parameter", "Symbol", "Unit", "GEO", "LEO"]
+table = [
+    ["EIRP density", "$EIRP_{d}$", "dBW/MHz",    hl_geo(f"{SATELLITES['GEO'].eirp_density_dBm_per_MHz:.1f}"), hl_leo(f"{SATELLITES['LEO'].eirp_density_dBm_per_MHz:.1f}")],
+    ["Receiver G/T", "$G/T$", "dB/K",            hl_geo(f"{SATELLITES['GEO'].g_over_t_rx_dB_per_K:.1f}"),     hl_leo(f"{SATELLITES['LEO'].g_over_t_rx_dB_per_K:.1f}")],
+    ["Altitude", "$h_{sat}$", "km",
+      hl_geo(f"{SATELLITES['GEO'].altitude_km:.1f}"),              hl_leo(f"{SATELLITES['LEO'].altitude_km:.1f}")],
+    ]
+
+md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=('left', 'center', 'center', 'center', 'center'))
+Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
+```
+
+## Assumption: Links
+
+This worked example assumes an S-band link with an up- and down-link characteristics summarized in the following table:
+
+```{python}
+# Link and band state is provided by the package helper above.
+
+headers = ["Parameter", "Symbol", "Unit", "Uplink (UE ⇒ satellite)", "Downlink (satellite ⇒ UE)"]
+table = [
+    ["Band type", "", "", LINKS['uplink'].band.type.value, LINKS['downlink'].band.type.value],
+    ["Center frequency", "$f_{c}$", "GHz", f"{LINKS['uplink'].band.center_freq_GHz:.1f}", f"{LINKS['downlink'].band.center_freq_GHz:.1f}"],
+    ["Bandwidth", "$B$", "MHz",            f"{LINKS['uplink'].band.bw_user_MHz:.3f}",     f"{LINKS['downlink'].band.bw_user_MHz:.3f}"],
+]
+md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=('left', 'center', 'center', 'center', 'center'))
+Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
+```
+
+Simplified propagation losses (more complete models can be found in [@itu2015propagation]):
+
+```{python}
+PROPAGATION_LOSSES = state["propagation_losses"]
+```
+
+```{python}
+headers = ["Parameter", "Symbol", "Unit", "Value"]
+table = [
+    ["Additional loss", "$PL_{AD}$", "dB", PROPAGATION_LOSSES.additional_losses_dB],
+    ["Scintillation loss", "$PL_{SL}$", "dB", PROPAGATION_LOSSES.scintillation_loss_dB],
+    ["Atmospheric loss", "$PL_{A}$", "dB", PROPAGATION_LOSSES.atmospheric_loss_dB],
+    ["Polarization loss", "$PL_{POL}$", "dB", PROPAGATION_LOSSES.polarization_loss_dB],
+    ["Shadowing margin", "$PL_{SM}$", "dB", PROPAGATION_LOSSES.shadowing_margin_dB],
+]
+md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=('left', 'center', 'center', 'center'))
+Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
+```
+
+## Compute Link budget
+
+Described in Section 6.1.3.1 [@3gpp_tr38821_nr_ntn_solutions]
 
 $$
-\label{eq-slant_range}
+\begin{eqnarray}
+C/N & = & EIRP + G/T_{rx} - 10 \cdot \log_{10}(k \cdot B) \\
+    &   & - PL_{FS} - PL_{AD} - PL_{SL} - PL_{A} - PL_{POL} - PL_{SM}
+\end{eqnarray}
+$$
+
+## Compute Link budget: EIRP
+
+$$
+EIRP = P_{tx} + G_{tx} - L_{cable}
+$$
+
+```{python}
+EIRP = compute_eirp(USER_EQUIPMENT)
+```
+
+```{python}
+headers = ["Parameter", "Symbol", "Unit", "Value"]
+table = [
+    ["EIRP", "$EIRP$", "dBW", f"{EIRP:.1f}"],
+
+]
+md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=('left', 'center', 'center', 'center'))
+Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
+```
+
+
+## Compute Link budget: $PL_{FS}$
+
+The free-space path loss $PL_{FS}$ in dB is computed as:
+
+$$
+PL_{FS} = 20 \cdot \log_{10}\left(\frac{4 \pi d}{\lambda_c}\right); \lambda_c = \frac{c}{f_c}
+$$
+
+and $d$ (slant range):
+
+$$
 d = \sqrt{(R_E + h_{sat})^2 - R_E^2 \cdot \cos^2(\varepsilon)} - R_E \cdot \sin(\varepsilon)
 $$
 
 ```{python}
 #| echo: false
-import numpy as np
 
-def compute_slant_range(altitude_km, elevation_angle_deg):
-    R_E_km = 6371  # Earth's radius in km
-    slant_range_km = np.sqrt((R_E_km + altitude_km)**2 - R_E_km**2 * np.cos(np.radians(elevation_angle_deg))**2) - R_E_km * np.sin(np.radians(elevation_angle_deg))
-    return slant_range_km
+elevations_deg = {
+    "GEO": 12.5,
+    "LEO": 30,
+}
 
-slant_range_km = compute_slant_range(altitude_km, elevation_angle_deg)
-Markdown(f"Slant range (km): {slant_range_km:.2f} km")
+SPEED_OF_LIGHT = 299792458  # m/s
+
+slant_ranges_km = {k: compute_slant_range(SATELLITES[k].altitude_km, elevations_deg[k]) for k in ["GEO", "LEO"]}
+fspl_dB = {
+    k: compute_free_space_path_loss(slant_ranges_km[k], LINKS['uplink'].band.center_freq_GHz)
+    for k in ["GEO", "LEO"]
+}
 ```
+
+```{python}
+headers = ["Parameter", "Symbol", "Unit", "GEO", "LEO"]
+table = [
+    ["Ref. elevation", "$\\varepsilon_{ref}$", "deg", elevations_deg["GEO"], elevations_deg["LEO"]],
+    ["Slant range", "$d$", "km", f"{slant_ranges_km['GEO']:.1f}", f"{slant_ranges_km['LEO']:.1f}"],
+    ["Free-space path loss", "$PL_{FS}$", "dB", f"{fspl_dB['GEO']:.2f}", f"{fspl_dB['LEO']:.2f}"],
+]
+md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=('left', 'center', 'center', 'center', 'center'))
+Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
+```
+
+
+## Compute Link budget: $G/T_{rx}$
+
+$$
+\frac{G}{T} = G_{rx} - N_f - 10 \cdot \log_{10}(T_{amb} + (T_{ant} - T_{amb}) \cdot 10^{-\frac{N_f}{10}})
+$$
+
+```{python}
+G_over_T_rx_dB_per_K = {
+    k: SATELLITES[k].g_over_t_rx_dB_per_K for k in ["GEO", "LEO"]
+}
+```
+
+```{python}
+headers = ["Parameter", "Symbol", "Unit", "GEO", "LEO"]
+table = [
+    ["G/T", "$G/T$", "dB/K", G_over_T_rx_dB_per_K["GEO"], G_over_T_rx_dB_per_K["LEO"]],
+]
+md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=('left', 'center', 'center', 'center', 'center'))
+Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
+```
+
+## Compute Link budget: $C/N$
+
+Finally, putting all together, we can compute the link budget $C/N$ for the uplink:
+
+```{python}
+total_loss_dB = PROPAGATION_LOSSES.compute_total_loss_dB()
+cnr = {
+    k: compute_cnr(EIRP, G_over_T_rx_dB_per_K[k], LINKS['uplink'].band.bw_user_MHz, fspl_dB[k], total_loss_dB)
+    for k in ["GEO", "LEO"]
+}
+```
+
+```{python}
+headers = ["Parameter", "Symbol", "Unit", "GEO", "LEO"]
+table = [
+    ["C/N", "$C/N$", "dB", f"{cnr['GEO']:.2f}", f"{cnr['LEO']:.2f}"],
+]
+md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=('left', 'center', 'center', 'center', 'center'))
+Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
+```
+
+## Compute $C/N$ threshold
+
+The data channel (modulation, ...) used in the service will define the minimum $C/N$ required to achieve a target link performance.
+
+```{python}
+N_CRC = 24
+
+modulation_order = compute_modulation_order(DATA_CHANNEL.modulation)
+r_eff = compute_r_eff(DATA_CHANNEL, LINK_DIRECTION)
+cnr_ref = compute_cnr_ref(DATA_CHANNEL, BER_THRESHOLDS)
+```
+
+```{python}
+headers = ["Parameter", "Symbol", "Unit", "GEO", "LEO"]
+table = [
+    ["Modulation", "$M$", "", DATA_CHANNEL.modulation.value, DATA_CHANNEL.modulation.value],
+    ["Transport block bits", "$N_{bits}$", "bits", DATA_CHANNEL.n_bits, DATA_CHANNEL.n_bits],
+    ["Symbols used for transmission", "$N_{sym}$", "symbols", DATA_CHANNEL.n_symbols, DATA_CHANNEL.n_symbols],
+    ["Repetitions for transport block", "$N_{rep}$", "", DATA_CHANNEL.n_repetitions, DATA_CHANNEL.n_repetitions],
+    ["Subframes used for transmission", "$N_{SF}$", "", DATA_CHANNEL.n_subframes, DATA_CHANNEL.n_subframes],
+    ["Resource units used for transmission", "$N_{RU}$", "", DATA_CHANNEL.n_resource_units, DATA_CHANNEL.n_resource_units],
+]
+md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=('left', 'center', 'center', 'center', 'center'))
+Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
+```
+
+## Latency limits
 
 If we define the two-way latency as $\tau = \frac{2d}{c}$, where $c$ is the speed of light, we can compute the latency for the given slant range.
 
 ```{python}
-c_km_per_s = 299792.458  # Speed of light in km/s
-two_way_latency_s = (2 * slant_range_km) / c_km_per_s
-Markdown(f"Two-way latency (ms): {two_way_latency_s * 1000.0:.1f} ms")
+two_way_latency_s = compute_two_way_latency_s(slant_ranges_km['GEO'])
+Markdown(f"<span class='link_perf_LEO'>Two-way latency (ms): {two_way_latency_s * 1000.0:.1f} ms</span>")
 ```
 
 ##  Earth–Platform Geometry: slant ranges
@@ -308,12 +427,19 @@ import plotly.io as pio
 import numpy as np
 from IPython.display import HTML
 
-heights_km = [500, 1200, 36000]
+height_colors = {
+    500: "#0e4a75",    # blue
+    1200: "#f10800",   # red
+    36000: "#2ca02c",  # green
+}
+
+heights_km = list(height_colors.keys())
 
 elevation_angle_grid_deg = np.linspace(0, 90, 100)  # 0 to 90 degrees
 slant_ranges = {h: compute_slant_range(h, elevation_angle_grid_deg) for h in heights_km}
 
 fig = go.Figure()
+
 
 for h in heights_km:
     fig.add_trace(
@@ -321,7 +447,8 @@ for h in heights_km:
             x=elevation_angle_grid_deg,
             y=slant_ranges[h],
             mode="lines",
-            name=f"Altitude: {h} km"
+            name=f"Altitude: {h} km",
+            line=dict(color=height_colors[h])
         )
     )
 
@@ -346,153 +473,13 @@ HTML(pio.to_html(fig, full_html=False, include_plotlyjs="cdn", include_mathjax=F
 - Footprint assumes that there is minimum elevation $\varepsilon_{min}$ for the user terminal to communicate with the satellite (see Section 3.3.1 of [@corici2024ntnQos]).
 
 ```{python}
-import math
-import numpy as np
-import plotly.graph_objects as go
-import pygnss
-from pygnss.geodetic import lla_to_xyz, xyz_to_lla
+from ptig.geometry import plot_fov_boundaries
 
-
-
-# -----------------------------
-# Geometry / FoV computation
-# -----------------------------
 # Earth radius (mean equatorial radius)
 R_E = 6378.137  # km
 
 # Elevation angles (degrees) for boundaries: ε = 0°,2°,4°,6°,8°,10°
 elevations_deg = [0, 5, 10]
-
-def compute_perpendicular_unit_vector(a: np.ndarray) -> np.ndarray:
-    """
-    >>> compute_perpendicular_unit_vector(np.array([1, 0, 0]))
-    array([0., 0., 1.])
-    """
-    a = np.asarray(a, dtype=float)
-    if a.shape != (3,):
-        raise ValueError("a must be a shape (3,) vector")
-
-    # Choose the axis least aligned with a to avoid tiny cross products
-    axes = np.eye(3)
-    e = axes[np.argmin(np.abs(a))]  # e is x/y/z axis with smallest |a_i|
-
-    b = np.cross(a, e)
-    r_b = np.linalg.norm(b)
-    if r_b == 0:
-        raise ValueError("Cannot compute a perpendicular vector (a is zero vector).")
-
-    return b / r_b
-
-
-def compute_boundary_lat_lon(lat_sat_deg, lon_sat_deg, height_sat_km, nadir_angle_deg, n_points=361):
-    """
-    """
-
-    # Compute the $\gamma$ angle at the Earth center between the subsatellite point and P
-    r_s_km = R_E + height_sat_km
-    nadir_angle_rad = np.radians(nadir_angle_deg)
-    gamma_rad = np.arcsin(r_s_km / R_E * np.sin(nadir_angle_rad)) - nadir_angle_rad
-
-    # Satellite ECEF coordinates
-    s = np.array(tuple(lla_to_xyz(lon_sat_deg, lat_sat_deg, height_sat_km)))
-    r_s = np.linalg.norm(s)
-
-    u = s / r_s
-    k = compute_perpendicular_unit_vector(u)
-
-    e = np.cross(k, u)
-    e = e / np.linalg.norm(e)
-
-    n = np.cross(u, e)
-
-    u = u.reshape(3, 1)
-    e = e.reshape(3, 1)
-    n = n.reshape(3, 1)
-
-    # Create points by varying azimuth around center
-    az = np.linspace(0, 2.0 * np.pi, n_points)
-    az = az.reshape(1, -1)         # (1, 361)
-    cos_az = np.cos(az)            # (1, 361)
-    sin_az = np.sin(az)            # (1, 361)
-
-    cos_gamma = np.cos(gamma_rad) # shape should be (1, 361) or (361,)
-    sin_gamma = np.sin(gamma_rad)
-
-    p = R_E * 1000.0 * (u * cos_gamma + e * sin_gamma * cos_az + n * sin_gamma * sin_az)
-    # p shape: (3, 361)
-
-    xs_m = p[0, :]
-    ys_m = p[1, :]
-    zs_m = p[2, :]
-
-    lon_deg, lat_deg, _ = xyz_to_lla(xs_m, ys_m, zs_m)
-
-    return lat_deg, lon_deg
-
-def plot_fov_boundaries(lat0_deg, lon0_deg, h, elevations_deg, R_E):
-    """
-    Generates and displays a Plotly globe visualization of satellite FoV boundaries.
-
-    Args:
-        lat0_deg (float): Latitude of the sub-satellite point in degrees.
-        lon0_deg (float): Longitude of the sub-satellite point in degrees.
-        h (float): Altitude of the satellite above Earth's surface in km.
-        elevations_deg (list): List of minimum elevation angles in degrees.
-        R_E (float): Earth's radius in km.
-    """
-
-    # Hardcoded colors list
-    colors = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b"]
-
-    # Compute maximum nadir angle for all the min elevations
-    nadir_max = np.degrees(np.arcsin(R_E/(R_E + h)* np.cos(np.radians(elevations_deg))))
-
-    fig = go.Figure()
-
-    for i, nadir_deg in enumerate(nadir_max):
-        lat_curve, lon_curve = compute_boundary_lat_lon(lat0_deg, lon0_deg, h, nadir_deg, n_points=361)
-        elev = elevations_deg[i]
-
-        fig.add_trace(
-            go.Scattergeo(
-                lon=lon_curve,
-                lat=lat_curve,
-                mode="lines",
-                line=dict(width=2, color=colors[i % len(colors)]),
-                name=f"ε_min = {elev}º"
-            )
-        )
-
-    # Sub-satellite point marker
-    fig.add_trace(
-        go.Scattergeo(
-            lon=[lon0_deg],
-            lat=[lat0_deg],
-            mode="markers",
-            marker=dict(size=7, color="black"),
-            name="Sub-satellite point"
-        )
-    )
-
-    fig.update_layout(
-        title=f"Satellite FoV Footprint: Lat {lat0_deg}°, Lon {lon0_deg}°, Alt {h} km",
-        showlegend=True,
-        margin=dict(l=10, r=10, t=50, b=10),
-        geo=dict(
-            projection_type="equirectangular",
-            showland=True,
-            landcolor="rgb(240,240,240)",
-            showcountries=True,
-            showocean=True,
-            oceancolor="rgb(210,230,255)",
-            showframe=False,
-            bgcolor="white",
-            lataxis=dict(range=[-90, 90]),
-            lonaxis=dict(range=[-180, 180])
-        )
-    )
-
-    return fig
 ```
 
 ## Satellite FoV footprint: GEO
@@ -524,8 +511,57 @@ HTML(pio.to_html(fig, full_html=False, include_plotlyjs="cdn", include_mathjax=F
 
 ## Link performance
 
+\acr{EIRP} is a measure of the power radiated by an antenna in a specific direction, taking into account the antenna gain and the input power. It is expressed in dBW/Hz and computed:
 
 
+
+$$
+EIRP = P_{tx} + G_{tx}
+$$
+
+
+## LEO 1200 km downlink
+
+::: {.columns}
+::: {.column width="55%"}
+
+$$
+P_r = \mathrm{EIRP} - L_{fs} - L_{atm} - L_{pol} + G_r
+$$
+
+::: {.fragment fragment-index=1}
+- Compute slant range from altitude and elevation.
+:::
+
+::: {.fragment fragment-index=2}
+- Convert range to free-space loss.
+:::
+
+::: {.fragment fragment-index=3}
+- Add atmospheric and implementation losses.
+:::
+
+::: {.fragment fragment-index=4}
+- Add receiver antenna gain to obtain $P_r$.
+:::
+
+::: {.fragment fragment-index=5}
+- Convert to $C/N_0$, then $E_b/N_0$, then margin.
+:::
+
+:::
+::: {.column width="45%"}
+
+| Term | Value |
+|---|---:|
+| $d$ | 1,xxx km |
+| $L_{fs}$ | xxx dB |
+| $L_{atm}+L_{misc}$ | x.x dB |
+| $G_r$ | xx dBi |
+| $P_r$ | xxx dBW |
+
+:::
+:::
 
 <!-- ------------------------------------------------------------------      -->
 <!-- ----------------    Starlink case study   ------------------------      -->

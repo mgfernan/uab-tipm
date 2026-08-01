@@ -1,0 +1,12 @@
+---
+acronyms:
+  keys:
+    - shortname: EIRP
+      longname: Effective Isotropic Radiated Power
+    - shortname: FoV
+      longname: Field of View
+    - shortname: QoS
+      longname: Quality of Service
+    - shortname: NTN
+      longname: Non-Terrestrial Network
+---
