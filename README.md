@@ -1,3 +1,5 @@
+[![Publish Quarto Slides](https://github.com/mgfernan/uab-tipm/actions/workflows/publish-slides.yml/badge.svg)](https://github.com/mgfernan/uab-tipm/actions/workflows/publish-slides.yml)
+
 # TIPM Presentation Scaffold
 
 This repository contains a Quarto-based scaffold for the course presentation of Planning and Management of Telecommunication Infrastructures (TIPM).
