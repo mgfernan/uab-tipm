@@ -1,9 +1,11 @@
 ipyleaflet
 ipython
 ipywidgets
+jupyter
 jupyterlab-quarto
 matplotlib
 pandas
+pyyaml
 pygnss
 seaborn>=0.13
 tabulate
