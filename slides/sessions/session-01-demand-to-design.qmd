@@ -268,7 +268,7 @@ Simplified \acr{QoS} model:
 ### QoS definition example: statement
 
 ::: {style="text-align:center;"}
-*"John Doe starts a session in her smartphone. He wants to do a live stream in Instagram and, occasionally, send some e-mails to his viewers."*
+*"John Doe starts a session in his smartphone. He wants to do a live stream in Instagram and, occasionally, send some e-mails to his viewers."*
 :::
 
 ![Simplified QoS model](assets/qos__overview.svg){width=100}
