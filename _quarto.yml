@@ -20,6 +20,7 @@ format:
     #transition: fade
     #smaller: false
     center: false
+    center-title-slide: false
     #navigation-mode: linear
     #controls-layout: edges
     #pdf-separate-fragments: false

@@ -17,6 +17,18 @@ strong {
   color: teal;
 }
 
+/* Session divider slides (top-level # Session X headings). */
+.reveal .slides section.session-marker {
+  background: linear-gradient(160deg, #eef2f5 0%, #dde3e8 100%);
+}
+
+.reveal .slides section.session-marker h1 {
+  color: teal;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
 /* Bottom-left context path (parents only) for the current slide. */
 .reveal #slide-path-indicator {
   position: fixed;

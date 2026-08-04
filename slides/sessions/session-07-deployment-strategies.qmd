@@ -1,4 +1,4 @@
-# Session 7
+# Session 7 {.session-marker}
 
 ## 7. Deployment Strategies {.theory-slide}
 

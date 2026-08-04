@@ -1,8 +1,10 @@
-# Session 1
+# Session 1 {.session-marker}
 
-From demand to design
+::: {style="text-align:center;"}
 
-## Main topics
+*"From demand to design"*
+
+:::
 
 - What are \acr{NTN}?
 - Service needs and technical requirements.
@@ -11,7 +13,9 @@ From demand to design
 - Network KPIs: capacity, latency, availability.
 - Scenario types: urban, rural, industrial, mobility.
 
-Note: only addressing 5G NTN, not 4G LTE NTN.
+
+::: {.callout-important appearance="simple" icon=true title="Only addressing 5G NTN, not 4G LTE NTN"}
+:::
 
 ## What are NTNs?
 
@@ -79,7 +83,7 @@ style="display: block; width: 100%; max-height: 70vh; margin: 0.5rem auto 0;"
 - **Gateways** have different roles: in transparent provides a bridge between the NTN and the terrestrial network, while in regenerative connects the NTN payload to 5G Core Network.
 
 
-## Architecture: The Starlink case {.use-case-slide background-image="assets/starry_sky.png"}
+## Starlink architecture {.use-case-slide background-image="assets/starry_sky.png"}
 
 ![source: [Starlink Network Update](https://starlink.com/updates/network-update){target="_blank"}](assets/starlink__architecture.png)
 
