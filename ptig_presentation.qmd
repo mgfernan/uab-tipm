@@ -5,12 +5,6 @@ author: "UAB"
 from: markdown+emoji
 ---
 
-{{< include slides/sections/course-frame.qmd >}}
-
-{{< include slides/sections/learning-setup.qmd >}}
-
-{{< include slides/sections/course-objectives.qmd >}}
-
 {{< include slides/sessions/session-01-demand-to-design.qmd >}}
 
 {{< include slides/sessions/session-02-radio-dimensioning.qmd >}}
@@ -26,8 +20,6 @@ from: markdown+emoji
 {{< include slides/sessions/session-07-deployment-strategies.qmd >}}
 
 {{< include slides/sections/ntn_terms.qmd >}}
-
-{{< include slides/sections/assessment-and-closing.qmd >}}
 
 {{< include slides/sections/annex__satellite_fov_footprint_derivation.qmd >}}
 

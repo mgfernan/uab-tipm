@@ -19,7 +19,7 @@ format:
     #theme: default
     #transition: fade
     #smaller: false
-    #center: false
+    center: false
     #navigation-mode: linear
     #controls-layout: edges
     #pdf-separate-fragments: false

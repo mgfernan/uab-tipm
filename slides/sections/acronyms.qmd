@@ -1,5 +1,6 @@
 ---
 acronyms:
+  insert_loa: end
   keys:
     - shortname: EIRP
       longname: Effective Isotropic Radiated Power
