@@ -4,7 +4,9 @@ ipywidgets
 jupyter
 jupyterlab-quarto
 matplotlib
+numpy
 pandas
+plotly
 pyyaml
 pygnss
 seaborn>=0.13
