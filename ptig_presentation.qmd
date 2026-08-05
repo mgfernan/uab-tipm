@@ -23,4 +23,6 @@ from: markdown+emoji
 
 {{< include slides/sections/annex__satellite_fov_footprint_derivation.qmd >}}
 
+{{< include slides/sections/references.qmd >}}
+
 {{< include slides/sections/acronyms.qmd >}}

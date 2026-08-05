@@ -1,13 +1,36 @@
 ---
 acronyms:
-  insert_loa: end
+  insert_loa: false
+  loa_title: ''
   keys:
+    - shortname: AIS
+      longname: Automatic Identification System
+    - shortname: ADS-B
+      longname: Automatic Dependent Surveillance-Broadcast
     - shortname: EIRP
       longname: Effective Isotropic Radiated Power
     - shortname: FoV
       longname: Field of View
+    - shortname: ISL
+      longname: Inter-Satellite Link
+    - shortname: KPI
+      longname: Key Performance Indicator
+    - shortname: LEO
+      longname: Low Earth Orbit
+    - shortname: LHCP
+      longname: Left-Hand Circular Polarization
+    - shortname: MEO
+      longname: Medium Earth Orbit
     - shortname: QoS
       longname: Quality of Service
     - shortname: NTN
       longname: Non-Terrestrial Network
+    - shortname: RHCP
+      longname: Right-Hand Circular Polarization
 ---
+
+### Acronyms {.compact-acronyms}
+
+::: {.compact-acronyms-list}
+\printacronyms
+:::

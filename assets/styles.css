@@ -122,6 +122,62 @@ strong {
   padding: 0.16rem 0.3rem;
 }
 
-.reveal .slides .MathJax {
-  font-size: 80%;
+/* Math rendering: keep enough vertical space so equations never collide
+   with surrounding text in Reveal slide layout. */
+.reveal .slides span.math.display {
+  display: block;
+  font-size: 0.9em;
+  margin: 0.4em 0 0.55em;
+  line-height: 1.25;
+}
+
+.reveal .slides .MathJax_Display,
+.reveal .slides .MathJax_SVG_Display,
+.reveal .slides mjx-container[display="true"] {
+  font-size: 0.9em !important;
+  margin: 0.4em 0 !important;
+}
+
+.reveal .slides .MathJax,
+.reveal .slides mjx-container {
+  line-height: 1.2;
+}
+
+/* Compact acronyms slide: multi-column list with internal scrolling. */
+.reveal .slides section.compact-acronyms .compact-acronyms-list {
+  max-height: 72vh;
+  overflow-y: auto;
+  padding-right: 0.35rem;
+}
+
+.reveal .slides section.compact-acronyms .compact-acronyms-list dl {
+  columns: 2;
+  column-gap: 1.4rem;
+  font-size: 70%;
+  line-height: 1.15;
+  margin-top: 0.35rem;
+}
+
+.reveal .slides section.compact-acronyms .compact-acronyms-list dt,
+.reveal .slides section.compact-acronyms .compact-acronyms-list dd {
+  break-inside: avoid;
+}
+
+.reveal .slides section.compact-acronyms .compact-acronyms-list dt {
+  margin-top: 0.2rem;
+}
+
+.reveal .slides section.compact-acronyms .compact-acronyms-list dd {
+  margin-bottom: 0.3rem;
+}
+
+@media (max-width: 900px) {
+  .reveal .slides section.compact-acronyms .compact-acronyms-list {
+    max-height: 66vh;
+  }
+
+  .reveal .slides section.compact-acronyms .compact-acronyms-list dl {
+    columns: 1;
+    font-size: 65%;
+  }
 }

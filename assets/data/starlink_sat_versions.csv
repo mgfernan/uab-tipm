@@ -1,0 +1,386 @@
+Mission,Sat. ver.,COSPAR ID,Deployed sats
+Tintin,v0.1,2018-020,2
+v0.9,v0.9,2019-029,60
+Launch 1,v1,2019-074,60
+Launch 2,v1,2020-001,60
+Launch 3,v1,2020-006,60
+Launch 4,v1,2020-012,60
+Launch 5,v1,2020-019,60
+Launch 6,v1,2020-025,60
+Launch 7,v1,2020-035,60
+Launch 8,v1,2020-038,58
+Launch 9,v1,2020-055,57
+Launch 10,v1,2020-057,58
+Launch 11,v1,2020-062,60
+Launch 12,v1,2020-070,60
+Launch 13,v1,2020-073,60
+Launch 14,v1,2020-074,60
+Launch 15,v1,2020-088,60
+Launch 16,v1,2021-005,60
+Tr-1,v1,2021-006,10
+Launch 18,v1,2021-009,60
+Launch 19,v1,2021-012,60
+Launch 17,v1,2021-017,60
+Launch 20,v1,2021-018,60
+Launch 21,v1,2021-021,60
+Launch 22,v1,2021-024,60
+Launch 23,v1,2021-027,60
+Launch 24,v1,2021-036,60
+Launch 25,v1,2021-038,60
+Launch 27,v1,2021-040,60
+Launch 26,v1,2021-041,52
+Launch 28,v1,2021-044,60
+Tr-2,v1.5,2021-059,3
+Group 2-1,v1.5,2021-082,51
+Group 4-1,v1.5,2021-104,53
+Group 4-3,v1.5,2021-115,48
+Group 4-4,v1.5,2021-125,52
+Group 4-5,v1.5,2022-001,49
+Group 4-6,v1.5,2022-005,49
+Group 4-7,v1.5,2022-010,49
+Group 4-8,v1.5,2022-016,46
+Group 4-11,v1.5,2022-017,50
+Group 4-9,v1.5,2022-022,47
+Group 4-10,v1.5,2022-025,48
+Group 4-12,v1.5,2022-029,53
+Group 4-14,v1.5,2022-041,53
+Group 4-16,v1.5,2022-045,53
+Group 4-17,v1.5,2022-049,53
+Group 4-13,v1.5,2022-051,53
+Group 4-15,v1.5,2022-052,53
+Group 4-18,v1.5,2022-053,53
+Group 4-19,v1.5,2022-062,53
+Group 4-21,v1.5,2022-076,53
+Group 3-1,v1.5,2022-077,46
+Group 4-22,v1.5,2022-083,53
+Group 3-2,v1.5,2022-084,46
+Group 4-25,v1.5,2022-086,53
+Group 4-26,v1.5,2022-097,52
+Group 3-3,v1.5,2022-099,46
+Group 4-27,v1.5,2022-101,53
+Group 4-23,v1.5,2022-104,54
+Group 3-4,v1.5,2022-105,46
+Group 4-20,v1.5,2022-107,51
+Group 4-2,v1.5,2022-111,34
+Group 4-34,v1.5,2022-114,54
+Group 4-35,v1.5,2022-119,52
+Group 4-29,v1.5,2022-125,52
+Group 4-36,v1.5,2022-136,54
+Group 4-31,v1.5,2022-141,53
+Group 4-37,v1.5,2022-175,54
+Group 5-1,v1.5,2022-177,54
+Group 2-4,v1.5,2023-010,51
+Group 5-2,v1.5,2023-013,56
+Group 2-6,v1.5,2023-014,49
+Group 5-3,v1.5,2023-015,53
+Group 5-4,v1.5,2023-020,55
+Group 2-5,v1.5,2023-021,51
+Group 6-1,v2 mini,2023-026,21
+Group 2-7,v1.5,2023-028,51
+Group 2-8,v1.5,2023-037,52
+Group 5-5,v1.5,2023-042,56
+Group 5-10,v1.5,2023-046,56
+Group 6-2,v2 mini,2023-056,21
+Group 3-5,v1.5,2023-058,46
+Group 5-6,v1.5,2023-061,56
+Group 2-9,v1.5,2023-064,51
+Group 5-9,v1.5,2023-065,56
+Group 6-3,v2 mini,2023-067,22
+Group 2-10,v1.5,2023-078,52
+Group 6-4,v2 mini,2023-079,22
+Group 5-11,v1.5,2023-083,52
+Group 5-7,v1.5,2023-088,47
+Group 5-12,v1.5,2023-090,56
+Group 5-13,v1.5,2023-094,48
+Group 6-5,v2 mini,2023-096,22
+Group 5-15,v1.5,2023-099,54
+Group 6-15,v2 mini,2023-102,15
+Group 6-6,v2 mini,2023-105,22
+Group 6-7,v2 mini,2023-107,22
+Group 6-8,v2 mini,2023-113,22
+Group 6-20,v2 mini,2023-115,15
+Group 6-9,v2 mini,2023-119,22
+Group 6-10,v2 mini,2023-122,22
+Group 7-1,v2 mini,2023-124,21
+Group 6-11,v2 mini,2023-129,22
+Group 6-13,v2 mini,2023-131,22
+Group 6-12,v2 mini,2023-134,21
+Group 6-14,v2 mini,2023-138,22
+Group 7-2,v2 mini,2023-141,21
+Group 6-16,v2 mini,2023-144,22
+Group 6-17,v2 mini,2023-146,22
+Group 6-18,v2 mini,2023-147,22
+Group 7-3,v2 mini,2023-148,21
+Group 6-19,v2 mini,2023-151,22
+Group 6-21,v2 mini,2023-153,22
+Group 7-4,v2 mini,2023-156,21
+Group 6-22,v2 mini,2023-158,22
+Group 6-23,v2 mini,2023-160,22
+Group 7-5,v2 mini,2023-161,21
+Group 6-24,v2 mini,2023-162,23
+Group 7-6,v2 mini,2023-166,22
+Group 6-25,v2 mini,2023-167,23
+Group 6-26,v2 mini,2023-170,23
+Group 6-27,v2 mini,2023-171,23
+Group 6-28,v2 mini,2023-177,23
+Group 7-7,v2 mini,2023-178,22
+Group 6-29,v2 mini,2023-180,23
+Group 6-30,v2 mini,2023-183,23
+Group 6-31,v2 mini,2023-186,23
+Group 6-33,v2 mini,2023-191,23
+Group 7-8,v2 mini,2023-192,22
+Group 6-34,v2 mini,2023-200,23
+Group 6-32,v2 mini,2023-203,22
+Group 6-36,v2 mini,2023-211,23
+Group 7-9,v2 mini,2024-002,21
+Group 6-35,v2 mini,2024-005,23
+Group 7-10,v2 mini,2024-011,22
+Group 6-37,v2 mini,2024-012,23
+Group 7-11,v2 mini,2024-017,22
+Group 6-38,v2 mini,2024-019,23
+Group 7-12,v2 mini,2024-020,22
+Group 7-13,v2 mini,2024-027,22
+Group 7-14,v2 mini,2024-031,22
+Group 7-15,v2 mini,2024-036,22
+Group 6-39,v2 mini,2024-038,24
+Group 6-40,v2 mini,2024-041,23
+Group 6-41,v2 mini,2024-044,23
+Group 6-43,v2 mini,2024-045,23
+Group 7-17,v2 mini,2024-046,23
+Group 6-44,v2 mini,2024-049,23
+Group 7-16,v2 mini,2024-050,20
+Group 6-42,v2 mini,2024-056,23
+Group 6-46,v2 mini,2024-057,23
+Group 6-45,v2 mini,2024-060,23
+Group 7-18,v2 mini,2024-062,22
+Group 6-47,v2 mini,2024-064,23
+Group 8-1,v2 mini,2024-065,21
+Group 6-48,v2 mini,2024-068,23
+Group 6-49,v2 mini,2024-071,23
+Group 6-51,v2 mini,2024-073,23
+Group 6-52,v2 mini,2024-074,23
+Group 6-53,v2 mini,2024-076,23
+Group 6-54,v2 mini,2024-080,23
+Group 6-55,v2 mini,2024-082,23
+Group 6-57,v2 mini,2024-084,23
+Group 6-56,v2 mini,2024-086,23
+Group 8-2,v2 mini,2024-088,20
+Group 6-58,v2 mini,2024-090,23
+Group 8-7,v2 mini,2024-091,20
+Group 6-59,v2 mini,2024-093,23
+Group 6-62,v2 mini,2024-097,23
+Group 6-63,v2 mini,2024-098,23
+Group 6-60,v2 mini,2024-100,23
+Group 6-64,v2 mini,2024-106,23
+Group 8-5,v2 mini,2024-107,20
+Group 10-1,v2 mini,2024-111,22
+Group 8-8,v2 mini,2024-112,20
+Group 9-1,v2 mini,2024-113,20
+Group 10-2,v2 mini,2024-117,22
+Group 9-2,v2 mini,2024-118,20
+Group 10-3,v2 mini,2024-120,23
+Group 8-9,v2 mini,2024-124,20
+Group 9-3,v2 mini,2024-129,20
+Group 10-9,v2 mini,2024-131,23
+Group 10-4,v2 mini,2024-132,23
+Group 9-4,v2 mini,2024-133,21
+Group 10-6,v2 mini,2024-136,23
+Group 11-1,v2 mini,2024-138,23
+Group 8-3,v2 mini,2024-141,21
+Group 10-7,v2 mini,2024-144,23
+Group 10-5,v2 mini,2024-150,22
+Group 8-6,v2 mini,2024-152,21
+Group 8-10,v2 mini,2024-154,21
+Group 9-5,v2 mini,2024-155,21
+Group 8-11,v2 mini,2024-158,21
+Group 9-6,v2 mini,2024-164,21
+Group 9-17,v2 mini,2024-171,20
+Group 9-8,v2 mini,2024-175,20
+Group 10-10,v2 mini,2024-183,23
+Group 9-7,v2 mini,2024-184,20
+Group 8-19,v2 mini,2024-187,20
+Group 6-61,v2 mini,2024-191,23
+Group 10-8,v2 mini,2024-193,22
+Group 9-9,v2 mini,2024-195,20
+Group 10-13,v2 mini,2024-196,23
+Group 6-77,v2 mini,2024-202,23
+Group 9-10,v2 mini,2024-204,20
+Group 6-69,v2 mini,2024-207,24
+Group 9-11,v2 mini,2024-209,20
+Group 6-68,v2 mini,2024-210,24
+Group 9-12,v2 mini,2024-213,20
+Group 6-66,v2 mini,2024-216,24
+Group 9-13,v2 mini,2024-217,20
+Group 12-1,v2 mini,2024-220,23
+Group 6-76,v2 mini,2024-222,24
+Group 6-65,v2 mini,2024-224,24
+Group N-01,v2 mini,2024-225,20
+Group 6-70,v2 mini,2024-229,24
+Group 9-14,v2 mini,2024-231,20
+Group 12-5,v2 mini,2024-237,23
+Group 11-2,v2 mini,2024-239,22
+Group 12-2,v2 mini,2024-249,21
+Group 11-3,v2 mini,2024-251,22
+Group 12-6,v2 mini,2024-254,21
+Group 6-71,v2 mini,2025-003,24
+Group 12-11,v2 mini,2025-004,21
+Group 12-12,v2 mini,2025-006,21
+Group 12-4,v2 mini,2025-008,21
+Group 13-1,v2 mini,2025-014,21
+Group 11-8,v2 mini,2025-015,27
+Group 11-6,v2 mini,2025-018,23
+Group 12-7,v2 mini,2025-019,21
+Group 11-4,v2 mini,2025-022,22
+Group 12-3,v2 mini,2025-024,21
+Group 12-9,v2 mini,2025-027,21
+Group 11-10,v2 mini,2025-029,23
+Group 12-18,v2 mini,2025-031,21
+Group 12-8,v2 mini,2025-032,21
+Group 10-12,v2 mini,2025-034,23
+Group 12-14,v2 mini,2025-035,23
+Group 15-1,v2 mini,2025-037,22
+Group 12-13,v2 mini,2025-039,21
+Group 12-20,v2 mini,2025-043,21
+Group 12-21,v2 mini,2025-048,21
+Group 12-16,v2 mini,2025-053,23
+Group 12-25,v2 mini,2025-057,23
+Group 11-7,v2 mini,2025-063,27
+Group 6-80,v2 mini,2025-065,28
+Group 11-13,v2 mini,2025-069,27
+Group 6-72,v2 mini,2025-070,28
+Group 11-11,v2 mini,2025-071,27
+Group 12-17,v2 mini,2025-075,21
+Group 6-73,v2 mini,2025-076,27
+Group 6-74,v2 mini,2025-083,28
+Group 12-23,v2 mini,2025-085,23
+Group 11-9,v2 mini,2025-087,27
+Group 12-10,v2 mini,2025-089,23
+Group 6-75,v2 mini,2025-091,28
+Group 6-84,v2 mini,2025-092,29
+Group 6-93,v2 mini,2025-093,28
+Group 15-3,v2 mini,2025-094,26
+Group 6-91,v2 mini,2025-095,28
+Group 15-4,v2 mini,2025-098,26
+Group 6-83,v2 mini,2025-099,28
+Group 6-67,v2 mini,2025-101,28
+Group 15-5,v2 mini,2025-102,26
+Group 12-15,v2 mini,2025-107,23
+Group 11-16,v2 mini,2025-110,27
+Group 12-22,v2 mini,2025-111,23
+Group 17-1,v2 mini,2025-112,24
+Group 10-32,v2 mini,2025-113,27
+Group 11-18,v2 mini,2025-117,27
+Group 12-19,v2 mini,2025-119,23
+Group 11-22,v2 mini,2025-120,27
+Group 15-8,v2 mini,2025-123,26
+Group 12-24,v2 mini,2025-124,23
+Group 15-6,v2 mini,2025-126,26
+Group 12-26,v2 mini,2025-127,23
+Group 15-9,v2 mini,2025-129,26
+Group 10-18,v2 mini,2025-130,28
+Group 10-23,v2 mini,2025-133,27
+Group 10-16,v2 mini,2025-137,27
+Group 10-34,v2 mini,2025-139,27
+Group 15-7,v2 mini,2025-142,26
+Group 10-25,v2 mini,2025-144,27
+Group 10-28,v2 mini,2025-147,28
+Group 15-2,v2 mini,2025-150,26
+Group 17-3,v2 mini,2025-152,24
+Group 10-26,v2 mini,2025-157,28
+Group 17-2,v2 mini,2025-158,24
+Group 10-29,v2 mini,2025-161,28
+Group 13-4,v2 mini,2025-165,19
+Group 10-30,v2 mini,2025-167,28
+Group 17-4,v2 mini,2025-175,24
+Group 10-20,v2 mini,2025-176,28
+Group 17-5,v2 mini,2025-179,24
+Group 17-6,v2 mini,2025-184,24
+Group 10-56,v2 mini,2025-189,28
+Group 10-11,v2 mini,2025-190,28
+Group 17-7,v2 mini,2025-191,24
+Group 10-14,v2 mini,2025-192,28
+Group 17-8,v2 mini,2025-194,24
+Group 10-22,v2 mini,2025-195,28
+Group 10-57,v2 mini,2025-198,28
+Group 17-9,v2 mini,2025-200,24
+Group 17-10,v2 mini,2025-207,24
+Group 10-61,v2 mini,2025-210,28
+Group 17-12,v2 mini,2025-211,24
+Group 10-27,v2 mini,2025-212,28
+Group 10-15,v2 mini,2025-216,28
+Group 17-11,v2 mini,2025-218,24
+Group 11-20,v2 mini,2025-221,28
+Group 11-39,v2 mini,2025-223,28
+Group 10-59,v2 mini,2025-224,28
+Group 11-17,v2 mini,2025-225,28
+Group 10-52,v2 mini,2025-232,28
+Group 10-17,v2 mini,2025-235,28
+Group 11-19,v2 mini,2025-236,28
+Group 11-5,v2 mini,2025-237,28
+Group 11-12,v2 mini,2025-240,28
+Group 10-21,v2 mini,2025-243,28
+Group 11-21,v2 mini,2025-244,28
+Group 10-37,v2 mini,2025-245,29
+Group 11-23,v2 mini,2025-247,28
+Group 6-81,v2 mini,2025-253,29
+Group 11-14,v2 mini,2025-254,28
+Group 10-51,v2 mini,2025-257,29
+Group 6-87,v2 mini,2025-259,29
+Group 6-89,v2 mini,2025-262,29
+Group 6-85,v2 mini,2025-263,29
+Group 6-94,v2 mini,2025-265,29
+Group 6-78,v2 mini,2025-268,29
+Group 6-79,v2 mini,2025-270,29
+Group 11-30,v2 mini,2025-271,28
+Group 6-86,v2 mini,2025-278,29
+Group 15-10,v2 mini,2025-280,27
+Group 6-95,v2 mini,2025-281,29
+Group 11-25,v2 mini,2025-283,28
+Group 11-15,v2 mini,2025-286,28
+Group 6-92,v2 mini,2025-288,29
+Group 15-11,v2 mini,2025-293,27
+Group 6-90,v2 mini,2025-294,29
+Group 15-12,v2 mini,2025-298,27
+Group 6-82,v2 mini,2025-299,29
+Group 6-99,v2 mini,2025-303,29
+Group 15-13,v2 mini,2025-304,27
+Group 6-88,v2 mini,2026-002,29
+Group 6-96,v2 mini,2026-003,29
+Group 6-97,v2 mini,2026-005,29
+Group 6-98,v2 mini,2026-008,29
+Group 6-100,v2 mini,2026-012,29
+Group 17-30,v2 mini,2026-014,25
+Group 17-20,v2 mini,2026-016,25
+Group 17-19,v2 mini,2026-018,25
+Group 6-101,v2 mini,2026-020,29
+Group 17-32,v2 mini,2026-022,25
+Group 17-33,v2 mini,2026-025,25
+Group 17-34,v2 mini,2026-026,24
+Group 17-13,v2 mini,2026-032,24
+Group 6-103,v2 mini,2026-033,29
+Group 10-36,v2 mini,2026-034,29
+Group 17-25,v2 mini,2026-035,25
+Group 6-104,v2 mini,2026-036,28
+Group 6-110,v2 mini,2026-037,29
+Group 17-26,v2 mini,2026-038,25
+Group 6-108,v2 mini,2026-039,29
+Group 17-23,v2 mini,2026-040,25
+Group 10-41,v2 mini,2026-041,29
+Group 10-40,v2 mini,2026-042,29
+Group 17-18,v2 mini,2026-044,25
+Group 17-31,v2 mini,2026-049,25
+Group 10-48,v2 mini,2026-050,29
+Group 17-24,v2 mini,2026-053,25
+Group 10-46,v2 mini,2026-054,29
+Group 10-33,v2 mini,2026-055,29
+Group 17-15,v2 mini,2026-057,25
+Group 10-62,v2 mini,2026-059,29
+Group 17-17,v2 mini,2026-063,25
+Group 10-44,v2 mini,2026-068,29
+Group 10-58,v2 mini,2026-070,29
+Group 17-35,v2 mini,2026-073,25
+Group 17-21,v2 mini,2026-077,25
+Group 10-24,v2 mini,2026-081,29
+Group 17-27,v2 mini,2026-082,25
+Group 10-50,v2 mini,2026-154,29
+Group 17-52,v2 mini,2026-175,24

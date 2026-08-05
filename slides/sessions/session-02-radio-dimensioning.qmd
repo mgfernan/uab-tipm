@@ -467,48 +467,6 @@ fig.update_yaxes(showgrid=True)
 HTML(pio.to_html(fig, full_html=False, include_plotlyjs="cdn", include_mathjax=False))
 ```
 
-## Satellite FoV footprint
-
-- See [satellite FoV footprint derivation in the annexes of this deck](#sec-annex_fov_footprint) for the derivation of the footprint radius as a function of satellite altitude and elevation angle.
-- Footprint assumes that there is minimum elevation $\varepsilon_{min}$ for the user terminal to communicate with the satellite (see Section 3.3.1 of [@corici2024ntnQos]).
-
-```{python}
-from tipm.geometry import plot_fov_boundaries
-
-# Earth radius (mean equatorial radius)
-R_E = 6378.137  # km
-
-# Elevation angles (degrees) for boundaries: ε = 0°,2°,4°,6°,8°,10°
-elevations_deg = [0, 5, 10]
-```
-
-## Satellite FoV footprint: GEO
-
-```{python}
-fig = plot_fov_boundaries(0.0, 0.0, 36000, elevations_deg, R_E)
-
-# Avoid injecting MathJax from Plotly; Quarto already handles page-level LaTeX.
-HTML(pio.to_html(fig, full_html=False, include_plotlyjs="cdn", include_mathjax=False))
-```
-
-## Satellite FoV footprint: MEO
-
-```{python}
-fig = plot_fov_boundaries(0.0, 0.0, 10000, elevations_deg, R_E)
-
-# Avoid injecting MathJax from Plotly; Quarto already handles page-level LaTeX.
-HTML(pio.to_html(fig, full_html=False, include_plotlyjs="cdn", include_mathjax=False))
-```
-
-## Satellite FoV footprint: LEO
-
-```{python}
-fig = plot_fov_boundaries(0.0, 0.0, 1200, elevations_deg, R_E)
-
-# Avoid injecting MathJax from Plotly; Quarto already handles page-level LaTeX.
-HTML(pio.to_html(fig, full_html=False, include_plotlyjs="cdn", include_mathjax=False))
-```
-
 ## Link performance
 
 \acr{EIRP} is a measure of the power radiated by an antenna in a specific direction, taking into account the antenna gain and the input power. It is expressed in dBW/Hz and computed:

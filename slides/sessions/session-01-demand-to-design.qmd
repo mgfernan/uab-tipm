@@ -56,6 +56,40 @@ non-NTN layers that act as access relays to the NTN network.
 
 :::
 
+### Examples of ubiquity
+
+::: {.callout-note appearance="simple" icon=false title="Example 1"}
+:::
+
+
+::: {.callout-note appearance="simple" icon=false title="Example 1"}
+:::
+
+
+::: {.callout-note appearance="simple" icon=false title="Example 1"}
+:::
+### Examples of scalability
+
+::: {.callout-note appearance="simple" icon=false title="Example 1"}
+:::
+
+::: {.callout-note appearance="simple" icon=false title="Example 1"}
+:::
+
+::: {.callout-note appearance="simple" icon=false title="Example 1"}
+:::
+### Examples of continuity
+
+
+::: {.callout-note appearance="simple" icon=false title="Example 1"}
+:::
+
+::: {.callout-note appearance="simple" icon=false title="Example 1"}
+:::
+
+::: {.callout-note appearance="simple" icon=false title="Example 1"}
+:::
+
 ## NTN architecture
 
 
@@ -66,7 +100,7 @@ style="display: block; width: 100%; max-height: 70vh; margin: 0.5rem auto 0;"
 />
 
 
-## Transparent vs regenerative arch.
+### Transparent vs regenerative arch.
 
 
 <img
@@ -76,19 +110,18 @@ style="display: block; width: 100%; max-height: 70vh; margin: 0.5rem auto 0;"
 />
 
 
-## NTN architecture
+### Definitions
 
 - *Transparent* (bent-pipe/relay) or *regenerative* (on-board processing) payloads
 - Regenerative payloads: implement on-board switching and routing (i.e. gNB tasks)⇒ less dependent on the terrestrial network, and can provide direct access to the NTN user equipment (UE). Ideal for areas with limited terrestrial coverage.
 - **Gateways** have different roles: in transparent provides a bridge between the NTN and the terrestrial network, while in regenerative connects the NTN payload to 5G Core Network.
 
 
-## Starlink architecture {.use-case-slide background-image="assets/starry_sky.png"}
+### Starlink architecture {.use-case-slide background-image="assets/starry_sky.png"}
 
-![source: [Starlink Network Update](https://starlink.com/updates/network-update){target="_blank"}](assets/starlink__architecture.png)
+![source: [@starlink2024latency]](assets/starlink__architecture.png)
 
 ## NTN Platforms
-
 
 <img
 src="assets/01_ntn_platforms.svg"
@@ -96,8 +129,7 @@ alt="NTN platforms (source: Ericsson)"
 style="display: block; width: 100%; max-height: 70vh; margin: 0.5rem auto 0;"
 />
 
-
-## NTN Platforms
+### Types of Platforms
 
 | Platform type  | Altitude |
 |:---------------|:--------:|
@@ -107,19 +139,20 @@ style="display: block; width: 100%; max-height: 70vh; margin: 0.5rem auto 0;"
 | Satellite at Medium Earth Orbit (MEO)      | 6000 km - 8000 km |
 | Satellite at Geostationary Orbit (GEO)     | ~36000 km |
 
-## NTN Platform: satellite
+### Satellite platforms
 
 Qualitative comparison between satellite platforms
 
 | Characteristic |    GEO   |     MEO  |    LEO   |
 |:---------------|:--------:|:--------:|:--------:|
+| Orbit height |  ~36,000 km | 6,000-8,000 km | 300-3,000 km |
 | Propagation delay |  ~120 ms | 23-83 ms | 1-5 ms |
 | Num. sats for Earth coverage    | 3 |  ~6 | Hundreds  |
 | Type of beams       | fixed | Quasi-fixed / moving | Quasi-fixed / moving |
 | Num. gateways  | very few   | few | numerous |
 | Target service | low-rate, delay-tolerant | medium-rate, medium-latency | high-rate, low-latency |
 
-## NTN Platform: satellite orbits
+### Orbits
 
 Orbital period
 
@@ -132,7 +165,7 @@ where:
 - $a$ is the semi-major axis of the orbit and
 - $\mu$ is the standard gravitational parameter of the pulling body (i.e., Earth).
 
-## NTN Platform: satellite orbits (examples)
+### Orbit examples
 
 Some examples of gravitational parameters:
 $$
@@ -144,119 +177,340 @@ $$
 $$
 
 $$
-T_{GEO} \approx 2\pi \sqrt{\frac{(42,164 km)^3}{3.986 \times 10^{14} m^3/s^2}} \approx 86,161 s \approx 24 h
+T_{GEO} \approx 2\pi \sqrt{\frac{(35,793 + 6,371 km)^3}{\mu_{Earth}}} \approx 86,161 s \approx 24 h \\
+T_{LEO} \approx 2\pi \sqrt{\frac{(600 + 6,371 km)^3}{\mu_{Earth}}} \approx 5,792 s \approx 1.6 h
 $$
 
-## NTN Beams
 
-- Define radio coverage
-- Beam type defines *NTN cell mobility* ⇒ *handover strategy*
+### Starlink satellites {.use-case-slide background-image="assets/starry_sky.png"}
 
-| Characteristics | Fixed | Quasi-fixed | moving |
-|:---------------:|:-----:|:-----:|:-----:|
-| Coverage | Fixed region all the time |
+- \acr{ISL}: provided by 3 optical lasers with up tp 200 Gbps[^starlink_sat]
+- Star trackers for location and attiude determination
+- Ka and Ku band antennas for user access and gateway links
+- Various versions of [Starlink satellites](https://en.wikipedia.org/wiki/Starlink#Satellite_revisions). As of August 2026, most satellites are v1.5 and v2mini.
 
-## NTN Beams: Fixed
+<div style="display: flex; gap: 1rem; align-items: center; justify-content: center; margin-top: 0.5rem;">
+  <img src="assets/01_starlink_satellite.png" style="width: 48%; max-height: 46vh; object-fit: contain;" />
+  <img src="assets/starlink__sat_versions.jpg" style="width: 48%; max-height: 46vh; object-fit: contain;" />
+</div>
 
-<div id="sketch-geo"></div>
+[^starlink_sat]:  Starlink. [Starlink Technology](https://starlink.com/technology)
 
-## NTN Beams: Quasi-fixed
+### Starlink constellation {.use-case-slide background-image="assets/starry_sky.png"}
 
-<div id="sketch-quasi"></div>
 
-## NTN Beams: Moving
+::: {.columns}
+::: {.column width="55%"}
 
-<div id="sketch-moving"></div>
 
-## NTN Beams: Beam steering
+- LEO satellite at a Walker orbit at height ~550km and mostly at inclination of $50^\circ$ [@ali2026starlink].
+- Some satellites have polar or near-polar orbits (coverage at Polar regions).
+- Number of satellites ~6,750[^starlink_tech], >10000[^satellitemap]
 
-<div id="sketch-steering"></div>
+:::
+::: {.column width="45%"}
 
-## Service and requirements
+![source: satellitemap[^satellitemap]](assets/01_starlink_constellation.png)
 
-```{mermaid}
----
-config:
-  sankey:
-    showValues: false
----
-sankey-beta
+:::
+:::
 
-  Coverage,Footprint,1
-  Coverage,Link budget,1
-  Coverage,Propagation resilience,1
-  Coverage,Compatible with sparse ground infrastructure,1
-  Coverage,Beam configuration,1
-  Coverage,Has adaptive resource allocation,1
+[^starlink_tech]:  Starlink. [Starlink Technology](https://starlink.com/technology)
+[^satellitemap]: Satellitemap. [Starlink constellation](https://satellitemap.space/vis/constellation/starlink)
 
-  Continuity,Has seamless mobility management,1
-  Continuity,Has handover support,1
-  Continuity,Has session persistence,1
-  Continuity,Has multi-layer network integration,1
+### Starlink constellation {.use-case-slide background-image="assets/starry_sky.png"}
 
-  Connectivity,Efficient spectrum strategy,1
-  Connectivity,Signaling,1
+- [Orbital elements](https://celestrak.org/NORAD/elements/gp.php?GROUP=starlink&FORMAT=csv) in Two Line Elements (TLE) format. Allows orbit computation using the SGP4 orbital model[^sgp4_python]
 
-  Resilience,Availability,1
-  Resilience,Redundancy,1
-  Resilience,Has fallback connectivity,1
-  Resilience,Operation under degraded conditions,1
+```text
+STARLINK-1008
+1 44714U 19074B   26215.97871058  .00029734  00000+0  37585-3 0  9997
+2 44714  53.1486 198.6893 0006328  18.4929 341.6313 15.59291253371649
+```
+    - Inclination (deg): `53.1486`
+    - Right ascension of ascending node (deg): `198.6893`
+    - Eccentricity: `0.0006328`
+    - Argument of perigee (deg): `18.4929`
+    - Mean anomaly (deg): `341.6313`
+    - Mean motion (rev/day): `15.59291253` and its derivatives (in the first line)
 
-  IoT / Low-power messaging,Power consumption,1
-  IoT / Low-power messaging,Footprint,1
-  IoT / Low-power messaging,Scalable access,1
+- Satellites deployed in **trains** and then spread out
 
-  Higher-throughput services,Bandwidth,1
-  Higher-throughput services,Latency,1
-  Higher-throughput services,Efficient spectrum strategy,1
-  Higher-throughput services,Scalable access,1
+[^sgp4_python]: Rhodes, Brandon. [Python SGP4 Orbit propagator](https://pypi.org/project/sgp4/)
 
-  Low-latency-sensitive services,Latency,1
-  Low-latency-sensitive services,Routing and architecture,1
-  Low-latency-sensitive services,Platform,1
 
-  Mobility services,Beam configuration,1
-  Mobility services,Has Doppler compensation,1
-  Mobility services,Has handover support,1
+## Satellite FoV footprint
 
-  Multi-operator services,Supported networks,1
-  Multi-operator services,Interface,1
-  Multi-operator services,Spectrum coordination,1
+- See [satellite FoV footprint derivation in the annexes of this deck](#sec-annex_fov_footprint) for the derivation of the footprint radius as a function of satellite altitude and elevation angle.
+- Footprint assumes that there is minimum elevation $\varepsilon_{min}$ for the user terminal to communicate with the satellite (see Section 3.3.1 of [@corici2024ntnQos]).
+
+```{python}
+from tipm.geometry import compute_boundary_lat_lon, plot_fov_boundaries
+import plotly.graph_objects as go
+import plotly.io as pio
+from IPython.display import HTML
+
+# Earth radius (mean equatorial radius)
+R_E = 6378.137  # km
+
+# Elevation angles (degrees) for boundaries: ε = 0°,2°,4°,6°,8°,10°
+elevations_deg = [0, 5, 10]
+```
+
+## Satellite FoV footprint: GEO
+
+```{python}
+fig = plot_fov_boundaries(0.0, 0.0, 36000, elevations_deg, R_E)
+
+# Avoid injecting MathJax from Plotly; Quarto already handles page-level LaTeX.
+HTML(pio.to_html(fig, full_html=False, include_plotlyjs="cdn", include_mathjax=False))
+```
+
+## Satellite FoV footprint: MEO
+
+```{python}
+fig = plot_fov_boundaries(0.0, 0.0, 10000, elevations_deg, R_E)
+
+# Avoid injecting MathJax from Plotly; Quarto already handles page-level LaTeX.
+HTML(pio.to_html(fig, full_html=False, include_plotlyjs="cdn", include_mathjax=False))
+```
+
+## Satellite FoV footprint: LEO
+
+```{python}
+fig = plot_fov_boundaries(0.0, 0.0, 1200, elevations_deg, R_E)
+
+# Avoid injecting MathJax from Plotly; Quarto already handles page-level LaTeX.
+HTML(pio.to_html(fig, full_html=False, include_plotlyjs="cdn", include_mathjax=False))
+```
+
+### Starlink FoV footprint {.use-case-slide background-image="assets/starry_sky.png"}
+
+
+Assuming a Starlink-like LEO satellite at $550\ \text{km}$ with a $1.5^\circ$ beamwidth.
+
+```{python}
+import math
+
+lat_bcn, lon_bcn = 41.3874, 2.1686
+alt_km = 550
+half_angle_beamwidth_deg = 1.5
+
+half_angle_rad = math.radians(half_angle_beamwidth_deg)
+gamma_rad = math.asin((R_E + alt_km) / R_E * math.sin(half_angle_rad)) - half_angle_rad
+area_km2 = 2.0 * math.pi * (R_E**2) * (1.0 - math.cos(gamma_rad))
+
+lat_curve, lon_curve = compute_boundary_lat_lon(
+  lat_bcn,
+  lon_bcn,
+  alt_km,
+  nadir_angle_deg=half_angle_beamwidth_deg,
+  n_points=361,
+)
+
+fig = go.Figure()
+fig.add_trace(
+  go.Scattermapbox(
+    lat=lat_curve,
+    lon=lon_curve,
+    mode="lines",
+    line=dict(width=3, color="#ff4d4f"),
+    name=f"Beam edge ({half_angle_beamwidth_deg:g}º half-angle, A = {area_km2:,.0f} km²)",
+  )
+)
+fig.add_trace(
+  go.Scattermapbox(
+    lat=[lat_bcn],
+    lon=[lon_bcn],
+    mode="markers",
+    marker=dict(size=10, color="black"),
+    name="Sub-satellite point (Barcelona)",
+  )
+)
+
+fig.update_layout(
+  template="plotly_white",
+  height=520,
+  margin=dict(l=8, r=8, t=50, b=8),
+  title=dict(
+    text=f"Starlink FoV Footprint Over Barcelona (550 km altitude, A = {area_km2:,.0f} km²)",
+    x=0.5,
+  ),
+  legend=dict(
+    x=0.01,
+    y=0.99,
+    xanchor="left",
+    yanchor="top",
+    bgcolor="rgba(255,255,255,0.85)",
+  ),
+  mapbox=dict(
+    style="carto-positron",
+    center=dict(lat=lat_bcn, lon=lon_bcn),
+    zoom=7,
+  ),
+)
+
+# Avoid injecting MathJax from Plotly; Quarto already handles page-level LaTeX.
+HTML(pio.to_html(fig, full_html=False, include_plotlyjs="cdn", include_mathjax=False))
 ```
 
 
-## Service and requirements (definitions)
 
-- *Reach*: Broad reach for disconnected or hard-to-reach users
-- *Connectivity*: Refers to direct-to-device or direct-to-handset connectivity.
-- *Resilience*: Suitable for service that demand critical communications, such as emergency services, disaster recovery, and mission-critical applications.
-- *Scalable access*: "How many terminals can be served simultaneously?""
+## NTN Beams
 
-## Requirement definition guidelines
+- Beams are the main mechanism to provide coverage in NTN, and are defined by the
+  antenna type and configuration.
+- The type of beams will ultimately determine:
+  - Coverage area and footprint
+  - Beam mobility and handover strategy
+  - Capacity and throughput
 
-- Requirements should be **quantifiable** in terms of measurable KPIs
-- Requirements should be **specific and unambiguous**, avoiding vague/subjective terms like "high", "low", or "good".
-- One requirement should address **one aspect** of the system, avoiding compound requirements that combine multiple aspects.
+### Fixed beams
 
-In general, a requirement is poorly defined if no **test** can be designed to verify its fulfillment.
+![](assets/01_beam__fixed.svg)
 
-## Requirement definition (examples)
+### Quasi-fixed beams
 
-| Poorly defined requirement ❌ | Problem | Corrected version ✅  |
-|:---------------------------|:-----------------|:-----------------|
-| "The system should provide high throughput" | Is not quantifiable | "The system should provide a minimum throughput of 10 Mbps/user in rural areas" |
-| "IoT coverage should be high" | Not specific/not quantified | "IoT coverage should reach >90% in Iberian Peninsula" |
-| "The system should provide >10 Mbps/user in rural areas and >100 Mbps/user in urban areas" | Multiple aspects | Split requirement in two, one for *rural* and another for *urban* |
+![](assets/01_beam__quasi-fixed.svg)
+
+### Moving beams
+
+![](assets/01_beam__moving.svg)
+
+### Beam steering
+
+![](assets/01_beam__steering.svg)
+
+### Beam handover
+
+Beam dynamics force **handover** between beams, similar to terrestrial networks.
+
+![source: Perplexity AI](assets/01_starlink_beam_switching.png)
+
+[@huston2026protocol; @neinavaie2022unveiling]
+
+### Starlink beams {.use-case-slide background-image="assets/starry_sky.png"}
+
+- **Beam steered** by phased array antennas
+- Employ circular polarizations: \acr{RHCP} and \acr{LHCP}
+- Beamwidth of ~1.5° [@meinrath2025starlink_capacity]
+- Each satellite has 48 beams for downlink and 16 beams for uplink [@pekhterev2021bandwidth]:
+
+$$
+n_{beams\ downlink} = 8 \frac{beams}{ant.\cdot pol.} \cdot 3\ ant. \cdot 2\ pol. = 48 \\
+n_{beams\ uplink} = 8 \frac{beams}{ant.\cdot pol.} \cdot 1\ ant. \cdot 2\ pol. = 16 \\
+$$
+
+- Total bandwidth per satellite: 2 Gbps (downlink) and 500 Mbps (uplink) [@pekhterev2021bandwidth]
 
 ## Demand models and user density
 
+- Hypothesis: NTN does not compete with TN, but complements it.
+- Therefore, demand model should focus on areas where TN is not available:
+  - Remote areas (deserts, oceans, aeronautical...)
+  - Polar regions (Arctic, Antarctic)
+  - Disaster areas (emergency, tornadoes, tsunamis, ...)
+
+- User distribution (specially for remote areas) could be obtained fom
+  maritime vessel \acr{AIS} and aircraft's \acr{ADS-B} reports.
+
+See [@xia2019beam]
+
+### User density: AIS
+
+- \acr{AIS} is a maritime navigation safety communications system that provides vessel information (e.g., position, speed, heading, and identification) to other ships and coastal authorities. Open data is available from [MarineTraffic](https://www.marinetraffic.com/) and [AIS Hub](https://www.aishub.net/).
+
+![source: MarineTraffic](assets/figures/ais_marinetraffic.png)
+
+### User density: ADS-B
+
+- \acr{ADS-B} is an aircraft surveillance system that provides position, velocity, and identification information to air traffic control and other aircraft. Open data is available from [OpenSky Network](https://opensky-network.org/) and [FlightAware](https://flightaware.com/).
+-
+![source: OpenSky Network](assets/figures/adsb_openskynetwork.png)
+
+### Demand model
+
+User density --> service model --> traffic estimation --> QoS targets --> network KPIs
+
+### User density model
+
+- In general, uniform user distribution is not a good assumption for NTN, as users are concentrated in specific areas (e.g., maritime routes, polar regions, disaster areas).
+- A model for the **user density** can be built following these steps:
+  - Divide a region (e.g. world) into service area cells $c$ of area $A_c$ (for a given time $t$ and duration $\Delta t$)
+  - Assign each AIS/ADS-B report $r$ for the given time window into a cell. This will give the number of reports $Nr_{c,t}$ in each cell for a given time $t$.
+  - Assuming that each report has a certain user occupancy $\alpha_o$ and service penetration $\alpha_s$, the density $\rho_{c,t}$ (units of $users/km^2$) in each cell can be computed as:
+
 $$
-\begin{eqnarray}
-D & = & demand(pos, t) \\
-C & = & f()
-\end{eqnarray}
+\rho_{c,t} = \frac{Nr_{c,t} \cdot \alpha_o \cdot \alpha_s}{A_c}
 $$
 
+### Service model
+
+- A **service model** is a mapping between user density and service demand. It can be built using the following steps:
+  - Define a set of **service classes** $S$ (e.g., messaging, voice, video, IoT, etc.) and their corresponding traffic profiles (e.g., bandwidth, latency, reliability, etc.)
+  - For each cell $c$ and time $t$, assign a service class $s \in S$ based on the user density $\rho_{c,t}$ and the expected service demand.
+  - The service model can be represented as a matrix $M_{c,s,t}$ where each entry represents the number of users in cell $c$ at time $t$ that require service class $s$.
+
+
+
+### Service model: service classes
+
+Some examples of service classes and their corresponding traffic profiles:
+
+| Service class | Adoption factor $\alpha_s$ | Traffic/user $m_s$ [Mbps] | Description |
+|:--------------|:---------:|:-------:|:-----------:|
+| User broadband | 0.15-0.35   | 0.2-1     | Low simultanity; onboard Wi‑Fi is heavily shared.        |
+| Operational service (voice)  | 0.5-0.9    | 0.05-0.2  | Fewer users, but regular operational traffic.    |
+| IoT / Telemetry  | 0.8-1.0   | 0.001 - 0.02   | Always-on, low-rate machine/sensor to machine traffic.  |
+
+### Service model: demand estimation
+
+Once the different parameters are defined, the total **traffic demand** $D_{c,t}$ (Mbps) in each cell $c$ at time $t$ can be estimated as the aggregated over all service classes $s \in S$:
+
+$$
+D_{c,t} = \sum_{s \in S} \rho_{c,t} \cdot A_c  \cdot \alpha_{c,t,s} \cdot m_{c,t,s}
+$$
+
+This demand (traffic) can then be compared with the available **capacity** offered by each "beam" of the NTN network to determine if the service can be provided with the desired quality of service (QoS) targets.
+
+### Starlink demand example: inputs {.use-case-slide background-image="assets/starry_sky.png"}
+
+Worked example for one maritime cell (downlink):
+
+- Cell area: $A_c = 650\ km^2$ (Starlink-like beam footprint at 550 km altitude and $1.5^\circ$ beamwidth)
+- AIS reports in the cell: $Nr_{c,t}=21$
+- Occupancy factor: $\alpha_o=1.3$ active users/report
+
+### Starlink demand example: active users {.use-case-slide background-image="assets/starry_sky.png"}
+
+Step 1: estimate active users in the cell:
+
+$$
+N_{c,t} = \rho_{c,t} A_c = Nr_{c,t} \alpha_o = 21 \times 1.3 = 27.3\ users
+$$
+
+### Starlink demand example: traffic aggregation {.use-case-slide background-image="assets/starry_sky.png"}
+
+Step 2: apply service mix and traffic profiles:
+
+- Broadband: $\alpha_{b}=0.30$, $m_b=0.8$ Mbps/user
+- Operational voice: $\alpha_{v}=0.60$, $m_v=0.1$ Mbps/user
+- IoT/telemetry: $\alpha_{i}=0.90$, $m_i=0.005$ Mbps/user
+
+$$
+\begin{aligned}
+D_{c,t} &= N_{c,t}(\alpha_b m_b + \alpha_v m_v + \alpha_i m_i) \\
+&= 27.3(0.30\cdot0.8 + 0.60\cdot0.1 + 0.90\cdot0.005) \\
+&= 27.3(0.3045) = 8.3\ \text{Mbps}
+\end{aligned}
+$$
+
+### Starlink demand example: capacity check {.use-case-slide background-image="assets/starry_sky.png"}
+
+Compare demand against average per-beam capacity:
+
+- Average Starlink downlink per beam: $2\ \text{Gbps}/48 \approx 41.7\ \text{Mbps/beam}$
+- Required beams for this cell: $8.3/41.7 \approx 0.20$ beams
 
 ## Traffic and QoS
 
@@ -347,47 +601,103 @@ Some key parameters of Starlink's network:
 
 Most 5QI classes are feasible, but some delay-critical flows (e.g., 5 ms required in V2X, autonomous driving, etc.) are not compatible with the Starlink network.
 
-## Network KPIs: capacity, latency, availability.
+## Network KPIs
+
+\acr{KPI} are measurable values that indicate how well a network is performing in relation to its objectives. They are used to assess the quality of service, efficiency, and overall performance of the network.
+
+
+
+### Capacity
+
+### Latency
+
+### Availability
+
+
+### Starlink KPI: Latency and Capacity {.use-case-slide background-image="assets/starry_sky.png"}
+
+![source [Starlink Network Update](https://starlink.com/updates/network-update){target="_blank"}](assets/starlink__latency_capacity.png)
+
+### Starlink KPI: Availability {.use-case-slide background-image="assets/starry_sky.png"}
+
+
 
 ## Scenario types: urban, rural, industrial, mobility.
 
-<!-- ------------------------------------------------------------------      -->
-<!-- ----------------    Starlink case study   ------------------------      -->
-<!-- ------------------------------------------------------------------      -->
-
-# Session 1 Starlink case study {.use-case-slide background-image="assets/starry_sky.png"}
 
 
-## Platform: Satellites {.use-case-slide background-image="assets/starry_sky.png"}
+## Service and requirements
+
+```{mermaid}
+---
+config:
+  sankey:
+    showValues: false
+---
+sankey-beta
+
+  Coverage,Footprint,1
+  Coverage,Link budget,1
+  Coverage,Propagation resilience,1
+  Coverage,Compatible with sparse ground infrastructure,1
+  Coverage,Beam configuration,1
+  Coverage,Has adaptive resource allocation,1
+
+  Continuity,Has seamless mobility management,1
+  Continuity,Has handover support,1
+  Continuity,Has session persistence,1
+  Continuity,Has multi-layer network integration,1
+
+  Connectivity,Efficient spectrum strategy,1
+  Connectivity,Signaling,1
+
+  Resilience,Availability,1
+  Resilience,Redundancy,1
+  Resilience,Has fallback connectivity,1
+  Resilience,Operation under degraded conditions,1
+
+  IoT / Low-power messaging,Power consumption,1
+  IoT / Low-power messaging,Footprint,1
+  IoT / Low-power messaging,Scalable access,1
+
+  Higher-throughput services,Bandwidth,1
+  Higher-throughput services,Latency,1
+  Higher-throughput services,Efficient spectrum strategy,1
+  Higher-throughput services,Scalable access,1
+
+  Low-latency-sensitive services,Latency,1
+  Low-latency-sensitive services,Routing and architecture,1
+  Low-latency-sensitive services,Platform,1
+
+  Mobility services,Beam configuration,1
+  Mobility services,Has Doppler compensation,1
+  Mobility services,Has handover support,1
+
+  Multi-operator services,Supported networks,1
+  Multi-operator services,Interface,1
+  Multi-operator services,Spectrum coordination,1
+```
 
 
-![source: CGTrader](assets/01_starlink_satellite.png)
+### Definitions
 
+- *Reach*: Broad reach for disconnected or hard-to-reach users
+- *Connectivity*: Refers to direct-to-device or direct-to-handset connectivity.
+- *Resilience*: Suitable for service that demand critical communications, such as emergency services, disaster recovery, and mission-critical applications.
+- *Scalable access*: "How many terminals can be served simultaneously?""
 
-## Platform: LEO constellation {.use-case-slide background-image="assets/starry_sky.png"}
+### Requirement definition guidelines
 
-- LEO satellite at a Walker orbit at height ~550km and inclination $50^\circ$ [@ali2026starlink]
-- Number of satellites ~6,750[^starlink_tech], >10000[^satellitemap]
+- Requirements should be **quantifiable** in terms of measurable KPIs
+- Requirements should be **specific and unambiguous**, avoiding vague/subjective terms like "high", "low", or "good".
+- One requirement should address **one aspect** of the system, avoiding compound requirements that combine multiple aspects.
 
-![source: satellitemap[^satellitemap]](assets/01_starlink_constellation.png)
+In general, a requirement is poorly defined if no **test** can be designed to verify its fulfillment.
 
-## Platform: LEO constellation {.use-case-slide background-image="assets/starry_sky.png"}
+## Requirement definition (examples)
 
-
-[Orbital elements](https://celestrak.org/NORAD/elements/gp.php?GROUP=starlink&FORMAT=csv) in Two Line Elements (TLE) format.[^sgp4_python]
-
-
-[^starlink_tech]:  Starlink. [Starlink Technology](https://starlink.com/technology)
-[^sgp4_python]: Rhodes, Brandon. [Python SGP4 Orbit propagator](https://pypi.org/project/sgp4/)
-[^satellitemap]: Satellitemap. [Starlink constellation](https://satellitemap.space/vis/constellation/starlink)
-
-
-## Beams {.use-case-slide}
-
-![source: Perplexity AI](assets/01_starlink_beam_switching.png)
-
-[@huston2026protocol; @neinavaie2022unveiling]
-
-## Latency {.use-case-slide background-image="assets/starry_sky.png"}
-
-![source [Starlink Network Update](https://starlink.com/updates/network-update){target="_blank"}](assets/starlink__latency_capacity.png)
+| Poorly defined requirement ❌ | Problem | Corrected version ✅  |
+|:---------------------------|:-----------------|:-----------------|
+| "The system should provide high throughput" | Is not quantifiable | "The system should provide a minimum throughput of 10 Mbps/user in rural areas" |
+| "IoT coverage should be high" | Not specific/not quantified | "IoT coverage should reach >90% in Iberian Peninsula" |
+| "The system should provide >10 Mbps/user in rural areas and >100 Mbps/user in urban areas" | Multiple aspects | Split requirement in two, one for *rural* and another for *urban* |

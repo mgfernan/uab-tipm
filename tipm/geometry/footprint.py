@@ -54,21 +54,51 @@ def compute_boundary_lat_lon(lat_sat_deg: float, lon_sat_deg: float, height_sat_
     return lat_deg, lon_deg
 
 
-def plot_fov_boundaries(lat0_deg: float, lon0_deg: float, h: float, elevations_deg, R_E):
+def _earth_central_angle_rad(height_sat_km: float, nadir_angle_deg: float, r_e_km: float) -> float:
+    r_s_km = r_e_km + height_sat_km
+    nadir_angle_rad = np.radians(nadir_angle_deg)
+    sin_term = r_s_km / r_e_km * np.sin(nadir_angle_rad)
+    if np.abs(sin_term) > 1.0:
+        raise ValueError(
+            "Beam edge does not intersect Earth surface. Reduce beamwidth or satellite altitude."
+        )
+    return np.arcsin(sin_term) - nadir_angle_rad
+
+
+def _footprint_area_km2(height_sat_km: float, nadir_angle_deg: float, r_e_km: float) -> float:
+    gamma_rad = _earth_central_angle_rad(height_sat_km, nadir_angle_deg, r_e_km)
+    return 2.0 * np.pi * (r_e_km**2) * (1.0 - np.cos(gamma_rad))
+
+
+def plot_fov_boundaries(
+    lat0_deg: float,
+    lon0_deg: float,
+    h: float,
+    elevations_deg,
+    R_E,
+    half_angle_beamwidth_deg=None,
+):
     colors = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b"]
-    nadir_max = np.degrees(np.arcsin(R_E / (R_E + h) * np.cos(np.radians(elevations_deg))))
+
+    if half_angle_beamwidth_deg is None:
+        nadir_max = np.degrees(np.arcsin(R_E / (R_E + h) * np.cos(np.radians(elevations_deg))))
+        labels = [f"ε_min = {elev}º" for elev in elevations_deg]
+    else:
+        half_angle_arr = np.atleast_1d(np.asarray(half_angle_beamwidth_deg, dtype=float))
+        nadir_max = half_angle_arr
+        labels = [f"Half-angle beamwidth = {bw:g}º" for bw in half_angle_arr]
 
     fig = go.Figure()
-    for i, nadir_deg in enumerate(nadir_max):
+    for i, nadir_deg in enumerate(np.atleast_1d(nadir_max)):
         lat_curve, lon_curve = compute_boundary_lat_lon(lat0_deg, lon0_deg, h, nadir_deg, n_points=361)
-        elev = elevations_deg[i]
+        area_km2 = _footprint_area_km2(h, nadir_deg, R_E)
         fig.add_trace(
             go.Scattergeo(
                 lon=lon_curve,
                 lat=lat_curve,
                 mode="lines",
                 line=dict(width=2, color=colors[i % len(colors)]),
-                name=f"ε_min = {elev}º",
+                name=f"{labels[i]} (A = {area_km2:,.0f} km²)",
             )
         )
 
