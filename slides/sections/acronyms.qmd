@@ -23,6 +23,8 @@ acronyms:
       longname: Left-Hand Circular Polarization
     - shortname: MEO
       longname: Medium Earth Orbit
+    - shortname: NB-IoT
+      longname: Narrowband Internet of Things
     - shortname: NLoS
       longname: Non-Line of Sight
     - shortname: QoS

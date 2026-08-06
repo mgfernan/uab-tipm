@@ -1,10 +1,6 @@
-# Session 2 {.session-marker}
-
-## 2. Radio Dimensioning {.theory-slide}
+# Radio dimensioning {.session-marker}
 
 ::: {.theory-card}
-**Main topics**
-
 - Coverage, capacity, and spectrum.
 - Simplified link budget.
 - Spectral efficiency.
@@ -23,54 +19,9 @@ https://www.ni.com/es/solutions/semiconductor/non-terrestrial-network-test/nonte
 See example in Section 3.3.2 of [@vanelli20245g]
 
 
-## 2. Radio Dimensioning: Use Case {.use-case-slide}
+## Spectrum
 
-::: {.use-case-card}
-**Example prompt**
-
-Dimension radio access for an industrial campus with high reliability and a city center with peak-hour congestion.
-
-**Expected student task**
-
-- Estimate required spectrum.
-- Size the number of radio nodes.
-- Justify the chosen band.
-- Discuss the coverage-capacity trade-off.
-:::
-
-
-## Reference
-
-[@vanelli20245g]
-
-## Architecture stack: overview
-
-![source: Perplexity AI](assets/architecture__stack.png)
-
-
-## Architecture stack: Layer 1 - PHY
-
-Controls **physical layer** (PHY, ,i.e. "radio") aspects[^l1_ref]:
-
-- Radio interface
-- Channel coding and modulation schemes.
-- MIMO processing and beamforming
-- Hybrid Automatic Repeat reQuest (HARQ) buffering
-
-[^l1_ref]: See [5G NTN Stack Architecture](https://gatehousesatcom.com/product/5g-ntn-new-radio/5g-ntn-new-radio-gnodeb/){target="_blank"}
-
-## Architecture stack: Layer 2 - MAC
-
-Controls **Medium Access Control** (MAC, i.e. protocol) aspects of the radio interface:
-
-- Manages scheduling and multiplexing
-- Hybrid Automatic Repeat reQuest (HARQ) management and execution:
-  - Combine retransmissions to improve reliability and reduce latency.
-  - Replay a packet after an error
-  - Manage ACK/NACK feedback from the receiver
-- For NTN, MAC includes HARQ adaptations for longer round‑trip time (RTT) delays.
-
-## Frequency bands: use cases
+The spectrum in 5G NTN is typically divided into two frequency ranges:
 
 - **Lower bands** (narrowband)
   - Good coverage/ubiquity
@@ -82,7 +33,7 @@ Controls **Medium Access Control** (MAC, i.e. protocol) aspects of the radio int
   - High capacity
   - Application: high data rate applications, dense urban areas and hotspots
 
-## Lower Frequency bands: FR1
+### Lower Frequency bands: FR1
 
 ```{python}
 #| label: fig-freqs_fr1
@@ -93,7 +44,7 @@ from tipm.plots import plot_frequency_bands
 plot_frequency_bands()
 ```
 
-## Upper Frequency bands: FR2
+### Upper Frequency bands: FR2
 
 ```{python}
 #| label: fig-freqs_fr2
@@ -104,7 +55,7 @@ from tipm.plots import plot_frequency_bands
 plot_frequency_bands()
 ```
 
-## Waveforms
+### Waveforms
 
 - Usage of Orthogonal Frequency Division Multiplexing (OFDM) waveform in 5G NR, which is robust against multipath fading and allows for flexible spectrum usage.
 - Sub-carrier spacing (SCS) depend on the frequency band:
@@ -112,6 +63,21 @@ plot_frequency_bands()
   - For FR1 (Ku band) and FR2 (Ka band): 60 kHz, 120 kHz, 240 kHz
 - QAM modulation schemes are used, with higher-order QAM (e.g., up to 1024-QAM in downlink ) providing higher spectral efficiency but requiring better signal quality.
 - Different modulations for data transmission and control channels (L1 and L2)
+
+
+### Frequency plan {.use-case-slide background-image="assets/starry_sky.png"}
+
+- Downlink signal in 10.7 to 12.7 GHz (Ku band)
+- 250 MHz channels
+- Spot beams with 2.5° beamwidth
+- To avoid interference between spot beams, different frequency channels are used for adjacent beams.
+- Effective Isotropic Radiated Power (EIRP) of -56.2 dBW/Hz to -52.8 dBW/Hz
+- bidirectional links with user terminals at X/Ku band and with gateways at Ka band using \acr{LHCP} or \acr{RHCP}
+
+- OFDM modulation
+
+See [@humphreys2023signal; @blazquez2024capabilities] for more details on Starlink's radio dimensioning
+
 
 ## Multiple access strategies
 
@@ -125,7 +91,7 @@ How different users share the same radio resources:
 - **TDMA** (Time Division Multiple Access): Users are allocated the same frequency band but in different time slots.
 - **SDMA** (Space Division Multiple Access): Users are separated by spatial beams.
 
-# Link budget
+## Link budget
 
 
 ::: {.callout-note title="Goal"}
@@ -182,7 +148,7 @@ WAVEFORM_PARAMETERS = state["waveform_parameters"]
 BER_THRESHOLDS = state["ber_thresholds"]
 ```
 
-## Assumption: User Equipment
+### Assumption: User Equipment
 
 User equipment parameters for NB-IoT 4G LTE NTN are defined following the PC3 guidelines (see [@3gpp_tr36763_nbioteMTC_ntn]). For an updated version for 5G NTN (Rel 19) see [@3gpp_tr38863_ntn_rf_coexistence]:
 
@@ -205,7 +171,7 @@ md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=('left', '
 Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
 ```
 
-## Assumption: Satellites
+### Assumption: Satellites
 
 For the working example, two satellites will be considered:
 
@@ -229,7 +195,7 @@ md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=('left', '
 Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
 ```
 
-## Assumption: Links
+### Assumption: Links
 
 This worked example assumes an S-band link with an up- and down-link characteristics summarized in the following table:
 
@@ -265,7 +231,7 @@ md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=('left', '
 Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
 ```
 
-## Compute Link budget
+### Compute Link budget
 
 Described in Section 6.1.3.1 [@3gpp_tr38821_nr_ntn_solutions]
 
@@ -276,7 +242,7 @@ C/N & = & EIRP + G/T_{rx} - 10 \cdot \log_{10}(k \cdot B) \\
 \end{eqnarray}
 $$
 
-## Compute Link budget: EIRP
+### Compute Link budget: EIRP
 
 $$
 EIRP = P_{tx} + G_{tx} - L_{cable}
@@ -297,7 +263,7 @@ Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
 ```
 
 
-## Compute Link budget: $PL_{FS}$
+### Compute Link budget: $PL_{FS}$
 
 The free-space path loss $PL_{FS}$ in dB is computed as:
 
@@ -340,7 +306,7 @@ Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
 ```
 
 
-## Compute Link budget: $G/T_{rx}$
+### Compute Link budget: $G/T_{rx}$
 
 $$
 \frac{G}{T} = G_{rx} - N_f - 10 \cdot \log_{10}(T_{amb} + (T_{ant} - T_{amb}) \cdot 10^{-\frac{N_f}{10}})
@@ -361,7 +327,7 @@ md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=('left', '
 Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
 ```
 
-## Compute Link budget: $C/N$
+### Compute Link budget: $C/N$
 
 Finally, putting all together, we can compute the link budget $C/N$ for the uplink:
 
@@ -382,7 +348,7 @@ md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=('left', '
 Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
 ```
 
-## Compute $C/N$ threshold
+### Compute $C/N$ threshold
 
 The data channel (modulation, ...) used in the service will define the minimum $C/N$ required to achieve a target link performance.
 
@@ -467,96 +433,6 @@ fig.update_yaxes(showgrid=True)
 HTML(pio.to_html(fig, full_html=False, include_plotlyjs="cdn", include_mathjax=False))
 ```
 
-## Link performance
 
-\acr{EIRP} is a measure of the power radiated by an antenna in a specific direction, taking into account the antenna gain and the input power. It is expressed in dBW/Hz and computed:
+### Link budget in Starlink {.use-case-slide background-image="assets/starry_sky.png"}
 
-
-
-$$
-EIRP = P_{tx} + G_{tx}
-$$
-
-
-## LEO 1200 km downlink
-
-::: {.columns}
-::: {.column width="55%"}
-
-$$
-P_r = \mathrm{EIRP} - L_{fs} - L_{atm} - L_{pol} + G_r
-$$
-
-::: {.fragment fragment-index=1}
-- Compute slant range from altitude and elevation.
-:::
-
-::: {.fragment fragment-index=2}
-- Convert range to free-space loss.
-:::
-
-::: {.fragment fragment-index=3}
-- Add atmospheric and implementation losses.
-:::
-
-::: {.fragment fragment-index=4}
-- Add receiver antenna gain to obtain $P_r$.
-:::
-
-::: {.fragment fragment-index=5}
-- Convert to $C/N_0$, then $E_b/N_0$, then margin.
-:::
-
-:::
-::: {.column width="45%"}
-
-| Term | Value |
-|---|---:|
-| $d$ | 1,xxx km |
-| $L_{fs}$ | xxx dB |
-| $L_{atm}+L_{misc}$ | x.x dB |
-| $G_r$ | xx dBi |
-| $P_r$ | xxx dBW |
-
-:::
-:::
-
-<!-- ------------------------------------------------------------------      -->
-<!-- ----------------    Starlink case study   ------------------------      -->
-<!-- ------------------------------------------------------------------      -->
-
-# Session 2 Starlink case study {.use-case-slide background-image="assets/starry_sky.png"}
-
-
-## Frequency plan {.use-case-slide background-image="assets/starry_sky.png"}
-
-- Downlink signal in 10.7 to 12.7 GHz (Ku band)
-- 250 MHz channels
-- Spot beams with 2.5° beamwidth
-- To avoid interference between spot beams, different frequency channels are used for adjacent beams.
-- Effective Isotropic Radiated Power (EIRP) of -56.2 dBW/Hz to -52.8 dBW/Hz
-- bidirectional links with user terminals at
-X/Ku band[^starlink_fcc_freq_filings] and with gateways at Ka band using left‐handed
-or right‐handed circular polarisation (LHCP or RHCP)
-
-
-
-- OFDM modulation
-
-See [@humphreys2023signal; @blazquez2024capabilities] for more details on Starlink's radio dimensioning
-
-[^starlink_fcc_freq_filings]: [FCC regulatory filings](https://fcc.report/IBFS/SAT-LOA-20161115-00118) for Starlink's first test Microsat satellites.
-
-
-## Frequency plan {.use-case-slide background-image="assets/starry_sky.png"}
-
-Info extracted from Space Exploration Holdings, LLC (Starlink) FCC regulatory filings
-
-
-|Frequency range | Band | Usage |
-|:----------------:|:-----:|:------:|
-| 10700 - 14500 | Ku | [@fccreport_SATLOA2016111500118;@fccreport_SATLOA2017072600110;@fccreport_SATLOA2020052600055] |
-| 17800 - 30000 | Ka | [@fccreport_SATLOA2016111500118;@fccreport_SATLOA2017072600110;@fccreport_SATLOA2020052600055] |
-| 37500 - 52400 | V | [@fccreport_SATLOA2017030100027] |
-| 71000	- 76000 | V | [@fccreport_SATLOA2020052600055] |
-| 76000 - 86000 | W | [@fccreport_SATLOA2020052600055] |

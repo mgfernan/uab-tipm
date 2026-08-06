@@ -24,3 +24,18 @@
 ## Regulation and Spectrum {.use-case-slide background-image="assets/starry_sky.png"}
 
 - [FCC regulatory filings](https://apps.fcc.gov/els/GetAtt.html?id=185534&x=) for Starlink's first test Microsat satellites.
+
+
+### Starlink: Regulation and Spectrum {.use-case-slide background-image="assets/starry_sky.png"}
+
+Info extracted from Space Exploration Holdings, LLC (Starlink) FCC regulatory filings
+
+
+|Frequency range | Band | Usage |
+|:----------------:|:-----:|:------:|
+| 10700 - 14500 | Ku | [@fccreport_SATLOA2016111500118;@fccreport_SATLOA2017072600110;@fccreport_SATLOA2020052600055] |
+| 17800 - 30000 | Ka | [@fccreport_SATLOA2016111500118;@fccreport_SATLOA2017072600110;@fccreport_SATLOA2020052600055] |
+| 37500 - 52400 | V | [@fccreport_SATLOA2017030100027] |
+| 71000	- 76000 | V | [@fccreport_SATLOA2020052600055] |
+| 76000 - 86000 | W | [@fccreport_SATLOA2020052600055] |
+

@@ -1,10 +1,4 @@
-# Session 1 {.session-marker}
-
-::: {style="text-align:center;"}
-
-*"From demand to design"*
-
-:::
+# From demand to design {.session-marker}
 
 - What are \acr{NTN}?
 - Service needs and technical requirements.
@@ -35,6 +29,34 @@
   - Sparsely populated areas
   - Remote areas when base station deployment is not possible
 
+- NTN Timeline
+
+```{mermaid}
+%%{init: {'theme': 'base', 'themeVariables': {
+  'primaryColor': '#e0f2fe',
+  'primaryTextColor': '#0f172a',
+  'primaryBorderColor': '#0284c7',
+  'lineColor': '#64748b',
+  'secondaryColor': '#f8fafc',
+  'tertiaryColor': '#ffffff'
+}}}%%
+flowchart LR
+    A["Release 15–16<br/><b>Early studies</b><br/>Satellite access concepts"] -->
+    B["Release 17<br/><b>First normative 5G NTN</b><br/>NR over GEO/LEO/HAPS"] -->
+    C["Release 18<br/><b>Enhancements</b><br/>Mobility, handover, QoS"] -->
+    D["Release 19+<br/><b>5G-Advanced / 6G-ready</b><br/>More capable NTN"]
+
+    classDef step fill:#f8fafc,stroke:#94a3b8,stroke-width:1.5px,color:#0f172a;
+    classDef highlight fill:#2563eb,stroke:#1d4ed8,stroke-width:2px,color:#ffffff;
+    class A,C,D step;
+    class B highlight;
+    linkStyle 0,1,2 stroke:#64748b,stroke-width:2px;
+```
+
+:::{.callout-note appearance="simple" icon=true title="Release 17: first normative 5G NTN specifications"}
+Release is a key milestone as its specifications enabled direct satellite-to-ground communication within the 5G ecosystem.
+:::
+
 ## NTN use cases
 
 <img
@@ -58,36 +80,51 @@ non-NTN layers that act as access relays to the NTN network.
 
 ### Examples of ubiquity
 
-::: {.callout-note appearance="simple" icon=false title="Example 1"}
+::: {.usecase-box .usecase-box-ubiquity}
+**IoT and messaging: Skylo + Vodafone IoT + Orange**
+
+Hybrid cellular-satellite connectivity for IoT and messaging in locations without terrestrial coverage.
 :::
 
+::: {.usecase-box .usecase-box-ubiquity}
+**Narrowband IoT: OQ Technology + Telefonica/O2 + Deutsche Telekom**
 
-::: {.callout-note appearance="simple" icon=false title="Example 1"}
+3GPP \acr{NB-IoT} NTN connectivity for remote assets in agriculture, logistics, energy and industrial monitoring.
 :::
 
+::: {.usecase-box .usecase-box-ubiquity}
+**Satellite backhaul: Eutelsat, Intelsat, OneWeb, ...**
 
-::: {.callout-note appearance="simple" icon=false title="Example 1"}
+Connecting a remote 5G NR base station to the operator's 5G Core through satellite instead of fibre or terrestrial microwave.
 :::
+
 ### Examples of scalability
 
-::: {.callout-note appearance="simple" icon=false title="Example 1"}
+::: {.usecase-box .usecase-box-scalability}
+**Satellite broadcast and multicast: Eutelsat, Intelsat, SES**
+
+Delivering the same content to many users across a large geographic area through a single satellite transmission.
 :::
 
-::: {.callout-note appearance="simple" icon=false title="Example 1"}
-:::
 
-::: {.callout-note appearance="simple" icon=false title="Example 1"}
-:::
 ### Examples of continuity
 
+::: {.usecase-box .usecase-box-continuity}
+**Direct to cell: Starlink + T-Mobile + One NZ**
 
-::: {.callout-note appearance="simple" icon=false title="Example 1"}
+Temporary satellite access and continuity outside terrestrial coverage.
 :::
 
-::: {.callout-note appearance="simple" icon=false title="Example 1"}
+::: {.usecase-box .usecase-box-continuity}
+**Direct to device: AST SpaceMobile + AT&T + Verizon + Vodafone + Rakuten + Bell**
+
+Direct-to-device cellular broadband using standard smartphones, with the satellite network integrated with mobile-operator cores.
 :::
 
-::: {.callout-note appearance="simple" icon=false title="Example 1"}
+::: {.usecase-box .usecase-box-continuity}
+**IoT roaming: Sateliot + Skylo + Deutsche Telekom IoT**
+
+Hybrid terrestrial/satellite IoT roaming, allowing compatible NB-IoT devices to use terrestrial, GEO and LEO connectivity according to coverage. Applications: asset tracking, logistics and industrial monitoring.
 :::
 
 ## NTN architecture
@@ -133,6 +170,33 @@ style="display: block; width: 100%; max-height: 70vh; margin: 0.5rem auto 0;"
 ### Starlink architecture {.use-case-slide background-image="assets/starry_sky.png"}
 
 ![source: [@starlink2024latency]](assets/starlink__architecture.png)
+
+## Architecture stack: overview
+
+![source: Perplexity AI](assets/architecture__stack.png)
+
+## Architecture stack: Layer 1 - PHY
+
+Controls **physical layer** (PHY, ,i.e. "radio") aspects[^l1_ref]:
+
+- Radio interface
+- Channel coding and modulation schemes.
+- MIMO processing and beamforming
+- Hybrid Automatic Repeat reQuest (HARQ) buffering
+
+[^l1_ref]: See [5G NTN Stack Architecture](https://gatehousesatcom.com/product/5g-ntn-new-radio/5g-ntn-new-radio-gnodeb/){target="_blank"}
+
+## Architecture stack: Layer 2 - MAC
+
+Controls **Medium Access Control** (MAC, i.e. protocol) aspects of the radio interface:
+
+- Manages scheduling and multiplexing
+- Hybrid Automatic Repeat reQuest (HARQ) management and execution:
+  - Combine retransmissions to improve reliability and reduce latency.
+  - Replay a packet after an error
+  - Manage ACK/NACK feedback from the receiver
+- For NTN, MAC includes HARQ adaptations for longer round‑trip time (RTT) delays.
+
 
 ## NTN Platforms
 
@@ -211,20 +275,15 @@ $$
 
 ### Starlink constellation {.use-case-slide background-image="assets/starry_sky.png"}
 
-
 ::: {.columns}
 ::: {.column width="55%"}
-
-
 - LEO satellite at a Walker orbit at height ~550km and mostly at inclination of $50^\circ$ [@ali2026starlink].
 - Some satellites have polar or near-polar orbits (coverage at Polar regions).
 - Number of satellites ~6,750[^starlink_tech], >10000[^satellitemap]
-
 :::
+
 ::: {.column width="45%"}
-
-![source: satellitemap[^satellitemap]](assets/01_starlink_constellation.png)
-
+![source: [satellitemap](satellitemap.space)](assets/01_starlink_constellation.png)
 :::
 :::
 
@@ -240,12 +299,12 @@ STARLINK-1008
 1 44714U 19074B   26215.97871058  .00029734  00000+0  37585-3 0  9997
 2 44714  53.1486 198.6893 0006328  18.4929 341.6313 15.59291253371649
 ```
-    - Inclination (deg): `53.1486`
-    - Right ascension of ascending node (deg): `198.6893`
-    - Eccentricity: `0.0006328`
-    - Argument of perigee (deg): `18.4929`
-    - Mean anomaly (deg): `341.6313`
-    - Mean motion (rev/day): `15.59291253` and its derivatives (in the first line)
+    - Inclination (deg): 53.1486
+    - Right ascension of ascending node (deg): 198.6893
+    - Eccentricity: 0.0006328
+    - Argument of perigee (deg): 18.4929
+    - Mean anomaly (deg): 341.6313
+    - Mean motion (rev/day): 15.59291253 and its derivatives (in the first line)
 
 - Satellites deployed in **trains** and then spread out
 
@@ -410,8 +469,8 @@ Beam dynamics force **handover** between beams, similar to terrestrial networks.
 - Each satellite has 48 beams for downlink and 16 beams for uplink [@pekhterev2021bandwidth]:
 
 $$
-n_{beams\ downlink} = 8 \frac{beams}{ant.\cdot pol.} \cdot 3\ ant. \cdot 2\ pol. = 48 \\
-n_{beams\ uplink} = 8 \frac{beams}{ant.\cdot pol.} \cdot 1\ ant. \cdot 2\ pol. = 16 \\
+n_{beams\ downlink} = 8 \frac{beams}{ant.\times pol.} \cdot 3\ ant. \cdot 2\ pol. = 48 \\
+n_{beams\ uplink} = 8 \frac{beams}{ant.\times pol.} \cdot 1\ ant. \cdot 2\ pol. = 16 \\
 $$
 
 - Total bandwidth per satellite: 2 Gbps (downlink) and 500 Mbps (uplink) [@pekhterev2021bandwidth]

@@ -78,6 +78,55 @@ strong {
   margin: 0.35rem auto 0;
 }
 
+/* Color-coded use-case boxes aligned with assets/01_ntn_use_cases.svg. */
+.reveal .slides {
+  --usecase-ubiquity: #0f766e;
+  --usecase-scalability: #ef4444;
+  --usecase-continuity: #1d4ed8;
+}
+
+.reveal .slides .usecase-box {
+  margin: 0.35rem 0;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid;
+  border-left-width: 0.32rem;
+  border-radius: 0.3rem;
+  background: #f8fafc;
+  font-size: 70%;
+  line-height: 1.25;
+}
+
+.reveal .slides .usecase-box p {
+  margin: 0;
+}
+
+.reveal .slides .usecase-box p + p {
+  margin-top: 0.28rem;
+}
+
+.reveal .slides .usecase-box strong {
+  display: block;
+  margin-bottom: 0.14rem;
+}
+
+.reveal .slides .usecase-box-ubiquity {
+  color: #0b4d48;
+  border-color: var(--usecase-ubiquity);
+  background: color-mix(in srgb, var(--usecase-ubiquity) 10%, white);
+}
+
+.reveal .slides .usecase-box-scalability {
+  color: #8f1f1f;
+  border-color: var(--usecase-scalability);
+  background: color-mix(in srgb, var(--usecase-scalability) 10%, white);
+}
+
+.reveal .slides .usecase-box-continuity {
+  color: #173a8a;
+  border-color: var(--usecase-continuity);
+  background: color-mix(in srgb, var(--usecase-continuity) 10%, white);
+}
+
 /* -------------------------------------------------------------------------- */
 /* ------------------------------ Use case slides --------------------------- */
 /* -------------------------------------------------------------------------- */
