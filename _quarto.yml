@@ -8,6 +8,7 @@ project:
 
 # Shared citation database available to all slides in the project.
 bibliography: docs/references.bib
+csl: docs/chicago-author-date.csl
 link-citations: true
 
 format:

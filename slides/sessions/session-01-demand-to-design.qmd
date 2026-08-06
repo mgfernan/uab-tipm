@@ -514,14 +514,23 @@ Compare demand against average per-beam capacity:
 
 ## Traffic and QoS
 
-### Overview
-
-Simplified \acr{QoS} model:
+A \acr{QoS} is a set of parameters that define the performance of a network service, such as latency, throughput, and reliability. A simple model of \acr{QoS} can be defined with the following elements:
 
 - **Packet Data Unit (PDU) session**: a logical connection between the UE and the 5G Core Network.
 - **Quality of Service (QoS) flow**: a logical channel within a PDU session with specific requirements (e.g. latency, throughput, and reliability). Defined by:
   - **5QI** (5G QoS Identifier): a standardized identifier that defines the characteristics of a QoS flow (see Table 5.7.4-1 in [@etsi_ts123501_v181000p])
   - **ARP** (Allocation and Retention Priority): a parameter that determines the priority of a QoS flow in case of network congestion
+
+### QoS profile parameters
+
+The 5QI identifiers are defined in [@etsi_ts123501_v181000p] and summarized in the following table:
+
+- Resource **type**: GBR (Guaranteed Bit Rate) or non-GBR (non-Guaranteed Bit Rate)
+- **Priority** level: 1 (highest) to 127 (lowest)
+- Packet **delay** budget (latency): maximum time for a packet to be delivered (in ms)
+- Packet **error rate**: maximum acceptable packet loss rate (in %)
+- Maximum **Data burst volume**: maximum amount of data that can be sent in a burst (in bytes)
+- Default **averaging window**: time window for measuring the average throughput (in ms)
 
 ### QoS definition example: statement
 
@@ -605,26 +614,228 @@ Most 5QI classes are feasible, but some delay-critical flows (e.g., 5 ms require
 
 \acr{KPI} are measurable values that indicate how well a network is performing in relation to its objectives. They are used to assess the quality of service, efficiency, and overall performance of the network.
 
-
+See [@5gppp_beyond5g6g_kpis_target_values_v1_0] for a detailed list of KPIs for 5G networks.
 
 ### Capacity
 
+::: {style="text-align:center;"}
+*The amount of traffic or network resource that the NTN can provide to users, beams, cells, satellites, or geographic areas under specified radio and network conditions.*
+:::
+
+- Usually measured in \acr{bps}
+- Related KPIs:
+  - **Peak data rate**: maximum achievable rate for a UE or link.
+  - **User data rate**: throughput actually delivered to a user.
+  - **Beam or cell capacity**: aggregate throughput supported by one satellite beam or NTN cell.
+  - **Area traffic capacity**: aggregate traffic throughput per unit geographical area.
+  - **Connection density**: number of simultaneously supported devices per unit area.
+
 ### Latency
+
+::: {style="text-align:center;"}
+*The elapsed time required to transfer data between defined endpoints.*
+:::
+
+- Latency includes propagation through the satellite link, but also processing, transport, and core-network delays.
+- In NTN-specific term, latency is often dominated by propagation delay. It depends on orbit, geometry, elevation angle, routing, and whether the payload (architecture) is transparent or regenerative.
 
 ### Availability
 
+::: {style="text-align:center;"}
+*The fraction of the expected service time during which the end-to-end NTN communication service is delivered while satisfying its specified QoS requirements.*
+:::
+
+Availability can be defined at different levels:
+
+- **Component**: satellite payload, gateway, feeder link, gNB, or core function.
+- **Cell/beam**: time during which a cell or beam is in service.
+- **Coverage**: fraction of time and locations with adequate signal and service capability.
+- **Service**: fraction of time the end-to-end service meets the contracted QoS.
 
 ### Starlink KPI: Latency and Capacity {.use-case-slide background-image="assets/starry_sky.png"}
 
 ![source [Starlink Network Update](https://starlink.com/updates/network-update){target="_blank"}](assets/starlink__latency_capacity.png)
 
+### Starlink KPI: Latency factors {.use-case-slide background-image="assets/starry_sky.png"}
+
+Main factors [@starlink2024latency]:
+
+- **Propagation delay**: LEO orbits reduce the distance between the satellite and the user, $\tau_{one\ way,\ zenith}\approx 550\ km / 3\times 10^5\ km/s \approx 1.83\ ms$. Thus \acr{RTT} is approximately $2 \cdot 1.83\ ms = 3.66\ ms$ for the satellite link.
+- **Ground latency**: latency due to the terrestrial network (between gateway and the internet connection point).
+- **Fronthaul scheduling**: satellites schedule transmission slots of different users in the same beam.
+- **\acr{ISL} hopping**: routing time of the signal through multiple satellites before reaching the destination [@nohan2025starlink_performance]. Inter-satellite distances can vary from 200 km to 1000 km [@photonics12040392] ⇒ 0.67 ms to 3.33 ms of delay per hop.
+
+### Starlink KPI: Latency budget {.use-case-slide background-image="assets/starry_sky.png"}
+
+| Factor | \acr{RTT} latency [ms]| Refs. |
+|:-------|:-----:|:-----|
+| LEO Propagation delay | 7-12 ||
+| Ground network | 6-16 |[@nohan2025starlink_performance] |
+| Fronthaul scheduling | 1-3 | [@garcia2025detailed] |
+| ISL hopping (one to three hops) | 3-10 ||
+
+::: {.columns}
+::: {.column width="40%"}
+<div style="font-size: 0.6em; line-height: 1.15;">
+The Starlink latency budget highly depends on network topology and areas (lower latency where gateways are denser such as in the US or Europe)
+</div>
+:::
+
+::: {.column width="60%"}
+![source: [@nohan2025starlink_performance]](assets/figures/latency_distro_nohan2025.png)
+:::
+:::
+
 ### Starlink KPI: Availability {.use-case-slide background-image="assets/starry_sky.png"}
 
+::: {.columns}
+::: {.column width="50%"}
+![source: Starlink](assets/figures/starlink__availability_map.png)
+:::
+
+::: {.column width="50%"}
+![source: Starlink](assets/figures/starlink__latency_map.png)
+:::
+:::
+
+## Scenario types
+
+Scenarios are defined by the environment, user density, and traffic type and
+are critical to determine the requirements and design of the NTN network.
+
+### Urban scenario
+
+::: {.columns}
+::: {.column width="20%"}
+![](assets/figures/scenario__urban.png)
+:::
+
+::: {.column width="80%"}
+
+Main characteristics:
+
+- Dense population
+- High \acr{NLoS} probability
+- Complex propagation environment
+
+Traffic type:
+
+- High throughput
+- Low latency
+- Broadband traffic
+:::
+:::
 
 
-## Scenario types: urban, rural, industrial, mobility.
+### Rural scenario
+
+::: {.columns}
+::: {.column width="20%"}
+![](assets/figures/scenario__rural.png)
+:::
+
+::: {.column width="80%"}
+
+Main characteristics:
+
+- Sparse population
+- Open areas
+- Long distances
+
+Traffic type:
+
+- Coverage
+- Continuity
+- Low throughput
+:::
+:::
 
 
+### Industrial scenario
+
+::: {.columns}
+::: {.column width="20%"}
+![](assets/figures/scenario__industrial.png)
+:::
+
+::: {.column width="80%"}
+
+Main characteristics:
+
+- Factories, warehouses, ports, airports
+- Complex propagation environment
+- Machine to machine traffic
+
+Traffic type:
+
+- Low latency
+- High reliability
+- IoT connectivity
+:::
+:::
+
+
+### Mobility scenario
+
+::: {.columns}
+::: {.column width="20%"}
+![](assets/figures/scenario__mobility.png)
+:::
+
+::: {.column width="80%"}
+
+Main characteristics:
+
+- Vehicles, trains, ships, aircraft
+- Long distances
+- High mobility
+
+Traffic type:
+
+- Seamless handover
+- Low latency
+- Reliable connectivity (e.g., \acr{V2X}, autonomous driving)
+:::
+:::
+
+### Remote scenario
+
+::: {.columns}
+::: {.column width="20%"}
+![](assets/figures/scenario__remote.png)
+:::
+
+::: {.column width="80%"}
+Main characteristics:
+
+- Deserts, Oceans, Polar regions, disaster areas, war zones
+- Open areas
+- Long distance
+
+Traffic type:
+
+- Coverage
+- Continuity
+- Low throughput (e.g. voice traffic)
+:::
+:::
+
+### Land coverage and use
+
+Land monitoring service from Corine database provided by [Copernicus](https://land.copernicus.eu/en/map-viewer) can help to determine user density, demand and traffic requirements.
+
+![](assets/figures/scenario__land_cover.png)
+
+### Starlink's target scenarios {.use-case-slide background-image="assets/starry_sky.png"}
+
+Starlink focuses on:
+
+- broadband in underserved areas (remote, rural)
+- connectivity in mobility scenarios (maritime, aeronautical)
+
+[Starshield](https://www.spacex.com/starshield) (SpaceX side product that leverages Starlink) focuses on:
+
+- Critical communications for military applications
 
 ## Service and requirements
 

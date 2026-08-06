@@ -60,6 +60,24 @@ strong {
   font-size: 50%;
 }
 
+.reveal .slides figure {
+  margin: 0 auto 0.6rem;
+  text-align: center;
+}
+
+.reveal .slides figure img {
+  display: block;
+  margin: 0 auto;
+}
+
+.reveal .slides figcaption,
+.reveal .slides p.caption {
+  font-size: 50%;
+  line-height: 1.2;
+  text-align: center;
+  margin: 0.35rem auto 0;
+}
+
 /* -------------------------------------------------------------------------- */
 /* ------------------------------ Use case slides --------------------------- */
 /* -------------------------------------------------------------------------- */
