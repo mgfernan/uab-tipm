@@ -99,10 +99,11 @@ Compute the link budget (i.e. $C/N$) and compare it to the minimum C/N value (${
 :::
 
 
-Link budget analysis based on [@mathworks2026nbiot_ntn_link_budget_analysis] provides a link budget example for NB-IoT NTN, which can be adapted to other NTN scenarios.
+Link budget analysis based on [@mathworks2026nbiot_ntn_link_budget_analysis] provides a link budget example for \acr{NB-IoT} NTN, which can be adapted to other NTN scenarios.
 
 ```{python}
 import importlib
+import math
 
 from IPython.display import Markdown
 from tabulate import tabulate
@@ -148,231 +149,376 @@ WAVEFORM_PARAMETERS = state["waveform_parameters"]
 BER_THRESHOLDS = state["ber_thresholds"]
 ```
 
-### Assumption: User Equipment
-
-User equipment parameters for NB-IoT 4G LTE NTN are defined following the PC3 guidelines (see [@3gpp_tr36763_nbioteMTC_ntn]). For an updated version for 5G NTN (Rel 19) see [@3gpp_tr38863_ntn_rf_coexistence]:
-
 ```{python}
+#| echo: false
+
 LINK_DIRECTION = LinkDirection.UPLINK
-```
-
-```{python}
-headers = ["Parameter", "Symbol", "Unit", "User Equipment"]
-table = [["Transmit power", "$P_{tx}$", "dBm", f"{USER_EQUIPMENT.power_tx_dBm:.1f}"],
-         ["Transmit antenna gain", "$G_{tx}$", "dBi", f"{USER_EQUIPMENT.gain_tx_dBi:.1f}"],
-         ["Cable loss", "$L_{cable}$", "dB", f"{USER_EQUIPMENT.loss_cable_tx_dB:.1f}"],
-         ["Noise figure", "$N_f$", "dB", f"{USER_EQUIPMENT.noise_figure_dB:.1f}"],
-         ["Receive antenna gain", "$G_{rx}$", "dBi", f"{USER_EQUIPMENT.gain_rx_dBi:.1f}"],
-         ["Antenna temperature", "$T_{ant}$", "K", f"{USER_EQUIPMENT.temperature_antenna_K:.1f}"],
-         ["Ambient temperature", "$T_{amb}$", "K", f"{USER_EQUIPMENT.temperature_ambient_K:.1f}"],
-         ["Altitude", "$h_{UE}$", "m", f"{USER_EQUIPMENT.altitude_m:.1f}"]]
-
-md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=('left', 'center', 'center', 'center'))
-Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
-```
-
-### Assumption: Satellites
-
-For the working example, two satellites will be considered:
-
-Table 6.2-4: Set 1 from [@3gpp_tr36763_nbioteMTC_ntn].
-
-```{python}
-# Satellite state is provided by the package helper above.
 
 hl_geo = lambda value: f"<span class='link_perf_GEO'>{value}</span>"
 hl_leo = lambda value: f"<span class='link_perf_LEO'>{value}</span>"
 
-headers = ["Parameter", "Symbol", "Unit", "GEO", "LEO"]
-table = [
-    ["EIRP density", "$EIRP_{d}$", "dBW/MHz",    hl_geo(f"{SATELLITES['GEO'].eirp_density_dBm_per_MHz:.1f}"), hl_leo(f"{SATELLITES['LEO'].eirp_density_dBm_per_MHz:.1f}")],
-    ["Receiver G/T", "$G/T$", "dB/K",            hl_geo(f"{SATELLITES['GEO'].g_over_t_rx_dB_per_K:.1f}"),     hl_leo(f"{SATELLITES['LEO'].g_over_t_rx_dB_per_K:.1f}")],
-    ["Altitude", "$h_{sat}$", "km",
-      hl_geo(f"{SATELLITES['GEO'].altitude_km:.1f}"),              hl_leo(f"{SATELLITES['LEO'].altitude_km:.1f}")],
-    ]
-
-md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=('left', 'center', 'center', 'center', 'center'))
-Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
-```
-
-### Assumption: Links
-
-This worked example assumes an S-band link with an up- and down-link characteristics summarized in the following table:
-
-```{python}
-# Link and band state is provided by the package helper above.
-
-headers = ["Parameter", "Symbol", "Unit", "Uplink (UE ⇒ satellite)", "Downlink (satellite ⇒ UE)"]
-table = [
-    ["Band type", "", "", LINKS['uplink'].band.type.value, LINKS['downlink'].band.type.value],
-    ["Center frequency", "$f_{c}$", "GHz", f"{LINKS['uplink'].band.center_freq_GHz:.1f}", f"{LINKS['downlink'].band.center_freq_GHz:.1f}"],
-    ["Bandwidth", "$B$", "MHz",            f"{LINKS['uplink'].band.bw_user_MHz:.3f}",     f"{LINKS['downlink'].band.bw_user_MHz:.3f}"],
-]
-md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=('left', 'center', 'center', 'center', 'center'))
-Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
-```
-
-Simplified propagation losses (more complete models can be found in [@itu2015propagation]):
-
-```{python}
-PROPAGATION_LOSSES = state["propagation_losses"]
-```
-
-```{python}
-headers = ["Parameter", "Symbol", "Unit", "Value"]
-table = [
-    ["Additional loss", "$PL_{AD}$", "dB", PROPAGATION_LOSSES.additional_losses_dB],
-    ["Scintillation loss", "$PL_{SL}$", "dB", PROPAGATION_LOSSES.scintillation_loss_dB],
-    ["Atmospheric loss", "$PL_{A}$", "dB", PROPAGATION_LOSSES.atmospheric_loss_dB],
-    ["Polarization loss", "$PL_{POL}$", "dB", PROPAGATION_LOSSES.polarization_loss_dB],
-    ["Shadowing margin", "$PL_{SM}$", "dB", PROPAGATION_LOSSES.shadowing_margin_dB],
-]
-md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=('left', 'center', 'center', 'center'))
-Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
-```
-
-### Compute Link budget
-
-Described in Section 6.1.3.1 [@3gpp_tr38821_nr_ntn_solutions]
-
-$$
-\begin{eqnarray}
-C/N & = & EIRP + G/T_{rx} - 10 \cdot \log_{10}(k \cdot B) \\
-    &   & - PL_{FS} - PL_{AD} - PL_{SL} - PL_{A} - PL_{POL} - PL_{SM}
-\end{eqnarray}
-$$
-
-### Compute Link budget: EIRP
-
-$$
-EIRP = P_{tx} + G_{tx} - L_{cable}
-$$
-
-```{python}
-EIRP = compute_eirp(USER_EQUIPMENT)
-```
-
-```{python}
-headers = ["Parameter", "Symbol", "Unit", "Value"]
-table = [
-    ["EIRP", "$EIRP$", "dBW", f"{EIRP:.1f}"],
-
-]
-md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=('left', 'center', 'center', 'center'))
-Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
-```
-
-
-### Compute Link budget: $PL_{FS}$
-
-The free-space path loss $PL_{FS}$ in dB is computed as:
-
-$$
-PL_{FS} = 20 \cdot \log_{10}\left(\frac{4 \pi d}{\lambda_c}\right); \lambda_c = \frac{c}{f_c}
-$$
-
-and $d$ (slant range):
-
-$$
-d = \sqrt{(R_E + h_{sat})^2 - R_E^2 \cdot \cos^2(\varepsilon)} - R_E \cdot \sin(\varepsilon)
-$$
-
-```{python}
-#| echo: false
-
 elevations_deg = {
     "GEO": 12.5,
-    "LEO": 30,
+    "LEO": 30.0,
 }
 
-SPEED_OF_LIGHT = 299792458  # m/s
-
-slant_ranges_km = {k: compute_slant_range(SATELLITES[k].altitude_km, elevations_deg[k]) for k in ["GEO", "LEO"]}
-fspl_dB = {
-    k: compute_free_space_path_loss(slant_ranges_km[k], LINKS['uplink'].band.center_freq_GHz)
-    for k in ["GEO", "LEO"]
-}
-```
-
-```{python}
-headers = ["Parameter", "Symbol", "Unit", "GEO", "LEO"]
-table = [
-    ["Ref. elevation", "$\\varepsilon_{ref}$", "deg", elevations_deg["GEO"], elevations_deg["LEO"]],
-    ["Slant range", "$d$", "km", f"{slant_ranges_km['GEO']:.1f}", f"{slant_ranges_km['LEO']:.1f}"],
-    ["Free-space path loss", "$PL_{FS}$", "dB", f"{fspl_dB['GEO']:.2f}", f"{fspl_dB['LEO']:.2f}"],
-]
-md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=('left', 'center', 'center', 'center', 'center'))
-Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
-```
-
-
-### Compute Link budget: $G/T_{rx}$
-
-$$
-\frac{G}{T} = G_{rx} - N_f - 10 \cdot \log_{10}(T_{amb} + (T_{ant} - T_{amb}) \cdot 10^{-\frac{N_f}{10}})
-$$
-
-```{python}
-G_over_T_rx_dB_per_K = {
-    k: SATELLITES[k].g_over_t_rx_dB_per_K for k in ["GEO", "LEO"]
-}
-```
-
-```{python}
-headers = ["Parameter", "Symbol", "Unit", "GEO", "LEO"]
-table = [
-    ["G/T", "$G/T$", "dB/K", G_over_T_rx_dB_per_K["GEO"], G_over_T_rx_dB_per_K["LEO"]],
-]
-md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=('left', 'center', 'center', 'center', 'center'))
-Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
-```
-
-### Compute Link budget: $C/N$
-
-Finally, putting all together, we can compute the link budget $C/N$ for the uplink:
-
-```{python}
+EIRP = compute_eirp(USER_EQUIPMENT)
 total_loss_dB = PROPAGATION_LOSSES.compute_total_loss_dB()
-cnr = {
-    k: compute_cnr(EIRP, G_over_T_rx_dB_per_K[k], LINKS['uplink'].band.bw_user_MHz, fspl_dB[k], total_loss_dB)
+noise_term_dB = 10 * math.log10(1.380649e-23 * LINKS["uplink"].band.bw_user_MHz * 1e6)
+
+slant_ranges_km = {
+    k: compute_slant_range(SATELLITES[k].altitude_km, elevations_deg[k])
     for k in ["GEO", "LEO"]
 }
-```
-
-```{python}
-headers = ["Parameter", "Symbol", "Unit", "GEO", "LEO"]
-table = [
-    ["C/N", "$C/N$", "dB", f"{cnr['GEO']:.2f}", f"{cnr['LEO']:.2f}"],
-]
-md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=('left', 'center', 'center', 'center', 'center'))
-Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
-```
-
-### Compute $C/N$ threshold
-
-The data channel (modulation, ...) used in the service will define the minimum $C/N$ required to achieve a target link performance.
-
-```{python}
-N_CRC = 24
+fspl_dB = {
+    k: compute_free_space_path_loss(slant_ranges_km[k], LINKS["uplink"].band.center_freq_GHz)
+    for k in ["GEO", "LEO"]
+}
+G_over_T_rx_dB_per_K = {
+    k: SATELLITES[k].g_over_t_rx_dB_per_K
+    for k in ["GEO", "LEO"]
+}
+cnr = {
+    k: compute_cnr(EIRP, G_over_T_rx_dB_per_K[k], LINKS["uplink"].band.bw_user_MHz, fspl_dB[k], total_loss_dB)
+    for k in ["GEO", "LEO"]
+}
 
 modulation_order = compute_modulation_order(DATA_CHANNEL.modulation)
 r_eff = compute_r_eff(DATA_CHANNEL, LINK_DIRECTION)
 cnr_ref = compute_cnr_ref(DATA_CHANNEL, BER_THRESHOLDS)
+link_margin_dB = {k: cnr[k] - cnr_ref for k in ["GEO", "LEO"]}
 ```
 
+### Link budget: a four-block check
+
+The uplink succeeds if the received carrier-to-noise ratio stays above the threshold required by the service.
+
+$$
+\frac{C}{N} = EIRP + \frac{G}{T}_{rx} - 10\log_{10}(kB) - PL_{FS} - PL_{misc}
+$$
+
+with
+
+$$
+PL_{misc} = PL_{AD} + PL_{SL} + PL_A + PL_{POL} + PL_{SM}
+$$
+
+- $EIRP$: what the user terminal launches toward the satellite.
+- $G/T$: how good the satellite receiver is.
+- $10\log_{10}(kB)$: thermal noise over the channel bandwidth.
+- $PL_{FS} + PL_{misc}$: geometry plus additional propagation penalties.
+
+### Link budget: free space path loss
+
+The \acr{FSPL} can be computed in linear form as follows:
+
+$$
+PL_{FS} = \left(\frac{4\pi d f}{c}\right)^2
+$$
+
+or in logarithmic form (dB):
+
+$$
+PL_{FS} = 20\log_{10}(d) + 20\log_{10}(f) + 20\log_{10}\left(\frac{4\pi}{c}\right)
+$$
+
+Therefore, the larger the frequency $f$ and distance $d$, the larger the $PL_{FS}$ .
+
+### Link budget: loss terms
+
+| Term | Definition |
+|:---:|:---|
+| $PL_{FS}$ | Free-space path loss from geometry (distance) and carrier frequency |
+| $PL_{AD}$ | Additional implementation/system margin (RF impairments + design margin) |
+| $PL_{SL}$ | Ionospheric/tropospheric scintillation loss |
+| $PL_A$ | Atmospheric absorption loss |
+| $PL_{POL}$ | Polarization mismatch loss |
+| $PL_{SM}$ | Shadowing margin |
+
+### NB-IoT uplink example: inputs
+
+The example follows the \acr{NB-IoT} NTN assumptions in [@mathworks2026nbiot_ntn_link_budget_analysis; @3gpp_tr36763_nbioteMTC_ntn]. The same UE transmits toward two orbital cases; the main difference is the path.
+
+:::: {.columns}
+::: {.column width="48%"}
+
 ```{python}
-headers = ["Parameter", "Symbol", "Unit", "GEO", "LEO"]
+headers = ["UE parameter", "Symbol", "Value"]
 table = [
-    ["Modulation", "$M$", "", DATA_CHANNEL.modulation.value, DATA_CHANNEL.modulation.value],
-    ["Transport block bits", "$N_{bits}$", "bits", DATA_CHANNEL.n_bits, DATA_CHANNEL.n_bits],
-    ["Symbols used for transmission", "$N_{sym}$", "symbols", DATA_CHANNEL.n_symbols, DATA_CHANNEL.n_symbols],
-    ["Repetitions for transport block", "$N_{rep}$", "", DATA_CHANNEL.n_repetitions, DATA_CHANNEL.n_repetitions],
-    ["Subframes used for transmission", "$N_{SF}$", "", DATA_CHANNEL.n_subframes, DATA_CHANNEL.n_subframes],
-    ["Resource units used for transmission", "$N_{RU}$", "", DATA_CHANNEL.n_resource_units, DATA_CHANNEL.n_resource_units],
+    ["Transmit power", "$P_{tx}$", f"{USER_EQUIPMENT.power_tx_dBm:.1f} dBm"],
+    ["Transmit gain", "$G_{tx}$", f"{USER_EQUIPMENT.gain_tx_dBi:.1f} dBi"],
+    ["Cable loss", "$L_{cable}$", f"{USER_EQUIPMENT.loss_cable_tx_dB:.1f} dB"],
+    ["Uplink EIRP", "$EIRP$", f"{EIRP:.1f} dBW"],
 ]
-md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=('left', 'center', 'center', 'center', 'center'))
+md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=("left", "center", "center"))
 Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
 ```
+
+:::
+::: {.column width="48%"}
+
+```{python}
+headers = ["Scenario parameter", "GEO", "LEO"]
+table = [
+    ["Satellite altitude", hl_geo(f"{SATELLITES['GEO'].altitude_km:.0f} km"), hl_leo(f"{SATELLITES['LEO'].altitude_km:.0f} km")],
+    ["Satellite G/T", hl_geo(f"{G_over_T_rx_dB_per_K['GEO']:.1f} dB/K"), hl_leo(f"{G_over_T_rx_dB_per_K['LEO']:.1f} dB/K")],
+    ["Reference elevation", hl_geo(f"{elevations_deg['GEO']:.1f} deg"), hl_leo(f"{elevations_deg['LEO']:.1f} deg")],
+    ["Uplink frequency", f"{LINKS['uplink'].band.center_freq_GHz:.1f} GHz", f"{LINKS['uplink'].band.center_freq_GHz:.1f} GHz"],
+    ["User bandwidth", f"{LINKS['uplink'].band.bw_user_MHz:.3f} MHz", f"{LINKS['uplink'].band.bw_user_MHz:.3f} MHz"],
+    ["Aggregate misc. loss", f"{total_loss_dB:.1f} dB", f"{total_loss_dB:.1f} dB"],
+]
+md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=("left", "center", "center"))
+Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
+```
+
+:::
+::::
+
+### NB-IoT uplink example: geometry first
+
+Before adding receiver and noise terms, compare the geometry. The largest difference between GEO and LEO is the slant range, which directly translates into free-space path loss.
+
+```{python}
+headers = ["Geometry term", "Symbol", "GEO", "LEO"]
+table = [
+    ["Reference elevation", "$\\varepsilon$", hl_geo(f"{elevations_deg['GEO']:.1f} deg"), hl_leo(f"{elevations_deg['LEO']:.1f} deg")],
+    ["Slant range", "$d$", hl_geo(f"{slant_ranges_km['GEO']:.0f} km"), hl_leo(f"{slant_ranges_km['LEO']:.0f} km")],
+    ["Free-space path loss", "$PL_{FS}$", hl_geo(f"{fspl_dB['GEO']:.2f} dB"), hl_leo(f"{fspl_dB['LEO']:.2f} dB")],
+]
+md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=("left", "center", "center", "center"))
+Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
+```
+
+### NB-IoT uplink example: budget worksheet
+
+```{python}
+headers = ["Budget term", "GEO", "LEO"]
+table = [
+    ["$+EIRP$", hl_geo(f"{EIRP:.2f} dB"), hl_leo(f"{EIRP:.2f} dB")],
+    ["$+G/T_{rx}$", hl_geo(f"{G_over_T_rx_dB_per_K['GEO']:.2f} dB/K"), hl_leo(f"{G_over_T_rx_dB_per_K['LEO']:.2f} dB/K")],
+    ["$-10\\log_{10}(kB)$", hl_geo(f"{noise_term_dB:.2f} dB"), hl_leo(f"{noise_term_dB:.2f} dB")],
+    ["$-PL_{FS}$", hl_geo(f"{fspl_dB['GEO']:.2f} dB"), hl_leo(f"{fspl_dB['LEO']:.2f} dB")],
+    ["$-PL_{misc}$", hl_geo(f"{total_loss_dB:.2f} dB"), hl_leo(f"{total_loss_dB:.2f} dB")],
+    ["$= C/N$", hl_geo(f"{cnr['GEO']:.2f} dB"), hl_leo(f"{cnr['LEO']:.2f} dB")],
+]
+md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=("left", "center", "center"))
+Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
+```
+
+### NB-IoT uplink example: does the link close?
+
+The channel determines the minimum required threshold. For this worked example, the helper maps the selected \acr{NB-IoT} data channel to a reference $C/N$ value.
+See @sec-annex_cnr_ref for the full derivation of how $C/N_{ref}$ is computed.
+
+:::: {.columns}
+::: {.column width="44%"}
+
+```{python}
+headers = ["Channel parameter", "Value"]
+table = [
+    ["Modulation", DATA_CHANNEL.modulation.value],
+    ["Modulation order", f"{modulation_order:.0f}"],
+    ["Repetitions", f"{DATA_CHANNEL.n_repetitions}"],
+    ["Effective rate", f"{r_eff:.4f}"],
+    ["Reference threshold", f"{cnr_ref:.2f} dB"],
+]
+md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=("left", "center"))
+Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
+```
+
+:::
+::: {.column width="56%"}
+
+```{python}
+headers = ["Scenario", "$C/N$", "$C/N_{ref}$", "Margin"]
+table = [
+    ["GEO", hl_geo(f"{cnr['GEO']:.2f} dB"), f"{cnr_ref:.2f} dB", hl_geo(f"{link_margin_dB['GEO']:+.2f} dB")],
+    ["LEO", hl_leo(f"{cnr['LEO']:.2f} dB"), f"{cnr_ref:.2f} dB", hl_leo(f"{link_margin_dB['LEO']:+.2f} dB")],
+]
+md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=("left", "center", "center", "center"))
+Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
+```
+
+:::
+::::
+
+### NB-IoT uplink example: design response
+
+- Positive margin means the link closes.
+- If the margin is negative, the current configuration is not feasible: the received $C/N$ stays below the required threshold in both orbital cases.
+- The design response is to change at least one of the four blocks in the budget:
+    - increase **transmitted power** or antenna **gain** to raise $EIRP$;
+    - improve receiver $G/T$ with a better antenna or **lower-noise front end**;
+    - reduce the required threshold $C/N_{ref}$ by lowering the **data rate**, using a more **robust modulation/coding option**, or **increasing repetitions**;
+    - reduce propagation penalties by operating at lower **frequency**, higher elevation, or with smaller miscellaneous losses.
+- If none of these levers is available, the **service target must be relaxed** because the link cannot close reliably under the assumed conditions.
+
+
+### Link budget in Starlink {.use-case-slide background-image="assets/starry_sky.png"}
+
+We can instantiate the same link-budget expression for a Starlink-like user link (Ku band):
+
+$$
+\frac{C}{N} = EIRP + \frac{G}{T} - 10\log_{10}(kB) - PL_{FS} - PL_{misc}
+$$
+
+and compare against a modulation/coding-dependent threshold:
+
+$$
+\left(\frac{C}{N}\right)_{ref} = \left(\frac{E_b}{N_0}\right)_{ref} + 10\log_{10}(\eta)
+$$
+
+where $\eta$ is the spectral efficiency in bit/s/Hz.
+
+For the detailed derivation of the threshold term, see @sec-annex_cnr_ref.
+
+### Link budget in Starlink: Assumptions {.use-case-slide background-image="assets/starry_sky.png"}
+
+```{python}
+import math
+
+# Starlink-like assumptions (aligned with previous slides and simplified link model)
+STARLINK_ASSUMPTIONS = {
+    "altitude_km": 550.0,
+    "elevation_deg": 30.0,
+    "downlink_freq_GHz": 11.7,   # within 10.7-12.7 GHz Ku DL range
+    "uplink_freq_GHz": 14.0,     # Ku UL representative value
+    "channel_bw_MHz": 250.0,
+    "eirp_density_min_dBW_per_Hz": -56.2,
+    "eirp_density_max_dBW_per_Hz": -52.8,
+    "g_over_t_user_dB_per_K": 12.0,   # user-terminal receive G/T (engineering assumption)
+    "g_over_t_sat_dB_per_K": SATELLITES["STARLINK"].g_over_t_rx_dB_per_K,
+    "eirp_uplink_dBW": 43.0,          # user-terminal uplink EIRP assumption
+    "misc_losses_dB": 2.0,            # clear-sky aggregate: atmos + pol + implementation
+}
+
+headers = ["Assumption", "Symbol", "Unit", "Value"]
+table = [
+    ["Orbit altitude", "$h_{sat}$", "km", f"{STARLINK_ASSUMPTIONS['altitude_km']:.0f}"],
+    ["Reference elevation", "$\\varepsilon$", "deg", f"{STARLINK_ASSUMPTIONS['elevation_deg']:.0f}"],
+    ["Downlink center frequency", "$f_{DL}$", "GHz", f"{STARLINK_ASSUMPTIONS['downlink_freq_GHz']:.1f}"],
+    ["Uplink center frequency", "$f_{UL}$", "GHz", f"{STARLINK_ASSUMPTIONS['uplink_freq_GHz']:.1f}"],
+    ["Channel bandwidth", "$B$", "MHz", f"{STARLINK_ASSUMPTIONS['channel_bw_MHz']:.0f}"],
+    ["DL EIRP density (min)", "$EIRP_{d,min}$", "dBW/Hz", f"{STARLINK_ASSUMPTIONS['eirp_density_min_dBW_per_Hz']:.1f}"],
+    ["DL EIRP density (max)", "$EIRP_{d,max}$", "dBW/Hz", f"{STARLINK_ASSUMPTIONS['eirp_density_max_dBW_per_Hz']:.1f}"],
+    ["UE receive G/T", "$(G/T)_{UE}$", "dB/K", f"{STARLINK_ASSUMPTIONS['g_over_t_user_dB_per_K']:.1f}"],
+    ["Satellite receive G/T", "$(G/T)_{SAT}$", "dB/K", f"{STARLINK_ASSUMPTIONS['g_over_t_sat_dB_per_K']:.1f}"],
+    ["UE uplink EIRP", "$EIRP_{UL}$", "dBW", f"{STARLINK_ASSUMPTIONS['eirp_uplink_dBW']:.1f}"],
+    ["Additional aggregate losses", "$PL_{misc}$", "dB", f"{STARLINK_ASSUMPTIONS['misc_losses_dB']:.1f}"],
+]
+md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=("left", "center", "center", "center"))
+Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
+```
+
+- EIRP is not constant due to beam position effect, freq/channel variation, ...
+
+### Link budget in Starlink: Derived quantities {.use-case-slide background-image="assets/starry_sky.png"}
+
+```{python}
+# Derived quantities
+B_hz = STARLINK_ASSUMPTIONS["channel_bw_MHz"] * 1e6
+slant_km_starlink = compute_slant_range(STARLINK_ASSUMPTIONS["altitude_km"], STARLINK_ASSUMPTIONS["elevation_deg"])
+
+fspl_dl_dB = compute_free_space_path_loss(slant_km_starlink, STARLINK_ASSUMPTIONS["downlink_freq_GHz"])
+fspl_ul_dB = compute_free_space_path_loss(slant_km_starlink, STARLINK_ASSUMPTIONS["uplink_freq_GHz"])
+
+noise_term_dB = 10 * math.log10(1.38e-23 * B_hz)
+
+eirp_dl_min_dBW = STARLINK_ASSUMPTIONS["eirp_density_min_dBW_per_Hz"] + 10 * math.log10(B_hz)
+eirp_dl_max_dBW = STARLINK_ASSUMPTIONS["eirp_density_max_dBW_per_Hz"] + 10 * math.log10(B_hz)
+
+cn_dl_min_dB = (
+    eirp_dl_min_dBW
+    + STARLINK_ASSUMPTIONS["g_over_t_user_dB_per_K"]
+    - noise_term_dB
+    - fspl_dl_dB
+    - STARLINK_ASSUMPTIONS["misc_losses_dB"]
+)
+cn_dl_max_dB = (
+    eirp_dl_max_dBW
+    + STARLINK_ASSUMPTIONS["g_over_t_user_dB_per_K"]
+    - noise_term_dB
+    - fspl_dl_dB
+    - STARLINK_ASSUMPTIONS["misc_losses_dB"]
+)
+cn_ul_dB = (
+    STARLINK_ASSUMPTIONS["eirp_uplink_dBW"]
+    + STARLINK_ASSUMPTIONS["g_over_t_sat_dB_per_K"]
+    - noise_term_dB
+    - fspl_ul_dB
+    - STARLINK_ASSUMPTIONS["misc_losses_dB"]
+)
+
+headers = ["Parameter", "Symbol", "Unit", "Value"]
+table = [
+    ["Slant range", "$d$", "km", f"{slant_km_starlink:.2f}"],
+    ["FSPL downlink", "$PL_{FS,DL}$", "dB", f"{fspl_dl_dB:.2f}"],
+    ["FSPL uplink", "$PL_{FS,UL}$", "dB", f"{fspl_ul_dB:.2f}"],
+    ["Noise term", "$10\\log_{10}(kB)$", "dB", f"{noise_term_dB:.2f}"],
+    ["DL total EIRP (min)", "$EIRP_{DL,min}$", "dBW", f"{eirp_dl_min_dBW:.2f}"],
+    ["DL total EIRP (max)", "$EIRP_{DL,max}$", "dBW", f"{eirp_dl_max_dBW:.2f}"],
+]
+md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=("left", "center", "center", "center"))
+Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
+```
+
+### Link budget in Starlink: C/N results {.use-case-slide background-image="assets/starry_sky.png"}
+
+```{python}
+headers = ["Direction", "$C/N$ [dB]", "Comment"]
+table = [
+    ["Downlink (min EIRP density)", f"{cn_dl_min_dB:.2f}", "Low edge of Starlink DL EIRP density range"],
+    ["Downlink (max EIRP density)", f"{cn_dl_max_dB:.2f}", "High edge of Starlink DL EIRP density range"],
+    ["Uplink", f"{cn_ul_dB:.2f}", "UE to satellite, with assumed UE uplink EIRP"],
+]
+md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=("left", "center", "left"))
+Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
+```
+
+### Link budget in Starlink: C/N margins {.use-case-slide background-image="assets/starry_sky.png"}
+
+Assumptions used for the threshold side:
+
+- Spectral efficiency is fixed per MODCOD case: $\eta=1.5$ bit/s/Hz for QPSK $r=3/4$ and $\eta=3.0$ bit/s/Hz for 16-QAM $r=3/4$.
+- Thresholds are computed as $C/N_{ref}=(E_b/N_0)_{ref}+10\log_{10}(\eta)$.
+- $(E_b/N_0)_{ref}$ values are engineering assumptions for this illustrative exercise.
+
+```{python}
+# C/N thresholds from modulation + coding assumptions
+modcod_assumptions = [
+    {"name": "QPSK r=3/4", "eta_bps_hz": 1.5, "ebn0_req_dB": 5.5},
+    {"name": "16-QAM r=3/4", "eta_bps_hz": 3.0, "ebn0_req_dB": 10.5},
+]
+
+rows = []
+for m in modcod_assumptions:
+    cn_ref = m["ebn0_req_dB"] + 10 * math.log10(m["eta_bps_hz"])
+    rows.append([
+        m["name"],
+        f"{m['eta_bps_hz']:.2f}",
+        f"{m['ebn0_req_dB']:.2f}",
+        f"{cn_ref:.2f}",
+        f"{(cn_dl_min_dB - cn_ref):+.2f}",
+        f"{(cn_dl_max_dB - cn_ref):+.2f}",
+        f"{(cn_ul_dB - cn_ref):+.2f}",
+    ])
+
+# Also report the repository baseline threshold used in the NB-IoT example above
+rows.append([
+    "Repository baseline (QPSK helper)",
+    f"{(modulation_order * r_eff):.2f}",
+    f"{BER_THRESHOLDS[DATA_CHANNEL.modulation].EbN0_threshold_dB:.2f}",
+    f"{cnr_ref:.2f}",
+    f"{(cn_dl_min_dB - cnr_ref):+.2f}",
+    f"{(cn_dl_max_dB - cnr_ref):+.2f}",
+    f"{(cn_ul_dB - cnr_ref):+.2f}",
+])
+
+headers = ["Modulation/coding", "$\\eta$ [bit/s/Hz]", "$(E_b/N_0)_{ref}$ [dB]", "$C/N_{ref}$ [dB]", "DL margin min [dB]", "DL margin max [dB]", "UL margin [dB]"]
+md_table = tabulate(rows, headers=headers, tablefmt="pipe", colalign=("left", "center", "center", "center", "center", "center", "center"))
+Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
+```
+
 
 ## Latency limits
 
@@ -432,7 +578,3 @@ fig.update_yaxes(showgrid=True)
 # Avoid injecting MathJax from Plotly; Quarto already handles page-level LaTeX.
 HTML(pio.to_html(fig, full_html=False, include_plotlyjs="cdn", include_mathjax=False))
 ```
-
-
-### Link budget in Starlink {.use-case-slide background-image="assets/starry_sky.png"}
-

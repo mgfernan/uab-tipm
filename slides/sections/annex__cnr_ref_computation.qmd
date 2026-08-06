@@ -1,0 +1,83 @@
+# Annex: Computing $C/N_{ref}$ from Modulation and Channel Parameters {#sec-annex_cnr_ref}
+
+## Goal
+
+This annex shows how to compute the required threshold $C/N_{ref}$ from the modulation setting and channel parameters used in this repository.
+
+## Repository helper expression
+
+In the current implementation, the helper uses:
+
+$$
+\left(\frac{C}{N}\right)_{ref}
+=
+\left(\frac{E_b}{N_0}\right)_{ref}
++ 10\log_{10}(M)
++ 10\log_{10}\left(\frac{N_{sym}}{N_{bits}}\right)
+$$
+
+where:
+
+- $M$ is the modulation order (BPSK: 1, QPSK: 2, 16-QAM: 4).
+- $N_{sym}$ is the number of symbols in the data block.
+- $N_{bits}$ is the payload bit count.
+- $\left(E_b/N_0\right)_{ref}$ comes from the BER target table for the selected modulation.
+
+## Effective-rate view
+
+The threshold is often interpreted as:
+
+$$
+\left(\frac{C}{N}\right)_{ref}
+=
+\left(\frac{E_b}{N_0}\right)_{ref}
++ 10\log_{10}(\eta_{eff})
+$$
+
+with effective spectral efficiency $\eta_{eff} = M\,r_{eff}$.
+
+For the current uplink helper, the effective rate used in the notebook is
+
+$$
+r_{eff}
+=
+\frac{N_{bits}+24}{N_{sym}\,M\,N_{rep}\,N_{RU}}.
+$$
+
+
+This makes explicit how modulation order, repetitions, and resource mapping affect efficiency.
+
+## Threshold comparison
+
+```{python}
+#| echo: false
+
+headers = ["Step", "Expression", "Value"]
+
+ebn0_ref_dB = BER_THRESHOLDS[DATA_CHANNEL.modulation].EbN0_threshold_dB
+modulation_order = compute_modulation_order(DATA_CHANNEL.modulation)
+r_eff_ul = compute_r_eff(DATA_CHANNEL, LinkDirection.UPLINK)
+
+# Repository helper result (used in the session)
+cnr_ref_helper_dB = compute_cnr_ref(DATA_CHANNEL, BER_THRESHOLDS)
+
+# Alternate interpretation from effective spectral efficiency
+eta_eff = modulation_order * r_eff_ul
+cnr_ref_eta_dB = ebn0_ref_dB + 10 * math.log10(eta_eff)
+
+table = [
+    ["Selected modulation", "modulation", DATA_CHANNEL.modulation.value],
+    ["Modulation order", "$M$", f"{modulation_order:.0f}"],
+    ["Repetitions", "$N_{rep}$", f"{DATA_CHANNEL.n_repetitions}"],
+    ["UL effective rate", "$r_{eff}$", f"{r_eff_ul:.4f}"],
+    ["Effective spectral efficiency", "$\\eta_{eff}=M r_{eff}$", f"{eta_eff:.4f} bit/s/Hz"],
+    ["BER-based threshold", "$(E_b/N_0)_{ref}$", f"{ebn0_ref_dB:.2f} dB"],
+    ["$C/N_{ref}$ (repository helper)", "helper", f"{cnr_ref_helper_dB:.2f} dB"],
+    ["$C/N_{ref}$ (from $\\eta_{eff}$)", "$E_b/N_0 + 10\\log_{10}(\\eta_{eff})$", f"{cnr_ref_eta_dB:.2f} dB"],
+]
+
+md_table = tabulate(table, headers=headers, tablefmt="pipe", colalign=("left", "center", "center"))
+Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
+```
+
+The two values are close but not identical because the helper expression and the effective-rate expression are based on slightly different accounting terms in this notebook implementation.

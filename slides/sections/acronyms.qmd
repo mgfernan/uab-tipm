@@ -13,6 +13,8 @@ acronyms:
       longname: Effective Isotropic Radiated Power
     - shortname: FoV
       longname: Field of View
+    - shortname: FSPL
+      longname: Free-Space Path Loss
     - shortname: ISL
       longname: Inter-Satellite Link
     - shortname: KPI
