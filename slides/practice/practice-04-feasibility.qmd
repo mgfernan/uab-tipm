@@ -1,0 +1,19 @@
+# Practice 4
+
+::: {.callout-note icon=false title="Feasibility, regulation, and deployment"}
+Assess whether the proposed service can be deployed at acceptable cost, with a reasonable energy footprint, and within the relevant regulatory constraints.
+:::
+
+**Expected student tasks**
+
+- Build a simplified CAPEX and OPEX estimate.
+- Compare at least two deployment alternatives.
+- Identify the main cost driver and the main energy driver.
+- Explain the impact of traffic density on viability.
+- Check whether the proposed service fits the allowed band and usage model.
+- Define a phased rollout strategy.
+- Decide where sharing or reuse reduces risk.
+
+::: {.callout-note title="Where to revisit"}
+Economics (CAPEX, OPEX), energy efficiency, regulation, deployment strategies, ....
+:::
