@@ -110,6 +110,19 @@ style="display: block; width: 100%; max-height: 70vh; margin: 0.5rem auto 0;"
 />
 
 
+### Architecture for backhaul use case
+
+- The NTN network is used to provide connectivity between two terrestrial networks (e.g., two base stations) that are not directly connected.
+- This is transparent to end users, who are connected to the terrestrial networks that are connected through the NTN network.
+
+<img
+src="assets/architecture__backhaul.svg"
+alt="NTN architecture targeted at backhaul use case"
+style="display: block; width: 100%; max-height: 70vh; margin: 0.5rem auto 0;"
+/>
+
+
+
 ### Definitions
 
 - *Transparent* (bent-pipe/relay) or *regenerative* (on-board processing) payloads
