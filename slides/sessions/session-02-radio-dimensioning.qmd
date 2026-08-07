@@ -1,13 +1,10 @@
 # Radio dimensioning {.session-marker}
 
-::: {.theory-card}
 - Coverage, capacity, and spectrum.
 - Simplified link budget.
 - Spectral efficiency.
-- Sub-6 GHz versus mmWave.
 - Cell sizing and radio node count.
 - Trade-offs between coverage and densification.
-:::
 
 ## Link budget: Beam design
 

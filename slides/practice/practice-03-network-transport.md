@@ -7,6 +7,7 @@ Design the transport network that connects the access layer to the core for a di
 - Identify gateway and aggregation needs.
 - Estimate backhaul or fronthaul requirements.
 - Explain how the chosen architecture affects latency and resilience.
+- Relate transport constraints to service quality.
 
 ## Where to revisit
 Network transport architecture, backhaul topologies, transparent vs regenerative payloads, synchronization, latency, and reliability.

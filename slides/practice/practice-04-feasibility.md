@@ -4,8 +4,9 @@ Assess whether the proposed service can be deployed at acceptable cost, with a r
 
 ## Expected student tasks
 
-- Build a simplified CAPEX and OPEX estimate.
+- Build a simplified cost model: CAPEX and OPEX estimate.
 - Compare at least two deployment alternatives.
+- Identify the main economic risk.
 - Identify the main cost driver and the main energy driver.
 - Explain the impact of traffic density on viability.
 - Check whether the proposed service fits the allowed band and usage model.

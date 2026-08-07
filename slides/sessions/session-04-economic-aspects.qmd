@@ -1,27 +1,8 @@
-# Session 4 {.session-marker}
+# Economic Aspects {.session-marker}
 
-## 4. Economic Aspects {.theory-slide}
-
-::: {.theory-card}
 **Main topics**
 
 - CAPEX and OPEX structure.
 - Cost per user and cost per Mbps.
 - Feasibility models.
 - ROI, payback, and break-even.
-:::
-
-## 4. Economic Aspects: Use Case {.use-case-slide}
-
-::: {.use-case-card}
-**Example prompt**
-
-Assess whether a rural deployment remains viable under lower user density and higher infrastructure cost.
-
-**Expected student task**
-
-- Build a simplified cost model.
-- Compare deployment alternatives.
-- Identify the main economic risk.
-- Defend one rollout option.
-:::

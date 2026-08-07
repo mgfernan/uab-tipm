@@ -1,23 +1,17 @@
-# Session 6 {.session-marker}
-
-## 6. Regulation and Spectrum {.theory-slide}
-
-::: {.theory-card}
-**Main topics**
+# Regulation and Spectrum {.session-marker}
 
 - Spectrum allocation and licensing.
 - Frequency band characteristics.
 - Emission limits and exposure constraints.
 - Coverage obligations.
 - Infrastructure and spectrum sharing.
-:::
+
 
 ## Regulatory agencies
 
 - ITU (International Telecommunication Union)
 - ETSI (European Telecommunications Standards Institute)
 - 3GPP (3rd Generation Partnership Project)
-
 
 # Session 6 Starlink case study {.use-case-slide background-image="assets/starry_sky.png"}
 

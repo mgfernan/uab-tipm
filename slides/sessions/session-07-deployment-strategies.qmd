@@ -1,16 +1,10 @@
-# Session 7 {.session-marker}
-
-## 7. Deployment Strategies {.theory-slide}
-
-::: {.theory-card}
-**Main topics**
+# Deployment Strategies {.session-marker}
 
 - Decision-making in real-world environments.
 - Deployment phases from coverage to densification.
 - Scenario-dependent strategies.
 - Progressive rollout and infrastructure sharing.
 - Technical versus economic trade-offs.
-:::
 
 ## 7. Deployment Strategies: Use Case {.use-case-slide}
 
