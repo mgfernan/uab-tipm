@@ -1,10 +1,8 @@
-# Practice 2
+# Practice 2: Radio dimensioning
 
-::: {.callout-note icon=false title="Radio dimensioning"}
 Based on the defined project, define the radio characteristics and dimension the radio access network to meet the service requirements.
-:::
 
-**Expected student tasks**
+## Expected student tasks
 
 - Estimate required spectrum and bandwidth.
 - Justify the chosen band.
@@ -12,6 +10,5 @@ Based on the defined project, define the radio characteristics and dimension the
 - Relate latency and orbit choice to the service target.
 - Discuss the coverage-capacity trade-off.
 
-::: {.callout-note title="Where to revisit"}
+## Where to revisit
 Spectrum and signal choices, beam design, access strategies, link budget, latency, and slant range.
-:::

@@ -5,31 +5,19 @@ author: "UAB"
 from: markdown+emoji
 ---
 
-{{< include slides/sections/practice_roadmap.qmd >}}
-
 {{< include slides/sessions/session-01-demand-to-design.qmd >}}
 
 {{< include slides/sessions/session-02-radio-dimensioning.qmd >}}
-
-{{< include slides/practice/practice-01-service-definition.qmd >}}
 
 {{< include slides/sessions/session-03-network-transport.qmd >}}
 
 {{< include slides/sessions/session-04-economic-aspects.qmd >}}
 
-{{< include slides/practice/practice-02-radio-dimensioning.qmd >}}
-
-{{< include slides/practice/practice-03-network-transport.qmd >}}
-
 {{< include slides/sessions/session-05-energy-efficiency.qmd >}}
-
-{{< include slides/practice/practice-04-feasibility.qmd >}}
 
 {{< include slides/sessions/session-06-regulation-and-spectrum.qmd >}}
 
 {{< include slides/sessions/session-07-deployment-strategies.qmd >}}
-
-{{< include slides/practice/practice-05-project-presentations.qmd >}}
 
 {{< include slides/sections/ntn_terms.qmd >}}
 

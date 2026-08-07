@@ -1,10 +1,8 @@
-# Practice 5
+# Practice 5: Project presentations and feedback
 
-::: {.callout-note icon=false title="Project presentations and feedback"}
 Present the final service design and explain the chosen trade-offs to the class.
-:::
 
-**Expected student tasks**
+## Expected student tasks
 
 - Present the project in a short, structured format.
 - Justify the most important design decisions.
