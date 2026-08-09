@@ -26,3 +26,15 @@ Generated output is written to `dist/` and ignored by Git.
 - The VS Code tasks redirect Quarto and Deno caches to `.cache/` inside the workspace because the container home cache may be read-only.
 - The reveal.js theme is styled in `assets/styles.css`, with print-specific adjustments to improve PDF export without requiring a TeX installation.
 - Bibliography is configured globally in `_quarto.yml` using `docs/references.bib`, so citations can be used in any slide partial (for example: `[@TripathiReed2025NTN]`).
+
+## Python helpers
+
+- The `tipm` package provides lightweight Python helpers used across the course material:
+	- `tipm.geometry`: geometric helpers for coverage and footprint derivations.
+	- `tipm.link_budget`: link-budget models and calculations (slant range, FSPL, CNR, latency, and scenario state builders).
+	- `tipm.plots`: plotting helpers used by notebook/slide examples.
+	- `tipm.finance`: dependency-free techno-economic helpers for NTN studies:
+		- `FinancialModel` and `FinancialOutputs` data models.
+		- `calculate()` for TCO, discounted cost, NPV, IRR, payback, and break-even users.
+		- `to_dict()` and `to_csv()` reporting helpers.
+		- `build_starlink_case()` to reproduce the worked classroom example in session 04.
