@@ -3,6 +3,26 @@ table td, table th {
   font-size: 75%;
 }
 
+.reveal .slides table {
+  font-size: 0.8em;
+  line-height: 1.1;
+}
+
+.reveal .slides th,
+.reveal .slides td {
+  padding: 0.2rem 0.35rem;
+}
+
+.reveal .slides .compact-table table {
+  font-size: 0.72em;
+  line-height: 1.05;
+}
+
+.reveal .slides .compact-table th,
+.reveal .slides .compact-table td {
+  padding: 0.14rem 0.25rem;
+}
+
 ul, ol {
   font-size: 80%;
 }

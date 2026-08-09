@@ -1,8 +1,662 @@
 # Economic Aspects {.session-marker}
 
-**Main topics**
-
 - CAPEX and OPEX structure.
 - Cost per user and cost per Mbps.
 - Feasibility models.
 - ROI, payback, and break-even.
+
+## Capital Expenditure
+
+::: {style="text-align:center;"}
+*\acr{CAPEX} is the total cost of acquiring and deploying the network infrastructure, including equipment, installation, and initial setup costs.*
+:::
+
+::: {.columns}
+::: {.column width="50%"}
+- Space segment
+  - Satellite manufacturing
+  - Constellation replenishment
+- Launch and deployment
+  - Launch vehicle
+  - Orbit commissioning
+- Ground segment
+  - Deployment
+  - Gateway infrastructure
+  - Network operations centers
+  - Data centers
+:::
+
+:::: {.column width="50%"}
+- 5G integration
+  - gNB stations
+  - 5G Core integration
+- Spectrum and regulatory costs
+  - filings and licenses
+  - regulatory compliance and legal work.
+- Software and system integration
+  - development, testing, cloud infrastructure and interoperability work.
+:::
+:::
+
+## Operational Expenditure
+
+::: {style="text-align:center;"}
+*\acr{OPEX} is the ongoing cost of operating and maintaining the network, including energy consumption, maintenance, and personnel costs.*
+:::
+
+::: {.columns}
+::: {.column width="50%"}
+- Space segment
+  - Satellite operations
+- Ground segment
+  - Gateway energy / site rental
+  - Network operations fees
+  - Data center energy / site rental
+- Marketing costs
+  - Customer acquisition and support
+:::
+
+:::: {.column width="50%"}
+- Spectrum and regulatory fees
+- Software and system costs
+  - licenses, updates, and cloud infrastructure.
+  - Cloud processing costs
+- Network operations
+  - Staffing
+  - Maintenance and repairs
+  - Interconnection fees
+:::
+:::
+
+## Total Cost of Ownership
+
+::: {style="text-align:center;"}
+*"What will the system cost over its lifetime?"*
+:::
+
+- Raw computation of \acr{TCO} is simply the sum of CAPEX and OPEX costs ($K$) over the lifetime period $N_{years}$:
+
+$$
+TCO = K_{CAPEX} + \sum_{t=0}^{N_{years}} K_{OPEX}[t]
+$$
+
+- For investment analysis: the *present value* ($PV$, today's projected cost) of the \acr{TCO} is computed using a discounted rate $r$:
+
+$$
+PV(TCO) = K_{CAPEX} + \sum_{t=0}^{N_{years}} \frac{K_{OPEX}[t]}{(1+r)^t}
+$$
+
+## Discount rate
+
+- Intuition behind the discounted rate $r$:
+  - "Money today is worth more than money in the future."
+  - "Higher risk is represented with higher discount rates"
+- Reasons: inflation, opportunity cost, and risk.
+
+::: {.compact-table}
+|Zone | Discount rate | Description | Examples |
+|:---:|:---:|:---|:---|
+| Mature | 5-8% | Stable and predictable cash flows | Utilities, telecoms, consumer staples |
+| Growth | 8-12% | Moderate risk and growth potential, with entry barriers | Technology, Consumer franchises, Industrial |
+| Emerging | 12-20% | High risk and uncertainty, with potential for high returns | Startups, Biotech, Emerging markets |
+:::
+
+## Total Cost of Ownership (revisited)
+
+In a LEO constellation, satellites (i.e. CAPEX) need to be replenished every few years, so the $PV(TCO)$ formula can be rewritten as:
+
+$$
+PV(TCO) = \underbrace{\sum_{t=0}^{N_{years}} \frac{K_{CAPEX}[t]}{(1+r)^t}}_{discounted\ CAPEX\  (deploy\ +\ replenish)} + \underbrace{\sum_{t=0}^{N_{years}} \frac{K_{OPEX}[t]}{(1+r)^t}}_{discounted\ OPEX}
+$$
+
+## Total Cost of Ownership (example)
+
+Compute the \acr{TCO} and $PV(TCO)$ for a hypothetical LEO constellation with the following assumptions:
+
+::: {.columns}
+::: {.column width="50%"}
+```{python}
+#| echo: false
+#| tbl-cap: Expenditures
+from IPython.display import Markdown, display
+
+spending_busd = [
+    (0, "Ground infrastructure", 0.1, "CAPEX"),
+    (1, "Network operations", 0.5, "OPEX"),
+    (2, "Gateway expansion", 1.0, "CAPEX"),
+    (2, "Maintenance and support", 0.4, "OPEX"),
+]
+
+rows = [
+    "| Year | Item | Amount (BUSD) |",
+    "|:---:|:---|---:|",
+    *[f"| {year} | {item} | {amount:.1f}" for year, item, amount, category in spending_busd],
+]
+
+display(Markdown("\n".join(rows)))
+```
+:::
+
+::: {.column width="50%"}
+
+
+```{python}
+#| echo: false
+#| tbl-cap: Launches per year
+launches_by_year = {0: 1000, 1: 3000, 2: 4000}
+rows = [
+    "| Year | Launches |",
+    "|:---:|---:|",
+    *[f"| {year} | {launches_by_year.get(year, 0)} |" for year in launches_by_year],
+]
+display(Markdown("\n".join(rows)))
+```
+:::
+:::
+```{python}
+#| echo: false
+#| tbl-cap: Cost per satellite
+launch_and_deployment_cost_per_satellite_busd = 0.0005
+satellite_manufacturing_cost_per_satellite_busd = 0.0003
+
+display(Markdown(f"""
+| Cost item | Cost per satellite (MUSD) |
+|:---|---:|
+| Launch and deployment | {launch_and_deployment_cost_per_satellite_busd * 1000:.2f} |
+| Manufacturing | {satellite_manufacturing_cost_per_satellite_busd * 1000:.2f} |
+"""))
+```
+
+Discounted rate ($r$) = 5% (typical for mature telecoms).
+
+## Total Cost of Ownership (solution)
+
+Which is the category for each cost item? (CAPEX or OPEX)
+
+::: {.fragment}
+```{python}
+#| echo: false
+rows = [
+    "| Year | Item | Category |",
+    "|:---:|:---|:---:|",
+    *[f"| {year} | {item} | {category}" for year, item, _, category in spending_busd],
+]
+
+display(Markdown("\n".join(rows)))
+```
+:::
+
+::: {.fragment}
+And for satellite launching and manufacturing?
+:::
+::: {.fragment}
+**CAPEX**
+:::
+
+## Total Cost of Ownership (solution)
+
+What is the \acr{TCO} without discounting for each category?
+
+::: {.fragment}
+```{python}
+#| echo: false
+concepts = [
+  ("CAPEX", sum(amount for year, item, amount, category in spending_busd if category == "CAPEX")),
+  ("OPEX", sum(amount for year, item, amount, category in spending_busd if category == "OPEX")),
+  ("CAPEX (satellite launches and manufacturing)", sum(
+      (launch_and_deployment_cost_per_satellite_busd + satellite_manufacturing_cost_per_satellite_busd) * launches_by_year.get(year, 0)
+      for year in launches_by_year
+  )),
+]
+
+display(Markdown("\n".join([
+  "| Category | Total (BUSD) |",
+  "|:---|---:|",
+  *[f"| {category} | {total:.1f} |" for category, total in concepts],
+])))
+
+tco_no_discount = sum(total for _, total in concepts)
+
+display(Markdown(f"**TCO (undiscounted) = {tco_no_discount:.1f} BUSD**"))
+```
+:::
+
+::: {.fragment}
+What is the \acr{TCO} with discounting (for both CAPEX and OPEX)?
+:::
+
+::: {.fragment}
+```{python}
+#| echo: false
+
+r = 0.05
+pv_tco = sum(amount / ((1 + r) ** year) for year, item, amount, category in spending_busd)
+pv_tco_satellite = sum(
+    (launch_and_deployment_cost_per_satellite_busd + satellite_manufacturing_cost_per_satellite_busd) * launches_by_year.get(year, 0) / ((1 + r) ** year)
+    for year in launches_by_year
+)
+display(Markdown(f"**PV(TCO) = {pv_tco + pv_tco_satellite :.1f} BUSD**"))
+```
+:::
+
+## Net Present Value
+
+::: {style="text-align:center;"}
+*\acr{NPV} is the difference between the present value of cash inflows and outflows over a period of time, used to assess the profitability of an investment.*
+:::
+
+$$
+NPV = \sum_{t=0}^{N_{years}} \frac{R[t] - K_{\mathrm{OPEX}}[t] - K_{\mathrm{CAPEX}}[t]}{(1+r)^t}
+$$
+
+where $R[t]$ is the revenue in year $t$ and the annual cash flow is the difference between revenues and costs.
+
+## Net Present Value (example)
+
+Compute the \acr{NPV} for the same hypothetical LEO constellation with the assumptions from the TCO example above, and two revenue scenarios A and B:
+
+```{python}
+#| echo: false
+#| tbl-cap: NPV assumptions and discounted yearly cash flows
+r = 0.05
+years = sorted(launches_by_year.keys())
+
+# Reuse TCO example assumptions to build yearly total costs (CAPEX + OPEX + satellite costs).
+yearly_costs = []
+for year in years:
+  spending_cost = sum(amount for y, _, amount, _ in spending_busd if y == year)
+  satellite_cost = (
+    launch_and_deployment_cost_per_satellite_busd
+    + satellite_manufacturing_cost_per_satellite_busd
+  ) * launches_by_year.get(year, 0)
+  yearly_costs.append(spending_cost + satellite_cost)
+
+revenues_profitable = [0.0, 2.5, 8.5]      # BUSD
+revenues_not_profitable = [0.0, 1.5, 4.5]  # BUSD
+
+rows = [
+  "| Year | Discount factor | Cost (BUSD) | Revenue A (BUSD) | Revenue B (BUSD) |",
+  "|:---:|---:|---:|---:|---:|",
+]
+for year, cost, rev_a, rev_b in zip(years, yearly_costs, revenues_profitable, revenues_not_profitable):
+  discount_factor = 1 / ((1 + r) ** year)
+  rows.append(
+    f"| {year} | {discount_factor:.4f} | {cost:.2f} | {rev_a:.2f} | {rev_b:.2f} |"
+  )
+
+display(Markdown("\n".join(rows)))
+```
+
+::: {.fragment}
+```{python}
+#| echo: false
+#| tbl-cap: NPV by scenario
+def npv_from_series(revenues, costs, discount_rate):
+  return sum(
+    (rev - cost) / ((1 + discount_rate) ** year)
+    for year, rev, cost in zip(years, revenues, costs)
+  )
+
+npv_profitable = npv_from_series(revenues_profitable, yearly_costs, r)
+npv_not_profitable = npv_from_series(revenues_not_profitable, yearly_costs, r)
+
+rows = [
+  "| Scenario | NPV (BUSD) | Profitability |",
+  "|:---|---:|:---:|",
+  f"| A (higher revenues) | {npv_profitable:.2f} | {'Profitable' if npv_profitable > 0 else 'Not profitable'} |",
+  f"| B (lower revenues) | {npv_not_profitable:.2f} | {'Profitable' if npv_not_profitable > 0 else 'Not profitable'} |",
+]
+
+display(Markdown("\n".join(rows)))
+```
+:::
+
+## Payback and break-even
+
+::: {style="text-align:center;"}
+*Payback: time it takes for an investment to generate enough cash flow ($CF$) to recover the initial investment cost*
+:::
+
+
+
+
+
+::: {style="text-align:center;"}
+*Break-even: point at which total revenues equal total costs, resulting in neither profit nor loss.*
+:::
+
+Using the profitable scenario (A), annual discounted net cash flow is:
+
+$$
+CF[t] = \frac{R[t] - K_{CAPEX}[t] - K_{OPEX}[t]}{(1+r)^t}
+$$
+
+Payback is reached when cumulative cash flow becomes non-negative.
+
+## Payback and break-even (example)
+
+```{python}
+#| echo: false
+#| tbl-cap: Payback table (Scenario A). Units in BUSD
+# Build yearly CAPEX and OPEX from the previous TCO/NPV example assumptions.
+capex_by_year = []
+opex_by_year = []
+for year in years:
+  capex_spending = sum(
+    amount for y, _, amount, category in spending_busd
+    if y == year and category == "CAPEX"
+  )
+  opex_spending = sum(
+    amount for y, _, amount, category in spending_busd
+    if y == year and category == "OPEX"
+  )
+  satellite_capex = (
+    launch_and_deployment_cost_per_satellite_busd
+    + satellite_manufacturing_cost_per_satellite_busd
+  ) * launches_by_year.get(year, 0)
+
+  capex_by_year.append(capex_spending + satellite_capex)
+  opex_by_year.append(opex_spending)
+
+net_cash_flow = [
+  rev - capex - opex
+  for rev, capex, opex in zip(revenues_profitable, capex_by_year, opex_by_year)
+]
+
+discounted_cash_flow = [
+  cf / ((1 + r) ** year)
+  for year, cf in zip(years, net_cash_flow)
+]
+
+cumulative_cash_flow = []
+acc = 0.0
+for dcf in discounted_cash_flow:
+  # Cumulative cash flow for payback is based on discounted CF.
+  acc += dcf
+  cumulative_cash_flow.append(acc)
+
+rows = [
+  "| Year | Revenue | CAPEX | OPEX | Net cash flow | Discounted cash flow | Cumulative discounted cash flow |",
+  "|:---:|---:|---:|---:|---:|---:|---:|",
+]
+for year, rev, capex, opex, cf, dcf, ccf in zip(
+  years,
+  revenues_profitable,
+  capex_by_year,
+  opex_by_year,
+  net_cash_flow,
+  discounted_cash_flow,
+  cumulative_cash_flow,
+):
+  rows.append(
+    f"| {year} | {rev:.2f} | {capex:.2f} | {opex:.2f} | {cf:.2f} | {dcf:.2f} | {ccf:.2f} |"
+  )
+
+display(Markdown("\n".join(rows)))
+
+payback_years = None
+for i in range(1, len(cumulative_cash_flow)):
+  if cumulative_cash_flow[i] >= 0 and cumulative_cash_flow[i - 1] < 0:
+    # Linear interpolation within the year where cumulative discounted CF crosses zero.
+    fraction_of_year = -cumulative_cash_flow[i - 1] / discounted_cash_flow[i]
+    payback_years = years[i - 1] + fraction_of_year
+    break
+
+if payback_years is None and cumulative_cash_flow[0] >= 0:
+  payback_years = years[0]
+
+display(Markdown(
+  "**Estimated discounted payback (Scenario A): "
+  + ("not reached in the analyzed horizon**" if payback_years is None else f"{payback_years:.2f}**")
+))
+```
+
+## Starlink economic analysis {.use-case-slide background-image="assets/starry_sky.png"}
+
+THe following section includes an assessment on the economic aspects of the Starlink
+constellation, based on publicly available information and assumptions[^note_starlink_economics].
+
+Some assumptions have been obtained from [@osoro2021technoeconomic, @ali2026starlink, @fccreport_SATLOA2020052600055, @meinrath2025starlink_capacity, @starlink2024latency].
+
+[^note_starlink_economics]: The analysis is intended for educational purposes and may not reflect the actual financial performance of the Starlink project.
+
+### Input assumptions {.use-case-slide background-image="assets/starry_sky.png"}
+
+```{python}
+from dataclasses import dataclass
+from IPython.display import Markdown, display
+
+CAPACITY_PER_SATELLITE_GBPS = 50
+
+@dataclass
+class CAPEX:
+    ground_station_musd:float
+    digital_infra_musd:float
+    spectrum_musd:float
+    regulation_fees_musd:float
+
+    def total(self):
+        return self.ground_station_musd + self.digital_infra_musd + self.spectrum_musd + self.regulation_fees_musd
+
+@dataclass
+class OPEX:
+    staff_musd:float
+    rnd_overhead_musd:float
+    marketing_musd:float
+    launch_per_satellite_musd:float
+    satellite_cost_musd:float
+
+    def total(self, n_satellites:int):
+        return self.staff_musd + self.rnd_overhead_musd + self.marketing_musd + (self.launch_per_satellite_musd + self.satellite_cost_musd) * n_satellites
+
+CAPEX_VALUES = CAPEX(
+    ground_station_musd=81.2,
+    digital_infra_musd=6.2,
+    spectrum_musd=125,
+    regulation_fees_musd=0.7
+)
+
+SATELLITE_COST_MUSD = 0.7
+PER_SATELLITE_LAUNCH_COST_MUSD = 0.7
+
+# Number of Starlink satellites in orbit per year
+N_SATELLITES = {
+  2020: 900,
+  2021: 1800,
+  2022: 3500,
+  2023: 5000,
+  2024: 6400,
+  2025: 9400,
+  2026: 12400  # projected
+}
+
+N_SUBSCRIBERS_MUSERS = {
+  2020: 0.0,
+  2021: 0.14,
+  2022: 1.0,
+  2023: 2.3,
+  2024: 4.4,
+  2025: 8.9,
+  2026: 12.0
+}
+
+ARPU_USD_PER_USER_PER_MONTH = {
+  2020: 99,
+  2021: 99,
+  2022: 99,
+  2023: 91,
+  2024: 81,
+  2025: 66,
+  2026: 66
+}
+
+DISCOUNT_RATE = 0.05  # 5% discount rate for mature telecoms
+
+Markdown(f"""
+| Parameter | Value | Source/Rationale |
+|:---|:---|:---|
+| Discount rate | {DISCOUNT_RATE*100:.2f} % | Growth-risk profile for LEO constellations [@osoro2021technoeconomic]|
+| Satellite cost | {SATELLITE_COST_MUSD:.2f} MUSD | [@chauhan2026starlink_economics] |
+| Per-satellite launch cost | {PER_SATELLITE_LAUNCH_COST_MUSD:.2f} MUSD | [@chauhan2026starlink_economics] |
+""")
+```
+
+::: {.columns}
+
+::: {.column width="33%"}
+
+```{python}
+#| echo: false
+#| tbl-cap: Satellites in orbit ([@orbitalradar2026starlink_satellites])
+
+rows = [
+  "| Year | Satellite count |",
+  "|:---|:---|",
+]
+rows.append(
+  "\n".join([f"| {year} | {N_SATELLITES[year]} |" for year in sorted(N_SATELLITES.keys())])
+)
+display(Markdown("\n".join(rows)))
+```
+:::
+
+:::{.column width="67%"}
+
+```{python}
+#| echo: false
+#| tbl-cap: Starlink number of subscribers and ARPU ([@axis2026starlink, @wikipedia2026starlink_subscribers])
+
+rows = [
+  "| Year | Subscriber count (Milion users) |ARPU (USD/user/month) |",
+  "|:---|:---:|:---:|",
+]
+rows.append(
+  "\n".join([f"| {year} | {N_SUBSCRIBERS_MUSERS[year]} | {ARPU_USD_PER_USER_PER_MONTH[year] } |" for year in sorted(N_SATELLITES.keys())])
+)
+display(Markdown("\n".join(rows)))
+```
+:::
+
+:::
+
+### Starlink CAPEX/OPEX breakdown {.use-case-slide background-image="assets/starry_sky.png"}
+
+:::{.columns}
+
+::: {.column width="50%"}
+```{mermaid}
+---
+config:
+  pie:
+    textPosition: 0.9
+    useMaxWidth: true
+  themeVariables:
+    pieOuterStrokeWidth: "0px"
+    pieStrokeWidth: "0px"
+    pieSectionTextSize: "14px"
+    pieSectionTextColor: "#111827"
+    pieLegendTextSize: "12px"
+    pieLegendTextColor: "#374151"
+    pieTitleTextSize: "16px"
+    pieTitleColor: "#111827"
+---
+pie showData title Starlink CAPEX distribution [US$ millions]
+    "Ground station" : 81.2
+    "Digital infrastructure" : 6.2
+    "Spectrum" : 125
+    "Regulation fees": 0.7
+```
+:::
+
+::: {.column width="50%"}
+```{mermaid}
+---
+config:
+  pie:
+    textPosition: 0.9
+    useMaxWidth: true
+  themeVariables:
+    pieOuterStrokeWidth: "0px"
+    pieStrokeWidth: "0px"
+    pieSectionTextSize: "14px"
+    pieSectionTextColor: "#111827"
+    pieLegendTextSize: "12px"
+    pieLegendTextColor: "#374151"
+    pieTitleTextSize: "16px"
+    pieTitleColor: "#111827"
+---
+pie showData title Starlink OPEX distribution [US$ millions]
+    "Staff" : 60
+    "R&D overhead" : 7.5
+    "Marketing" : 50
+    "Launch (per satellite)": 0.5
+    "Satellite cost": 0.25
+```
+:::
+:::
+
+[@osoro2021technoeconomic]
+
+### Input assumptions (continued) {.use-case-slide background-image="assets/starry_sky.png"}
+
+Time evolution of key parameters [@axis2026starlink, @wikipedia2026starlink_subscribers]:
+
+```{python}
+YEARS = [2021, 2022, 2023, 2024, 2025, 2026]
+SUBSCRIBERS = [0.14, 1.0, 2.3, 4.4, 8.9, 12.0]  # million users
+SATELLITES = [4, 4, 7, 8, 9, 10]  # thousand satellites
+CAPACITY = [subs * sats for subs, sats in zip(SUBSCRIBERS, SATELLITES)]  # Gbps
+ARPU = [99, 99, 99, 91, 81, 66]  # USD/user/month
+REVENUE = [subs * 12 * arpu for subs, arpu in zip(SUBSCRIBERS, ARPU)]  # USD/year
+
+Markdown(f"""
+| Year | Satellites (thousands) | Capacity (Gbps) | Subscribers (million) | ARPU (USD/user/month) | Revenue (MUSD/year) |
+|:---|:---|:---|:---|:---:|:---:|
+| {YEARS[0]} | {SATELLITES[0]} | {CAPACITY[0]:.2f} | {SUBSCRIBERS[0]:.2f} | {ARPU[0]} | {REVENUE[0]:.2f} |
+| {YEARS[1]} | {SATELLITES[1]} | {CAPACITY[1]:.2f} | {SUBSCRIBERS[1]:.2f} | {ARPU[1]} | {REVENUE[1]:.2f} |
+| {YEARS[2]} | {SATELLITES[2]} | {CAPACITY[2]:.2f} | {SUBSCRIBERS[2]:.2f} | {ARPU[2]} | {REVENUE[2]:.2f} |
+| {YEARS[3]} | {SATELLITES[3]} | {CAPACITY[3]:.2f} | {SUBSCRIBERS[3]:.2f} | {ARPU[3]} | {REVENUE[3]:.2f} |
+| {YEARS[4]} | {SATELLITES[4]} | {CAPACITY[4]:.2f} | {SUBSCRIBERS[4]:.2f} | {ARPU[4]} | {REVENUE[4]:.2f} |
+| {YEARS[5]} | {SATELLITES[5]} | {CAPACITY[5]:.2f} | {SUBSCRIBERS[5]:.2f} | {ARPU[5]} | {REVENUE[5]:.2f} |
+""")
+```
+
+### Worked outputs {.use-case-slide background-image="assets/starry_sky.png"}
+
+```{python}
+from IPython.display import Markdown, display
+
+from tipm.finance import build_starlink_case, calculate
+
+result = calculate(build_starlink_case())
+
+rows = [
+  ("Total cost of ownership (5-year, non-discounted)", f"${result.tco:.2f}$ BUSD"),
+  ("Discounted cost (present-value TCO)", f"${result.discounted_cost:.2f}$ BUSD"),
+  ("Net present value (NPV)", f"${result.npv:.2f}$ BUSD"),
+  ("Internal rate of return (IRR)", "N/A" if result.irr is None else f"${100 * result.irr:.2f}\\%$"),
+  (
+    "Payback",
+    "not reached within the 5-year horizon"
+    if result.payback_years is None
+    else f"${result.payback_years:.2f}$ years",
+  ),
+  (
+    "Break-even users (steady-state annualized)",
+    "N/A"
+    if result.break_even_users_per_year is None
+    else f"${result.break_even_users_per_year / 1_000_000:.2f}$ million users/year",
+  ),
+]
+
+table = "\n".join([
+  "| Metric | Value |",
+  "|:---|:---:|",
+  *[f"| {metric} | {value} |" for metric, value in rows],
+])
+
+display(Markdown(table))
+```
+
+Interpretation: under this conservative CAPEX/OPEX-heavy setup, business viability is not reached in 5 years. This provides a useful classroom baseline to test sensitivity to ARPU, launch cadence, and capacity growth.
+

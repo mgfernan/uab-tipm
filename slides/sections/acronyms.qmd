@@ -9,6 +9,8 @@ acronyms:
       longname: Automatic Dependent Surveillance-Broadcast
     - shortname: bps
       longname: bits per second
+    - shortname: CAPEX
+      longname: Capital Expenditure
     - shortname: EIRP
       longname: Effective Isotropic Radiated Power
     - shortname: FoV
@@ -29,6 +31,10 @@ acronyms:
       longname: Narrowband Internet of Things
     - shortname: NLoS
       longname: Non-Line of Sight
+    - shortname: NPV
+      longname: Net Present Value
+    - shortname: OPEX
+      longname: Operational Expenditure
     - shortname: QoS
       longname: Quality of Service
     - shortname: RTT
@@ -37,6 +43,8 @@ acronyms:
       longname: Non-Terrestrial Network
     - shortname: RHCP
       longname: Right-Hand Circular Polarization
+    - shortname: TCO
+      longname: Total Cost of Ownership
     - shortname: V2X
       longname: Vehicle-to-Everything
 ---
