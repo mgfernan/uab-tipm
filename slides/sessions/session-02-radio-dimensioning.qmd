@@ -1,12 +1,333 @@
 # Radio dimensioning {.session-marker}
 
-- Coverage, capacity, and spectrum.
+::: {style="text-align:center;"}
+*From service demand and KPI targets into a radio design that determines whether those targets can be met*
+:::
+
+- Architecture and platform choices
+- Coverage geometry and beam behavior
+- Spectrum and multiple access
 - Simplified link budget.
 - Spectral efficiency.
 - Cell sizing and radio node count.
 - Trade-offs between coverage and densification.
 
-## Link budget: Beam design
+## NTN architecture
+
+<img
+src="assets/architecture__nt_vs_tnt.svg"
+alt="NT and NTN architecture comparison"
+style="display: block; width: 100%; max-height: 70vh; margin: 0.5rem auto 0;"
+/>
+
+
+### Transparent vs regenerative arch.
+
+
+<img
+src="assets/architecture__transp_vs_regen.svg"
+alt="NT and NTN architecture comparison"
+style="display: block; width: 100%; max-height: 70vh; margin: 0.5rem auto 0;"
+/>
+
+
+### Architecture for backhaul use case
+
+- The NTN network is used to provide connectivity between two terrestrial networks (e.g., two base stations) that are not directly connected.
+- This is transparent to end users, who are connected to the terrestrial networks that are connected through the NTN network.
+
+<img
+src="assets/architecture__backhaul.svg"
+alt="NTN architecture targeted at backhaul use case"
+style="display: block; width: 100%; max-height: 70vh; margin: 0.5rem auto 0;"
+/>
+
+
+
+### Definitions
+
+- *Transparent* (bent-pipe/relay) or *regenerative* (on-board processing) payloads
+- Regenerative payloads: implement on-board switching and routing (i.e. gNB tasks)⇒ less dependent on the terrestrial network, and can provide direct access to the NTN user equipment (UE). Ideal for areas with limited terrestrial coverage.
+- **Gateways** have different roles: in transparent provides a bridge between the NTN and the terrestrial network, while in regenerative connects the NTN payload to 5G Core Network.
+
+
+### Starlink architecture {.use-case-slide background-image="assets/starry_sky.png"}
+
+![source: [@starlink2024latency]](assets/starlink__architecture.png)
+
+## Architecture stack: overview
+
+![source: Perplexity AI](assets/architecture__stack.png)
+
+### Architecture stack: Layer 1 - PHY
+
+Controls **physical layer** (PHY, ,i.e. "radio") aspects[^l1_ref]:
+
+- Radio interface
+- Channel coding and modulation schemes.
+- MIMO processing and beamforming
+- Hybrid Automatic Repeat reQuest (HARQ) buffering
+
+[^l1_ref]: See [5G NTN Stack Architecture](https://gatehousesatcom.com/product/5g-ntn-new-radio/5g-ntn-new-radio-gnodeb/){target="_blank"}
+
+### Architecture stack: Layer 2 - MAC
+
+Controls **Medium Access Control** (MAC, i.e. protocol) aspects of the radio interface:
+
+- Manages scheduling and multiplexing
+- Hybrid Automatic Repeat reQuest (HARQ) management and execution:
+    - Combine retransmissions to improve reliability and reduce latency.
+    - Replay a packet after an error
+    - Manage ACK/NACK feedback from the receiver
+- For NTN, MAC includes HARQ adaptations for longer round‑trip time (RTT) delays.
+
+## Transition: from architecture to coverage geometry
+
+- Architecture defines processing location and control loops.
+- Geometry and beams define what area can be covered and with which dynamics.
+- Next, we translate these choices into coverage building blocks.
+
+
+## NTN Platforms
+
+<img
+src="assets/01_ntn_platforms.svg"
+alt="NTN platforms (source: Ericsson)"
+style="display: block; width: 100%; max-height: 70vh; margin: 0.5rem auto 0;"
+/>
+
+### Types of Platforms
+
+| Platform type  | Altitude |
+|:---------------|:--------:|
+| Airborne (Unmanned Aerial Vehicles or UAV) | ~10 km |
+| High Altitude Platform System (HAPS)       | 20 km - 50 km |
+| Satellite at Low Earth Orbit (LEO)         | 300 km - 3000 km |
+| Satellite at Medium Earth Orbit (MEO)      | 6000 km - 8000 km |
+| Satellite at Geostationary Orbit (GEO)     | ~36000 km |
+
+### Satellite platforms
+
+Qualitative comparison between satellite platforms
+
+| Characteristic |    GEO   |     MEO  |    LEO   |
+|:---------------|:--------:|:--------:|:--------:|
+| Orbit height |  ~36,000 km | 6,000-8,000 km | 300-3,000 km |
+| Propagation delay |  ~120 ms | 23-83 ms | 1-5 ms |
+| Num. sats for Earth coverage    | 3 |  ~6 | Hundreds  |
+| Type of beams       | fixed | Quasi-fixed / moving | Quasi-fixed / moving |
+| Num. gateways  | very few   | few | numerous |
+| Target service | low-rate, delay-tolerant | medium-rate, medium-latency | high-rate, low-latency |
+
+### Orbits
+
+Orbital period
+
+$$
+T = 2\pi \sqrt{\frac{a^3}{\mu}}
+$$
+
+where:
+
+- $a$ is the semi-major axis of the orbit and
+- $\mu$ is the standard gravitational parameter of the pulling body (i.e., Earth).
+
+### Orbit examples
+
+Some examples of gravitational parameters:
+$$
+\begin{array}{l}
+\mu_{Earth} = 3.986 \times 10^{14} m^3/s^2 \\
+\mu_{Moon} = 4.904 \times 10^{12} m^3/s^2 \\
+\mu_{Mars} = 4.282 \times 10^{13} m^3/s^2 \\
+\end{array}
+$$
+
+$$
+T_{GEO} \approx 2\pi \sqrt{\frac{(35,793 + 6,371 km)^3}{\mu_{Earth}}} \approx 86,161 s \approx 24 h \\
+T_{LEO} \approx 2\pi \sqrt{\frac{(600 + 6,371 km)^3}{\mu_{Earth}}} \approx 5,792 s \approx 1.6 h
+$$
+
+
+### Starlink satellites {.use-case-slide background-image="assets/starry_sky.png"}
+
+- \acr{ISL}: provided by 3 optical lasers with up tp 200 Gbps[^starlink_sat]
+- Star trackers for location and attiude determination
+- Ka and Ku band antennas for user access and gateway links
+- Various versions of [Starlink satellites](https://en.wikipedia.org/wiki/Starlink#Satellite_revisions). As of August 2026, most satellites are v1.5 and v2mini.
+
+<div style="display: flex; gap: 1rem; align-items: center; justify-content: center; margin-top: 0.5rem;">
+    <img src="assets/01_starlink_satellite.png" style="width: 48%; max-height: 46vh; object-fit: contain;" />
+    <img src="assets/starlink__sat_versions.jpg" style="width: 48%; max-height: 46vh; object-fit: contain;" />
+</div>
+
+[^starlink_sat]:  Starlink. [Starlink Technology](https://starlink.com/technology)
+
+### Starlink constellation {.use-case-slide background-image="assets/starry_sky.png"}
+
+::: {.columns}
+::: {.column width="55%"}
+- LEO satellite at a Walker orbit at height ~550km and mostly at inclination of $50^\circ$ [@ali2026starlink].
+- Some satellites have polar or near-polar orbits (coverage at Polar regions).
+- Number of satellites ~6,750[^starlink_tech], >10000[^satellitemap]
+:::
+
+::: {.column width="45%"}
+![source: [satellitemap](satellitemap.space)](assets/01_starlink_constellation.png)
+:::
+:::
+
+[^starlink_tech]:  Starlink. [Starlink Technology](https://starlink.com/technology)
+[^satellitemap]: Satellitemap. [Starlink constellation](https://satellitemap.space/vis/constellation/starlink)
+
+### Starlink constellation {.use-case-slide background-image="assets/starry_sky.png"}
+
+- [Orbital elements](https://celestrak.org/NORAD/elements/gp.php?GROUP=starlink&FORMAT=csv) in Two Line Elements (TLE) format. Allows orbit computation using the SGP4 orbital model[^sgp4_python]
+
+```text
+STARLINK-1008
+1 44714U 19074B   26215.97871058  .00029734  00000+0  37585-3 0  9997
+2 44714  53.1486 198.6893 0006328  18.4929 341.6313 15.59291253371649
+```
+        - Inclination (deg): 53.1486
+        - Right ascension of ascending node (deg): 198.6893
+        - Eccentricity: 0.0006328
+        - Argument of perigee (deg): 18.4929
+        - Mean anomaly (deg): 341.6313
+        - Mean motion (rev/day): 15.59291253 and its derivatives (in the first line)
+
+- Satellites deployed in **trains** and then spread out
+
+[^sgp4_python]: Rhodes, Brandon. [Python SGP4 Orbit propagator](https://pypi.org/project/sgp4/)
+
+
+## Satellite FoV footprint
+
+- See [satellite FoV footprint derivation in the annexes of this deck](#sec-annex_fov_footprint) for the derivation of the footprint radius as a function of satellite altitude and elevation angle.
+- Footprint assumes that there is minimum elevation $\varepsilon_{min}$ for the user terminal to communicate with the satellite (see Section 3.3.1 of [@corici2024ntnQos]).
+
+```{python}
+from tipm.geometry import compute_boundary_lat_lon, plot_fov_boundaries
+import plotly.graph_objects as go
+import plotly.io as pio
+from IPython.display import HTML
+
+# Earth radius (mean equatorial radius)
+R_E = 6378.137  # km
+
+# Elevation angles (degrees) for boundaries: ε = 0°,2°,4°,6°,8°,10°
+elevations_deg = [0, 5, 10]
+```
+
+## Satellite FoV footprint: GEO
+
+```{python}
+fig = plot_fov_boundaries(0.0, 0.0, 36000, elevations_deg, R_E)
+
+# Avoid injecting MathJax from Plotly; Quarto already handles page-level LaTeX.
+HTML(pio.to_html(fig, full_html=False, include_plotlyjs="cdn", include_mathjax=False))
+```
+
+## Satellite FoV footprint: MEO
+
+```{python}
+fig = plot_fov_boundaries(0.0, 0.0, 10000, elevations_deg, R_E)
+
+# Avoid injecting MathJax from Plotly; Quarto already handles page-level LaTeX.
+HTML(pio.to_html(fig, full_html=False, include_plotlyjs="cdn", include_mathjax=False))
+```
+
+## Satellite FoV footprint: LEO
+
+```{python}
+fig = plot_fov_boundaries(0.0, 0.0, 1200, elevations_deg, R_E)
+
+# Avoid injecting MathJax from Plotly; Quarto already handles page-level LaTeX.
+HTML(pio.to_html(fig, full_html=False, include_plotlyjs="cdn", include_mathjax=False))
+```
+
+### Starlink FoV footprint {.use-case-slide background-image="assets/starry_sky.png"}
+
+
+Assuming a Starlink-like LEO satellite at $550\ \text{km}$ with a $1.5^\circ$ beamwidth.
+
+```{python}
+import math
+
+lat_bcn, lon_bcn = 41.3874, 2.1686
+alt_km = 550
+half_angle_beamwidth_deg = 1.5
+
+half_angle_rad = math.radians(half_angle_beamwidth_deg)
+gamma_rad = math.asin((R_E + alt_km) / R_E * math.sin(half_angle_rad)) - half_angle_rad
+area_km2 = 2.0 * math.pi * (R_E**2) * (1.0 - math.cos(gamma_rad))
+
+lat_curve, lon_curve = compute_boundary_lat_lon(
+    lat_bcn,
+    lon_bcn,
+    alt_km,
+    nadir_angle_deg=half_angle_beamwidth_deg,
+    n_points=361,
+)
+
+fig = go.Figure()
+fig.add_trace(
+    go.Scattermapbox(
+        lat=lat_curve,
+        lon=lon_curve,
+        mode="lines",
+        line=dict(width=3, color="#ff4d4f"),
+        name=f"Beam edge ({half_angle_beamwidth_deg:g}º half-angle, A = {area_km2:,.0f} km²)",
+    )
+)
+fig.add_trace(
+    go.Scattermapbox(
+        lat=[lat_bcn],
+        lon=[lon_bcn],
+        mode="markers",
+        marker=dict(size=10, color="black"),
+        name="Sub-satellite point (Barcelona)",
+    )
+)
+
+fig.update_layout(
+    template="plotly_white",
+    height=520,
+    margin=dict(l=8, r=8, t=50, b=8),
+    title=dict(
+        text=f"Starlink FoV Footprint Over Barcelona (550 km altitude, A = {area_km2:,.0f} km²)",
+        x=0.5,
+    ),
+    legend=dict(
+        x=0.01,
+        y=0.99,
+        xanchor="left",
+        yanchor="top",
+        bgcolor="rgba(255,255,255,0.85)",
+    ),
+    mapbox=dict(
+        style="carto-positron",
+        center=dict(lat=lat_bcn, lon=lon_bcn),
+        zoom=7,
+    ),
+)
+
+# Avoid injecting MathJax from Plotly; Quarto already handles page-level LaTeX.
+HTML(pio.to_html(fig, full_html=False, include_plotlyjs="cdn", include_mathjax=False))
+```
+
+
+
+## NTN Beams
+
+- Beams are the main mechanism to provide coverage in NTN, and are defined by the
+    antenna type and configuration.
+- The type of beams will ultimately determine:
+    - Coverage area and footprint
+    - Beam mobility and handover strategy
+    - Capacity and throughput
+
+### Beam design
 
 - Antenna dimensioning: Beam design (https://www.satsig.net/satellite/satellite-beam-design.htm)
 
@@ -14,6 +335,99 @@ Ref: https://www.youtube.com/watch?v=bQpu14JgNz0
 https://www.ni.com/es/solutions/semiconductor/non-terrestrial-network-test/nonterrestrial-networks-for-5g-and-beyond.html
 
 See example in Section 3.3.2 of [@vanelli20245g]
+
+### Fixed beams
+
+![](assets/01_beam__fixed.svg)
+
+### Quasi-fixed beams
+
+![](assets/01_beam__quasi-fixed.svg)
+
+### Moving beams
+
+![](assets/01_beam__moving.svg)
+
+### Beam steering
+
+![](assets/01_beam__steering.svg)
+
+### Beam handover
+
+Beam dynamics force **handover** between beams, similar to terrestrial networks.
+
+![source: Perplexity AI](assets/01_starlink_beam_switching.png)
+
+[@huston2026protocol; @neinavaie2022unveiling]
+
+### Starlink beams {.use-case-slide background-image="assets/starry_sky.png"}
+
+- **Beam steered** by phased array antennas
+- Employ circular polarizations: \acr{RHCP} and \acr{LHCP}
+- Beamwidth of ~1.5° [@meinrath2025starlink_capacity]
+- Each satellite has 48 beams for downlink and 16 beams for uplink [@pekhterev2021bandwidth]:
+
+$$
+n_{beams\ downlink} = 8 \frac{beams}{ant.\times pol.} \cdot 3\ ant. \cdot 2\ pol. = 48 \\
+n_{beams\ uplink} = 8 \frac{beams}{ant.\times pol.} \cdot 1\ ant. \cdot 2\ pol. = 16 \\
+$$
+
+- Total bandwidth per satellite: 2 Gbps (downlink) and 500 Mbps (uplink) [@pekhterev2021bandwidth]
+
+## Cell sizing and radio node count
+
+Coverage and capacity sizing can be approximated with two checks:
+
+### Cell sizing: coverage-driven beam count
+
+- **Coverage check**
+
+$$
+N_{beams,cov} = \left\lceil \frac{A_{scenario}}{A_{beam}} \right\rceil
+$$
+
+### Cell sizing: capacity-driven beam count
+
+- **Capacity check**
+
+$$
+N_{beams,cap} = \left\lceil \frac{D_{scenario}}{C_{beam}} \right\rceil
+$$
+
+### Cell sizing: final beam and satellite count
+
+Final beam count is the stricter one:
+
+$$
+N_{beams} = \max(N_{beams,cov}, N_{beams,cap})
+$$
+
+Satellite count depends on usable beams per satellite:
+
+$$
+N_{sat} = \left\lceil \frac{N_{beams}}{N_{beams/sat}} \right\rceil
+$$
+
+### Cell sizing and radio node count: simple Starlink-like example
+
+Assume:
+
+- $A_{beam}=650\ km^2$ (from the footprint section)
+- $A_{scenario}=100,000\ km^2$
+- $C_{beam}=2\ Gbps / 48 \approx 41.7\ Mbps$
+- $D_{scenario}=3,200\ Mbps$
+
+Then:
+
+- $N_{beams,cov}=\lceil 100,000/650 \rceil = 154$
+- $N_{beams,cap}=\lceil 3,200/41.7 \rceil = 77$
+- $N_{beams}=154$ (coverage-limited)
+- $N_{sat}=\lceil 154/48 \rceil = 4$ satellites (idealized, no overlap margin)
+
+## Transition: from geometry and beams to spectrum
+
+- After sizing coverage/capacity blocks, we choose radio spectrum resources.
+- Band selection and channelization condition both capacity and robustness.
 
 
 ## Spectrum
@@ -61,6 +475,20 @@ plot_frequency_bands()
 - QAM modulation schemes are used, with higher-order QAM (e.g., up to 1024-QAM in downlink ) providing higher spectral efficiency but requiring better signal quality.
 - Different modulations for data transmission and control channels (L1 and L2)
 
+## Spectral efficiency
+
+Spectral efficiency links throughput, bandwidth, and modulation/coding choices:
+
+$$
+\eta = \frac{R_b}{B}\ [bit/s/Hz]
+$$
+
+Where higher-order modulation and higher code rates increase $\eta$, but require higher received signal quality. This is why dimensioning always couples:
+
+- spectrum allocation ($B$),
+- link budget margin ($C/N$ vs. $C/N_{ref}$), and
+- achievable user/beam throughput.
+
 
 ### Frequency plan {.use-case-slide background-image="assets/starry_sky.png"}
 
@@ -76,7 +504,7 @@ plot_frequency_bands()
 See [@humphreys2023signal; @blazquez2024capabilities] for more details on Starlink's radio dimensioning
 
 
-## Multiple access strategies
+## Multiple access: visual intuition
 
 ![source: Perplexity AI](assets/multiple_access.png)
 
@@ -87,6 +515,11 @@ How different users share the same radio resources:
 - **OFDMA** (Orthogonal Frequency Division Multiple Access): Users are allocated different sub-carriers within the same time slot.
 - **TDMA** (Time Division Multiple Access): Users are allocated the same frequency band but in different time slots.
 - **SDMA** (Space Division Multiple Access): Users are separated by spatial beams.
+
+## Transition: from resource sharing to link feasibility
+
+- Spectrum and access explain resource allocation.
+- Link budget verifies whether each allocated link is physically supportable.
 
 ## Link budget
 
@@ -516,6 +949,11 @@ md_table = tabulate(rows, headers=headers, tablefmt="pipe", colalign=("left", "c
 Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
 ```
 
+## Transition: from link closure to delay performance
+
+- A link can close in power terms and still fail latency targets.
+- We now check delay constraints from propagation geometry.
+
 
 ## Latency limits
 
@@ -575,3 +1013,16 @@ fig.update_yaxes(showgrid=True)
 # Avoid injecting MathJax from Plotly; Quarto already handles page-level LaTeX.
 HTML(pio.to_html(fig, full_html=False, include_plotlyjs="cdn", include_mathjax=False))
 ```
+
+## Trade-offs between coverage and densification
+
+Increasing beam density can improve spatial reuse and peak throughput, but it also increases operational complexity and interference-management needs.
+
+Typical design tensions:
+
+- **Larger beams**: better wide-area coverage, fewer handovers, lower per-area capacity.
+- **Smaller/more beams**: higher capacity and reuse, tighter pointing/tracking, more handovers.
+- **Higher frequency/wider channels**: more capacity, typically higher path loss and stronger dependence on link conditions.
+- **More satellites/gateways**: better continuity and lower path stretch, higher deployment and operations cost.
+
+Dimensioning therefore iterates between KPI targets (coverage, capacity, latency) and practical constraints (spectrum, power, architecture, and cost).
