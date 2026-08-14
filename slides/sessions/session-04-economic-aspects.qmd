@@ -413,7 +413,7 @@ display(Markdown(
 
 ## Starlink economic analysis {.use-case-slide background-image="assets/starry_sky.png"}
 
-THe following section includes an assessment on the economic aspects of the Starlink
+The following section includes an assessment on the economic aspects of the Starlink
 constellation, based on publicly available information and assumptions[^note_starlink_economics].
 
 Some assumptions have been obtained from [@osoro2021technoeconomic, @ali2026starlink, @fccreport_SATLOA2020052600055, @meinrath2025starlink_capacity, @starlink2024latency].
@@ -541,122 +541,158 @@ display(Markdown("\n".join(rows)))
 
 ### Starlink CAPEX/OPEX breakdown {.use-case-slide background-image="assets/starry_sky.png"}
 
+
+```{python}
+CAPEX = {
+    "Ground station" : 81.2,
+    "Digital infrastructure" : 6.2,
+    "Spectrum" : 125,
+    "Regulation fees": 0.7,
+}
+
+OPEX = {
+    "Staff" : 60,
+    "R&D overhead" : 7.5,
+    "Marketing" : 50
+}
+```
+
 :::{.columns}
 
 ::: {.column width="50%"}
-```{mermaid}
----
-config:
-  pie:
-    textPosition: 0.9
-    useMaxWidth: true
-  themeVariables:
-    pieOuterStrokeWidth: "0px"
-    pieStrokeWidth: "0px"
-    pieSectionTextSize: "14px"
-    pieSectionTextColor: "#111827"
-    pieLegendTextSize: "12px"
-    pieLegendTextColor: "#374151"
-    pieTitleTextSize: "16px"
-    pieTitleColor: "#111827"
----
-pie showData title Starlink CAPEX distribution [US$ millions]
-    "Ground station" : 81.2
-    "Digital infrastructure" : 6.2
-    "Spectrum" : 125
-    "Regulation fees": 0.7
+```{python}
+#| echo: false
+#| tbl-cap: Starlink CAPEX structure
+rows = [
+  "|Concept | Amount [MUSD] |",
+  "|:---:|:---:|"
+]
+rows.append(
+  "\n".join([f"| {concept} | {amount} |" for concept, amount in CAPEX.items()])
+)
+display(Markdown("\n".join(rows)))
 ```
+
 :::
 
 ::: {.column width="50%"}
-```{mermaid}
----
-config:
-  pie:
-    textPosition: 0.9
-    useMaxWidth: true
-  themeVariables:
-    pieOuterStrokeWidth: "0px"
-    pieStrokeWidth: "0px"
-    pieSectionTextSize: "14px"
-    pieSectionTextColor: "#111827"
-    pieLegendTextSize: "12px"
-    pieLegendTextColor: "#374151"
-    pieTitleTextSize: "16px"
-    pieTitleColor: "#111827"
----
-pie showData title Starlink OPEX distribution [US$ millions]
-    "Staff" : 60
-    "R&D overhead" : 7.5
-    "Marketing" : 50
-    "Launch (per satellite)": 0.5
-    "Satellite cost": 0.25
-```
-:::
-:::
-
-[@osoro2021technoeconomic]
-
-### Input assumptions (continued) {.use-case-slide background-image="assets/starry_sky.png"}
-
-Time evolution of key parameters [@axis2026starlink, @wikipedia2026starlink_subscribers]:
 
 ```{python}
-YEARS = [2021, 2022, 2023, 2024, 2025, 2026]
-SUBSCRIBERS = [0.14, 1.0, 2.3, 4.4, 8.9, 12.0]  # million users
-SATELLITES = [4, 4, 7, 8, 9, 10]  # thousand satellites
-CAPACITY = [subs * sats for subs, sats in zip(SUBSCRIBERS, SATELLITES)]  # Gbps
-ARPU = [99, 99, 99, 91, 81, 66]  # USD/user/month
-REVENUE = [subs * 12 * arpu for subs, arpu in zip(SUBSCRIBERS, ARPU)]  # USD/year
-
-Markdown(f"""
-| Year | Satellites (thousands) | Capacity (Gbps) | Subscribers (million) | ARPU (USD/user/month) | Revenue (MUSD/year) |
-|:---|:---|:---|:---|:---:|:---:|
-| {YEARS[0]} | {SATELLITES[0]} | {CAPACITY[0]:.2f} | {SUBSCRIBERS[0]:.2f} | {ARPU[0]} | {REVENUE[0]:.2f} |
-| {YEARS[1]} | {SATELLITES[1]} | {CAPACITY[1]:.2f} | {SUBSCRIBERS[1]:.2f} | {ARPU[1]} | {REVENUE[1]:.2f} |
-| {YEARS[2]} | {SATELLITES[2]} | {CAPACITY[2]:.2f} | {SUBSCRIBERS[2]:.2f} | {ARPU[2]} | {REVENUE[2]:.2f} |
-| {YEARS[3]} | {SATELLITES[3]} | {CAPACITY[3]:.2f} | {SUBSCRIBERS[3]:.2f} | {ARPU[3]} | {REVENUE[3]:.2f} |
-| {YEARS[4]} | {SATELLITES[4]} | {CAPACITY[4]:.2f} | {SUBSCRIBERS[4]:.2f} | {ARPU[4]} | {REVENUE[4]:.2f} |
-| {YEARS[5]} | {SATELLITES[5]} | {CAPACITY[5]:.2f} | {SUBSCRIBERS[5]:.2f} | {ARPU[5]} | {REVENUE[5]:.2f} |
-""")
+#| echo: false
+#| tbl-cap: Starlink OPEX structure
+rows = [
+  "|Concept | Amount [MUSD] |",
+  "|:---:|:---:|"
+]
+rows.append(
+  "\n".join([f"| {concept} | {amount} |" for concept, amount in OPEX.items()])
+)
+display(Markdown("\n".join(rows)))
 ```
+:::
 
-### Worked outputs {.use-case-slide background-image="assets/starry_sky.png"}
+:::
+
+Yearly CAPEX and OPEX (including satellite launches)
 
 ```{python}
-from IPython.display import Markdown, display
+years = sorted(N_SATELLITES.keys())
+year_0 = min(N_SATELLITES.keys())
+capex_0_musd = sum(CAPEX.values())
+opex_yearly_musd = sum(OPEX.values())
 
-from tipm.finance import build_starlink_case, calculate
+# Compute launches per year
+launches_by_year = {year: N_SATELLITES[year] - N_SATELLITES.get(year - 1, 0) for year in years}
 
-result = calculate(build_starlink_case())
+capex_by_year_musd = {year: n_sats * (SATELLITE_COST_MUSD + PER_SATELLITE_LAUNCH_COST_MUSD) for year, n_sats in launches_by_year.items()}
+capex_by_year_musd[year_0] = capex_by_year_musd[year_0] + capex_0_musd
+
+amount_musd = {year: capex + opex_yearly_musd for year, capex in capex_by_year_musd.items()}
 
 rows = [
-  ("Total cost of ownership (5-year, non-discounted)", f"${result.tco:.2f}$ BUSD"),
-  ("Discounted cost (present-value TCO)", f"${result.discounted_cost:.2f}$ BUSD"),
-  ("Net present value (NPV)", f"${result.npv:.2f}$ BUSD"),
-  ("Internal rate of return (IRR)", "N/A" if result.irr is None else f"${100 * result.irr:.2f}\\%$"),
-  (
-    "Payback",
-    "not reached within the 5-year horizon"
-    if result.payback_years is None
-    else f"${result.payback_years:.2f}$ years",
-  ),
-  (
-    "Break-even users (steady-state annualized)",
-    "N/A"
-    if result.break_even_users_per_year is None
-    else f"${result.break_even_users_per_year / 1_000_000:.2f}$ million users/year",
-  ),
+  "|Year | CAPEX | OPEX | Amount |",
+  "|:---:|:---:|:---:|:---:|"
 ]
-
-table = "\n".join([
-  "| Metric | Value |",
-  "|:---|:---:|",
-  *[f"| {metric} | {value} |" for metric, value in rows],
-])
-
-display(Markdown(table))
+rows.append(
+  "\n".join([f"| {year} | {capex_by_year_musd[year]:.0f} | {opex_yearly_musd:.0f} | {amount_musd[year]:.0f} |" for year in years])
+)
+display(Markdown("\n".join(rows)))
 ```
 
-Interpretation: under this conservative CAPEX/OPEX-heavy setup, business viability is not reached in 5 years. This provides a useful classroom baseline to test sensitivity to ARPU, launch cadence, and capacity growth.
+See [@@osoro2021technoeconomic]
 
+### Revenue {.use-case-slide background-image="assets/starry_sky.png"}
+
+```{python}
+REVENUE = {year: N_SUBSCRIBERS_MUSERS[year] * 12 * ARPU_USD_PER_USER_PER_MONTH[year] for year in sorted(N_SUBSCRIBERS_MUSERS.keys())}
+
+rows = [
+  "| Year | Subscribers (million) | ARPU (USD/user/month) | Revenue (MUSD/year) |",
+  "|:---|:---|:---:|:---:|"
+]
+
+rows.append(
+  "\n".join([f"| {year} | {N_SUBSCRIBERS_MUSERS[year]:.2f} | {ARPU_USD_PER_USER_PER_MONTH[year] } | {REVENUE[year]:.0f} |" for year in sorted(N_SUBSCRIBERS_MUSERS.keys())])
+)
+
+display(Markdown("\n".join(rows)))
+```
+
+### Margin {.use-case-slide background-image="assets/starry_sky.png"}
+
+
+```{python}
+
+revenues_arr = [REVENUE[year] for year in years]
+expenses_arr = [amount_musd[year] for year in years]
+
+net_cash_flow = [REVENUE[year]- amount_musd[year] for year in years]
+
+discounted_cash_flow = [
+  cf / ((1 + r) ** (year-year_0))
+  for year, cf in zip(years, net_cash_flow)
+]
+
+cumulative_cash_flow = []
+acc = 0.0
+for dcf in discounted_cash_flow:
+  # Cumulative cash flow for payback is based on discounted CF.
+  acc += dcf
+  cumulative_cash_flow.append(acc)
+
+
+payback_years = None
+for i in range(1, len(cumulative_cash_flow)):
+  if cumulative_cash_flow[i] >= 0 and cumulative_cash_flow[i - 1] < 0:
+    # Linear interpolation within the year where cumulative discounted CF crosses zero.
+    fraction_of_year = -cumulative_cash_flow[i - 1] / discounted_cash_flow[i]
+    payback_years = years[i - 1] + fraction_of_year
+    break
+
+if payback_years is None and cumulative_cash_flow[0] >= 0:
+  payback_years = years[0]
+
+
+npv = sum(cumulative_cash_flow)
+
+rows = [
+  "|Year | CAPEX + OPEX | Revenue | Net cash-flow | Discounted cash-flow | Cumulative discounted cash-flow |",
+  "|:---:|:---:|:---:|:---:|:----:|:----:|"
+]
+rows.append(
+  "\n".join([f"| {year} | {expense:.0f} | {revenue:.0f} | {ncf:.0f} |  {dcf:.0f} | {ccf:.0f} |" for year, expense, revenue, ncf, dcf, ccf in zip(years, expenses_arr, revenues_arr, net_cash_flow, discounted_cash_flow, cumulative_cash_flow)])
+)
+display(Markdown("\n".join(rows)))
+
+
+display(Markdown(
+  "**Estimated discounted payback: "
+  + ("not reached in the analyzed horizon**" if payback_years is None else f"{payback_years:.2f}**")
+))
+
+display(Markdown(f"**Net Price Value: M${npv:.0f}**"))
+```
+
+::: {.fragment}
+The service is operationally attractive once revenue is generated, but the accumulated cash flows do not yet justify the capital deployed to build and maintain the system.
+:::

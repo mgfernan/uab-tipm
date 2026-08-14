@@ -572,6 +572,8 @@ Land monitoring service from Corine database provided by [Copernicus](https://la
 
 ### Starlink's target scenarios {.use-case-slide background-image="assets/starry_sky.png"}
 
+::: {.columns}
+::: {.column width="50%"}
 Starlink focuses on:
 
 - broadband in underserved areas (remote, rural)
@@ -580,6 +582,38 @@ Starlink focuses on:
 [Starshield](https://www.spacex.com/starshield) (SpaceX side product that leverages Starlink) focuses on:
 
 - Critical communications for military applications
+:::
+
+::: {.column width="50%"}
+```{mermaid}
+%%| label: fig-starlink-market
+%%| fig-cap: "Starlink market distribution. See [@axis2026starlink]"
+
+---
+config:
+  pie:
+    textPosition: 0.7
+    useMaxWidth: true
+  themeVariables:
+    pieOuterStrokeWidth: "0px"
+    pieStrokeWidth: "0px"
+    pieSectionTextSize: "24px"
+    pieSectionTextColor: "#111827"
+    pieLegendTextSize: "24px"
+    pieLegendTextColor: "#cad5e6"
+    pieTitleTextSize: "24px"
+    pieTitleColor: "#cad5e6"
+---
+pie showData title Starlink Market distribution [BUSD]
+    "Residential" : 6.6
+    "Maritime" : 1.3
+    "Aviation" : 1.4
+    "Business/Enterprise": 1.0
+    "Starshield": 3.0
+    "Hardware (IoT)": 1.3
+```
+:::
+:::
 
 ## From scenarios to requirement statements
 
