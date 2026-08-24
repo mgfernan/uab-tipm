@@ -29,6 +29,8 @@ acronyms:
       longname: Medium Earth Orbit
     - shortname: NB-IoT
       longname: Narrowband Internet of Things
+    - shortname: NGSO
+      longname: Non-Geostationary Satellite Orbit
     - shortname: NLoS
       longname: Non-Line of Sight
     - shortname: NPV
@@ -37,6 +39,8 @@ acronyms:
       longname: Operational Expenditure
     - shortname: QoS
       longname: Quality of Service
+    - shortname: RAN
+      longname: Radio Access Network
     - shortname: RTT
       longname: Round-Trip Time
     - shortname: NTN

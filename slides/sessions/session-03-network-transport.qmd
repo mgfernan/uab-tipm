@@ -1,7 +1,239 @@
 # Network Transport {.session-marker}
 
-- Optical fiber and radio links.
-- Backhaul architectures.
-- Star, ring, and mesh topologies.
+::: {style="text-align:center;"}
+"*How does traffic travel from a 5G NTN user or cell to the 5G Core?*"
+:::
+
+In this session, we will explore:
+
+- Architectures.
+- Network Topologies.
 - Aggregation and oversubscription.
 - Latency, synchronization, and reliability.
+
+::: {.notes}
+- Fiber usually provides predictable delay and excellent timing distribution.
+- Microwave (radio) can provide a resilient alternative to fiber.
+- Satellite transport introduces longer and often time-varying delay.
+- LEO systems may have lower delay than GEO systems but more frequent changes in satellite, beam, and feeder-gateway association.
+- Atmospheric attenuation becomes increasingly important at higher frequencies, particularly at low elevation angles.
+:::
+
+
+## NTN Architecture
+
+<img
+src="assets/architecture__nt_vs_tnt.svg"
+alt="NT and NTN architecture comparison"
+style="display: block; width: 100%; max-height: 70vh; margin: 0.5rem auto 0;"
+/>
+
+
+### Transparent vs regenerative arch.
+
+
+<img
+src="assets/architecture__transp_vs_regen.svg"
+alt="NT and NTN architecture comparison"
+style="display: block; width: 100%; max-height: 70vh; margin: 0.5rem auto 0;"
+/>
+
+### Trade-offs
+
+| | Transparent | Regenerative |
+|---|---|---|
+| Gateway dependency | High | Low thanks to \acr{ISL} routing |
+| Satellite payload complexity | Low | High |
+| Synchronization and mobility management | High | Low |
+| Backhaul latency | High | Low |
+
+
+
+::: {.callout-tip  title="Which architecture is most appropriate for an isolated terrestrial cell that already has a conventional gNB?"}
+
+::: {.fragment}
+Usually, satellite backhaul is simpler because the radio-access functions remain on the ground. However, the answer depends on coverage, capacity, latency, mobility, and deployment cost.
+:::
+:::
+
+### Use case: Backhaul architectures
+
+::: {style="text-align:center;"}
+"*A remote 5G cell serves a mining site, an offshore wind farm, or a disaster-relief area. It has terrestrial fiber only intermittently, a microwave link of limited capacity, and satellite connectivity. How should it connect to the 5G Core?*"
+:::
+
+<img
+src="assets/network__backhaul_fiber.svg"
+alt="TN architecture with failing fiber link"
+style="display: block; max-height: 50vh; margin: 0.5rem auto 0;"
+/>
+
+### Use case: Backhaul architectures
+
+- Solution: Backhaul through NTN, with a satellite link to the 5G Core.
+
+<img
+src="assets/network__backhaul_satellite.svg"
+alt="NTN architecture targeted at backhaul use case"
+style="display: block; max-height: 50vh; margin: 0.5rem auto 0;"
+/>
+
+This is transparent to end users, who are connected to the terrestrial networks that are connected through the NTN network.
+
+
+### Definitions
+
+- *Transparent* (bent-pipe/relay) or *regenerative* (on-board processing) payloads
+- Regenerative payloads: implement on-board switching and routing (i.e. gNB tasks)⇒ less dependent on the terrestrial network, and can provide direct access to the NTN user equipment (UE). Ideal for areas with limited terrestrial coverage.
+- **Gateways** have different roles: in transparent provides a bridge between the NTN and the terrestrial network, while in regenerative connects the NTN payload to 5G Core Network.
+- *Service link*: UE–satellite or relay-node–satellite link.
+- *Feeder link*: satellite–gateway link
+- *Backhaul*: connectivity between the \acr{RAN} (e.g. gNB) and the 5G Core.
+- \acr{ISL}: transport between satellites.
+- *Transport Network Layer*: the network carrying interfaces, packets, ...
+
+### Starlink architecture {.use-case-slide background-image="assets/starry_sky.png"}
+
+![source: [@starlink2024latency]](assets/starlink__architecture.png)
+
+### Case study: Feeder-link switch over
+
+::: {style="text-align:center;"}
+An \acr{NGSO} satellite may need to change its serving gateway as it moves. 3GPP treats feeder-link switch-over as a **Transport Network Layer** procedure.
+:::
+
+<img
+src="assets/figures/switch_over__arch.png"
+alt="NTN feeder-link switch-over cases (source: Perplexity AI)"
+style="display: block; max-height: 50vh; margin: 0.5rem auto 0;"
+/>
+
+### Case study: Feeder-link switch over
+
+What happens to in-flight packets?
+
+- May arrive normally through the source gateway
+- Buffered in the satellite, gateway, or gNB until the target path becomes active
+- Forwarded through the new gateway (if the network supports forwarding or tunnelling)?
+- Duplicated temporarily in a **soft switch-over** [^soft_hard_switch]
+- Lost if the source path is released before delivery and no buffering or forwarding mechanism exists.
+ -Arrive out of order if some packets use the old path and others use the new path.
+
+[^soft_hard_switch]: In a soft switch-over, the payload temporarily connects to both gateways,. In a hard switch-over, only one gateway is connected at a time
+
+## Topologies
+
+::: {style="text-align:center;"}
+How do NTN topologies affect transport performance?
+:::
+
+- Gateway topology and placement is critical for NTN performance. For regenerative payloads, where the satellite can route traffic, trade-offs can be made between these factors:
+  - Latency vs. reliability: more gateways reduce latency but increase complexity (switch-over increases, routing complexity, maintenance costs increase, ...).
+  - Ground vs \acr{ISL}: more \acr{ISL}s reduce the number of gateways needed but increase the complexity of the satellite payload and routing.
+
+### Gateway and ISL trade-off
+
+- Multiple configurations possible (depending on number of satellites, gateways, ...).
+- A routing cost ($K_{route}$) can be defined to quantify the trade-off between latency ($T$), capacity ($C$)... For example, a simple routing cost could be defined:
+
+$$
+K_{route} = \alpha \cdot T + \beta \cdot C + \gamma \cdot K
+$$
+
+| parameter | weight | description |
+|:-----|:-----:|:-----|
+| $T$ | $\alpha$ | Propagation delay due to up- and downlink, ISL hops, ... |
+| $C$ | $\beta$ | Capacity of each strategy/approach |
+| $K$ | $\gamma$ | Cost of the deployment |
+
+### Gateway and ISL trade-off: latency
+
+- Let's consider two simple NTN topologies (both using a LEO constellation). Based on example found in Starlink's Reunion Island to Europe connection in Slides 16 to 19 of [@nohan2025starlink_performance]:
+  - **Gateway first**: 1 gateway, 1 satellites, no \acr{ISL}
+  - **ISL assisted**: 1 gateway, 3 satellites, 2 \acr{ISL} hops
+
+<img
+src="assets/topology_trade-off_latency.svg"
+alt="NTN topologies for latency trade-off"
+style="display: block; max-height: 50vh; margin: 0.5rem auto 0;"
+/>
+
+
+### Gateway and ISL trade-off: latency
+
+
+| Segment                                | Gateway-first | ISL-assisted |
+| -------------------------------------- | ------------- | ------------ |
+| UE to satellite satelliote             | 3 ms          | 3 ms         |
+| Satellite-to-gateway feeder link       | 3 ms          | 3 ms         |
+| Two optical ISLs                       | —             | 4 ms         |
+| Gateway-to-PoP terrestrial transport   | 70 ms         | 5 ms         |
+| Processing and queueing                | 5 ms          | 7 ms         |
+| **Total one-way delay**                | **81 ms**     | **22 ms**    |
+
+This implies an improvement of $2 \times 59 = 118\,ms$ in round-trip time (RTT) for the ISL-assisted topology.
+
+### Gateway and ISL trade-off: capacity
+
+Assume the following capacities:
+
+| Segment                                | Symbol  | Available capacity |
+| -------------------------------------- |:-------:|:------------------:|
+| User-to-satellite service link         | $C_{service}$  |   2 Gbit/s         |
+| Each optical ISL                       | $C_{ISL}$      |   1 Gbit/s         |
+| Feeder link to the selected gateway    | $C_{feeder}$   |   1.5 Gbit/s       |
+| Gateway-to-5G Core fiber               | $C_{gateway}$  |  10 Gbit/s        |
+
+The capacity in both cases is limited by the minimum capacity of the segments in the path. For the gateway-first topology, the bottleneck is the feeder link ($C_{feeder} = 1.5\,Gbit/s$). For the ISL-assisted topology, the bottleneck is the optical ISL ($C_{ISL} = 1\,Gbit/s$).
+
+### Gateway and ISL trade-off: oversubscription
+
+Now suppose 700 Mbit/s of traffic is already using the first ISL and a new flow requires 500 Mbit/s (**oversubscription**). The new flow cannot receive its requested rate without either:
+
+- Using another ISL route
+- Selecting another gateway
+- Moving some traffic to a gateway-first path
+- Applying QoS or rate control
+- Queining: Waiting for the traffic load to change
+
+A path with lower latency may still be unsuitable because of capacity
+
+
+### Gateway and ISL trade-off: applications
+
+Which strategy is best depends on the application and its requirements.
+
+For example:
+
+| Application        | Preferred route                                                           | Reason                                         |
+| ------------------ | ------------------------------------------------------------------------- | ---------------------------------------------- |
+| Voice              | Usually the lower-delay route, provided loss and jitter remain acceptable | Sensitive to RTT, jitter, and queueing         |
+| Bulk file transfer | Route with greater residual capacity                                      | Less sensitive to propagation delay            |
+| Web browsing       | Depends on RTT, congestion, and retransmissions                           | Interactive but usually less strict than voice |
+| Critical control   | Most reliable route, possibly with duplication                            | Continuity is more important than efficiency   |
+
+
+### Gateway and ISL trade-off: working example
+
+Assume the following traffic load and capacity utilization:
+
+| Route         | One-way propagation and processing | Current utilization | Available capacity |
+| ------------- | ---------------------------------- | ------------------- | ------------------ |
+| Gateway-first | 81 ms                              | 60%                 | 600 Mbit/s         |
+| ISL-assisted  | 22 ms                              | 85%                 | 150 Mbit/s         |
+
+::: {style="text-align:center;"}
+Which route should carry a 100 Mbit/s voice-and-control flow? Which should carry a 500 Mbit/s bulk transfer?
+:::
+
+::: {.fragment}
+- The ISL path is attractive for the 100 Mbit/s latency-sensitive flow because 100 Mbit/s fits within its 150 Mbit/s residual capacity.
+:::
+::: {.fragment}
+- The gateway-first path is preferable for the 500 Mbit/s bulk transfer because the ISL path lacks sufficient residual capacity.
+:::
+
+
+## Aggregation and oversubscription
+
+

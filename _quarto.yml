@@ -34,6 +34,10 @@ format:
         <script src="assets/slide-path.js"></script>
     code:
       show: false
+
+revealjs-plugins:
+  - quiz
+
 editor: source
 
 filters:

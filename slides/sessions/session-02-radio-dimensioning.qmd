@@ -4,56 +4,13 @@
 *From service demand and KPI targets into a radio design that determines whether those targets can be met*
 :::
 
-- Architecture and platform choices
+- Platforms
 - Coverage geometry and beam behavior
 - Spectrum and multiple access
 - Simplified link budget.
 - Spectral efficiency.
 - Cell sizing and radio node count.
 - Trade-offs between coverage and densification.
-
-## NTN architecture
-
-<img
-src="assets/architecture__nt_vs_tnt.svg"
-alt="NT and NTN architecture comparison"
-style="display: block; width: 100%; max-height: 70vh; margin: 0.5rem auto 0;"
-/>
-
-
-### Transparent vs regenerative arch.
-
-
-<img
-src="assets/architecture__transp_vs_regen.svg"
-alt="NT and NTN architecture comparison"
-style="display: block; width: 100%; max-height: 70vh; margin: 0.5rem auto 0;"
-/>
-
-
-### Architecture for backhaul use case
-
-- The NTN network is used to provide connectivity between two terrestrial networks (e.g., two base stations) that are not directly connected.
-- This is transparent to end users, who are connected to the terrestrial networks that are connected through the NTN network.
-
-<img
-src="assets/architecture__backhaul.svg"
-alt="NTN architecture targeted at backhaul use case"
-style="display: block; width: 100%; max-height: 70vh; margin: 0.5rem auto 0;"
-/>
-
-
-
-### Definitions
-
-- *Transparent* (bent-pipe/relay) or *regenerative* (on-board processing) payloads
-- Regenerative payloads: implement on-board switching and routing (i.e. gNB tasks)⇒ less dependent on the terrestrial network, and can provide direct access to the NTN user equipment (UE). Ideal for areas with limited terrestrial coverage.
-- **Gateways** have different roles: in transparent provides a bridge between the NTN and the terrestrial network, while in regenerative connects the NTN payload to 5G Core Network.
-
-
-### Starlink architecture {.use-case-slide background-image="assets/starry_sky.png"}
-
-![source: [@starlink2024latency]](assets/starlink__architecture.png)
 
 ## Architecture stack: overview
 

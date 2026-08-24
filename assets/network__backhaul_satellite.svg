@@ -2,14 +2,14 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="1571.4868mm"
-   height="459.35324mm"
-   viewBox="0 0 1571.4867 459.35325"
+   width="1546.9053mm"
+   height="427.65793mm"
+   viewBox="0 0 1546.9052 427.65794"
    version="1.1"
    id="svg1"
    xml:space="preserve"
    inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
-   sodipodi:docname="architecture__backhaul.svg"
+   sodipodi:docname="network__backhaul_satellite.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -25,14 +25,14 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="0.17883873"
-     inkscape:cx="3676.4967"
-     inkscape:cy="1864.8086"
+     inkscape:cx="3584.2348"
+     inkscape:cy="1747.3844"
      inkscape:window-width="1920"
      inkscape:window-height="1011"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer2" /><defs
+     inkscape:current-layer="svg1" /><defs
      id="defs1"><marker
        style="overflow:visible"
        id="RoundedArrow-8-7"
@@ -225,26 +225,15 @@
          transform="scale(0.7)"
          d="m -0.21114562,-4.1055728 6.42229122,3.21114561 a 1,1 90 0 1 0,1.78885438 L -0.21114562,4.1055728 A 1.236068,1.236068 31.717474 0 1 -2,3 v -6 a 1.236068,1.236068 148.28253 0 1 1.78885438,-1.1055728 z"
          style="fill:context-stroke;fill-rule:evenodd;stroke:none"
-         id="path23-7-1-1" /></marker></defs><text
-     xml:space="preserve"
-     style="font-size:35.7875px;font-family:System-ui;-inkscape-font-specification:System-ui;writing-mode:lr-tb;direction:ltr;opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:none"
-     x="-3.0123472"
-     y="27.690111"
-     id="text23"
-     inkscape:label="TN"><tspan
-       sodipodi:role="line"
-       id="tspan23"
-       style="fill:#008080;fill-opacity:1;stroke:#008080;stroke-width:1;stroke-dasharray:none"
-       x="-3.0123472"
-       y="27.690111">Backhaul use case</tspan></text><g
+         id="path23-7-1-1" /></marker></defs><g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(507.34066,859.98503)" /><g
+     transform="translate(482.75908,828.2897)" /><g
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="Layer 2"
-     transform="translate(507.34066,859.98503)"><g
+     transform="translate(482.75908,828.2897)"><g
        inkscape:label="Layer 1"
        id="layer1-46-2"
        transform="translate(119.61474,-799.26427)"
@@ -814,7 +803,7 @@
              id="layer1-3-9"
              transform="translate(-5.7950577,-18.101752)" /></g></g></g></g><g
      id="g8"
-     transform="matrix(-0.01744262,0.06509668,-0.06509668,-0.01744262,736.75327,1043.6097)" /><style
+     transform="matrix(-0.01744262,0.06509668,-0.06509668,-0.01744262,712.17169,1011.9144)" /><style
      type="text/css"
      id="style1">
 <![CDATA[
