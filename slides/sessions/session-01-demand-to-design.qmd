@@ -16,7 +16,7 @@
 *"An NTN is a wireless communication network that utilizes radio network equipment placed on an airborne or spaceborne vehicle"*
 :::
 
-5G NTN was standardized in 3GPP Release 17
+5G NTN was standardized in \acr{3GPP} Release 17
 
 [@TripathiReed2025NTN]
 

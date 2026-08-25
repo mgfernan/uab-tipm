@@ -3,10 +3,14 @@ acronyms:
   insert_loa: false
   loa_title: ''
   keys:
+    - shortname: 3GPP
+      longname: 3rd Generation Partnership Project
     - shortname: AIS
       longname: Automatic Identification System
     - shortname: ADS-B
       longname: Automatic Dependent Surveillance-Broadcast
+    - shortname: EE
+      longname: Energy Efficiency
     - shortname: bps
       longname: bits per second
     - shortname: CAPEX
@@ -17,6 +21,8 @@ acronyms:
       longname: Field of View
     - shortname: FSPL
       longname: Free-Space Path Loss
+    - shortname: gNB
+      longname: Next Generation Node B
     - shortname: ISL
       longname: Inter-Satellite Link
     - shortname: KPI
@@ -49,6 +55,8 @@ acronyms:
       longname: Right-Hand Circular Polarization
     - shortname: TCO
       longname: Total Cost of Ownership
+    - shortname: TN
+      longname: Terrestrial Network
     - shortname: V2X
       longname: Vehicle-to-Everything
 ---

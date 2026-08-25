@@ -4,3 +4,263 @@
 - Impact of traffic and frequency band.
 - Sustainability and operational cost.
 - Energy-saving and optimization strategies.
+
+## Energy Efficiency: definitions
+
+- \acr{EE} in communications is defined as the number of successfully
+received **bits divided by the energy** consumed for transmitting and receiving these
+bits (**bit/J**).
+
+$$
+EE = \frac{total\ delivered\ bits}{total\ energy\ consumed} \quad [bit/J]
+$$
+
+- Alternatively, one can use the average data rate ($R\quad[bps]$) over the entire period ($T$, i.e. life-span of the satellite).
+
+$$
+EE = \frac{R \cdot T}{E_{total}} = \frac{R }{P_{total}}\quad [bit/J]
+$$
+
+## Who consumes energy in a network?
+
+
+\acr{RAN} is the most energy-consuming part of the network, and it is responsible for more than 70% of the total energy consumption in mobile networks [@uitto2026study, @lopez2022survey].
+
+The average data rates have been constantly rising, while the energy consumption of the network has been increasing as well.
+
+## Who consumes energy in a network?
+
+::: {.columns}
+
+::: {.column width="50%"}
+```{mermaid}
+%%{init: {'theme': 'base', 'themeVariables': {
+    'pie1': '#1d4ed8',
+    'pie2': '#f59e0b',
+    'pie3': '#10b981',
+    'pie4': '#64748b'
+}}}%%
+pie showData
+    title Approximate 5G Network Power Consumption
+    "Radio Access Network (RAN)" : 70
+    "Core Network & Data Centers" : 14
+    "Transport / Backbone" : 9
+    "Support Systems & Other" : 7
+```
+:::
+
+::: {.column width="50%"}
+```{mermaid}
+%%{init: {'theme': 'base', 'themeVariables': {
+    'pie1': '#1d4ed8',
+    'pie2': '#3b82f6',
+    'pie3': '#60a5fa',
+    'pie4': '#93c5fd'
+}}}%%
+pie showData
+    title RAN Power Consumption Breakdown
+    "Radio Units (RRU/Amplifiers/...)" : 63
+    "Site cooling (HVAC, fans, etc.)": 25
+    "Baseband processing (BBU/DU/CU)" : 9
+    "Backhaul & transmission equipment" : 3
+```
+:::
+:::
+
+Core Network & Data Centers power consumption is split more or less evenly between
+the Control/user plane functions (increasingly virtualized in Data Centers) and
+the compute/storage for network functions and services.
+
+## Energy consumption models
+
+In NTN, two main energy consumption sources are considered:
+
+- energy associated with communications (radiation, amplification, signal processing,
+and other electronics) both in the satellite/HAPS and the ground segment
+- energy associated with the propulsion system (for orbit maintenance, station keeping, and attitude control). Which may be vastly different from HAPS, UAVs and satellites
+- For satellite, fixed energy cost of the **satellite launch** should be also included
+
+## Launch energy cost
+
+The **minimum energy per kilogram** ($\Delta \varepsilon(h)$ in units of Joules per kilogram ($J/kg$)) required to place 1kg into a circular orbit at altitude $h$, under the idealized assumptions (ignoring atmosphere, rotation, and inefficiencies) is:
+
+$$
+\Delta \varepsilon(h) = \mu_{Earth} \cdot \left( \frac{1}{R_{Earth}} - \frac{1}{2(R_{Earth} + h)} \right)
+$$
+
+Therefore, the energy needed to place an arbitrary mass $m$ into orbit at altitude $h$ is:
+
+$$
+\Delta E(m, h) = m \times \Delta \varepsilon(h)
+$$
+
+
+## Launch energy cost (examples)
+
+```{python}
+import plotly.graph_objects as go
+import plotly.io as pio
+from IPython.display import HTML
+
+
+def launch_energy_cost(mass_kg, altitude_km, mu_m3ps2=3.986e14, r_earth_km=6371):
+    """
+    Minimum orbital insertion energy for a mass at a given circular orbit altitude.
+    Returns the energy in Joules (J) for a mass in kg and altitude in km.
+    """
+    r_earth_m = r_earth_km * 1_000
+    altitude_m = altitude_km * 1_000
+    delta_epsilon = mu_m3ps2 * (1 / r_earth_m - 1 / (2 * (r_earth_m + altitude_m)))
+    return mass_kg * delta_epsilon
+
+
+SAT_HEIGHTS_KM = {
+    "LEO": 550,
+    "MEO": 20000,
+    "GEO": 35793,
+}
+
+STARLINK_MASSES_KG = {
+    "v1.5": 260,
+    "v2mini": 800,
+    "v3": 2000,
+}
+
+masses_kg = sorted([10, 50, 100, 250, 500, 1000, 2000, 5000] + list(STARLINK_MASSES_KG.values()))
+colors = {"LEO": "#1d4ed8", "MEO": "#f59e0b", "GEO": "#10b981"}
+
+fig = go.Figure()
+
+for orbit_name, altitude_km in SAT_HEIGHTS_KM.items():
+    energy_GJ = [launch_energy_cost(mass_kg, altitude_km) / 1.0e9 for mass_kg in masses_kg]
+    fig.add_trace(
+        go.Scatter(
+            x=masses_kg,
+            y=energy_GJ,
+            mode="lines+markers",
+            name=f"{orbit_name} ({altitude_km:,} km)",
+            line=dict(color=colors[orbit_name], width=3),
+            marker=dict(size=6, color=colors[orbit_name]),
+            hovertemplate="Mass: %{x} kg<br>Orbit: %{fullData.name}<br>Energy: %{y:.2f} GJ<extra></extra>",
+        )
+    )
+
+for satellite_name, mass_kg in STARLINK_MASSES_KG.items():
+    fig.add_vline(
+        x=mass_kg,
+        line_dash="dash",
+        line_color="black",
+        line_width=1.5,
+        annotation_text=satellite_name,
+        annotation_position="top left",
+        annotation_font=dict(size=10),
+        showlegend=False,
+    )
+
+fig.update_layout(
+    title="Minimum launch energy vs. payload mass",
+    xaxis_title="Mass (kg)",
+    yaxis_title="Energy (GJ)",
+    template="plotly_white",
+    hovermode="x unified",
+    yaxis=dict(range=[0, 120]),
+    xaxis=dict(range=[0, 5_500]),
+    legend=dict(title=None),
+)
+
+# Avoid injecting MathJax from Plotly; Quarto already handles page-level LaTeX.
+HTML(pio.to_html(fig, full_html=False, include_plotlyjs="cdn", include_mathjax=False))
+```
+
+## Launch energy cost: overheads
+
+Launch has a significant overhead besides the pure mechanical (physical) energy:
+
+- Mass of the launch vehicle itself (Space X's Falcon 9 weights around ~ 549,000 kg at lift-off [@orbitalradar2026falcon9])
+- Inefficiencies in the launch vehicle (propulsion, aerodynamics, etc.)
+
+## Launch energy cost: overheads
+
+The launch energy per satellite can be computed using the **embodied energy of the propellants**:
+
+-  for Starlink's Falcon 9: this amounts to around of $11.6 TJ/launch$  [@greenblatt2023energyNGSO]
+-  Each Falcon 9 launch can carry up to 60 Starlink satellites
+
+$$
+E_{launch} = \frac{11.6 TJ}{60} \approx 0.193 TJ/satellite \approx 190 GJ/satellite
+$$
+
+This is around 7 times the minimum energy required to place a Sarlink v2mini satellite into LEO (without considering any overhead).
+
+## Satellite energy cost
+
+To compute the energy efficiency of a satellite, we need:
+
+- $P_{op} = 15kW$ power generated by the solar panels of the v2mini
+- $T=5\ years$, lifespan of the satellite
+- $R = 96\ Gbps$, downlink average data rate of v2mini satellites
+
+The operational energy efficiency:
+
+$$
+EE_{v2mini, op} = \frac{96 Gbps}{15 kW} \approx 6.4 Mbps/J
+$$
+
+## Satellite energy cost (incl. launch)
+
+Factoring in the launch energy cost:
+
+$$
+EE_{v2mini} = \frac{96 Gbps}{15 kW + 190 GJ/(5\cdot 365\cdot 24\cdot 3600)} \approx 5.9 Mbps/J
+$$
+
+This implies that the launch cost can amount to $\simeq 8\%$ of the total energy efficiency of a satellite.
+
+::: {.callout-warning title="Delivered bits vs. all bits"}
+\acr{EE} metric considers the total number of bits **delivered** to the end users, not the total number of bits transmitted by the satellite. This means that retransmissions, overhead, and other factors that do not contribute to successful data delivery are not counted in the numerator of the energy efficiency calculation.
+:::
+
+## Comparison with TN: RAN EE
+
+Assuming these figures for a \acr{TN} \acr{RAN} (e.g. \acr{gNB}):
+
+- $R_{gNB} \simeq 1Gbps$
+- $P_{gNB} \simeq 1-2kW$
+
+The energy efficiency of a terrestrial base station is:
+
+- $EE_{gNB} \simeq 0.5-1 [Mbps/J]$,
+
+but heavily dependent on load, bandwidth, site type,...
+
+## NTN vs TN EE comparison
+
+At first sight, NTN seems to be more energy efficient than TN, even factoring the satellite launch. However, this is not a fair comparison, as the gNB serves a much smaller area than a satellite. A more fair comparison would be to compare $EE_{gNB}$ with $EE_{v2mini,beam}$. Considering that a V2mini has 48 downlink beams (see @sec-starlinlk_beams):
+
+$$
+EE_{v2mini,beam} = \frac{EE_{v2mini}}{48} \approx 0.12 [Mbps/J]
+$$
+
+Moreover, $EE_{v2mini,beam}$ considers only **satellite segment** and leaves out the **ground segment** (e.g. user terminals, gateways, etc.) which also consume energy.
+
+## NTN vs TN EE comparison: discussion
+
+When satellites can be more energy‑efficient?
+
+- Sparse or remote areas:
+    - One satellite can serve a huge, low‑density area where building many terrestrial sites would be very energy‑intensive per user.
+    - The “per‑user” or “per‑km²” EE can favor satellites because the terrestrial alternative requires many under‑utilized sites.
+
+- Broadcast/multicast:
+    - If the same content is delivered to many users over a wide area, a satellite’s wide footprint can be very efficient compared to replicating traffic over many terrestrial cells.
+
+## NTN vs TN EE comparison: discussion
+When terrestrial networks can be more efficient? In dense urban or suburban areas
+
+This is because:
+
+- Shorter radio paths → lower transmit power per bit.
+- Higher spectral efficiency (more aggressive reuse, MIMO, dense small cells).
+- Better ability to scale capacity with demand (add cells, sectors, spectrum) without over‑provisioning a huge shared resource.
+
+A single Starlink satellite serving a dense city may be power‑limited and spectrum‑limited, so the per‑user EE can be worse than a well‑designed 5G dense terrestrial network.

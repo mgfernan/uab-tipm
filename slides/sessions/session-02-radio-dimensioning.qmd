@@ -97,12 +97,13 @@ $$
 \mu_{Earth} = 3.986 \times 10^{14} m^3/s^2 \\
 \mu_{Moon} = 4.904 \times 10^{12} m^3/s^2 \\
 \mu_{Mars} = 4.282 \times 10^{13} m^3/s^2 \\
+\R_{Earth} = 6,371 km \\
 \end{array}
 $$
 
 $$
-T_{GEO} \approx 2\pi \sqrt{\frac{(35,793 + 6,371 km)^3}{\mu_{Earth}}} \approx 86,161 s \approx 24 h \\
-T_{LEO} \approx 2\pi \sqrt{\frac{(600 + 6,371 km)^3}{\mu_{Earth}}} \approx 5,792 s \approx 1.6 h
+T_{GEO} \approx 2\pi \sqrt{\frac{(35,793 + R_{Earth})^3}{\mu_{Earth}}} \approx 86,161 s \approx 24 h \\
+T_{LEO} \approx 2\pi \sqrt{\frac{(600 + R_{Earth})^3}{\mu_{Earth}}} \approx 5,792 s \approx 1.6 h
 $$
 
 
@@ -317,7 +318,7 @@ Beam dynamics force **handover** between beams, similar to terrestrial networks.
 
 [@huston2026protocol; @neinavaie2022unveiling]
 
-### Starlink beams {.use-case-slide background-image="assets/starry_sky.png"}
+### Starlink beams {.use-case-slide background-image="assets/starry_sky.png"} {#sec-starlinlk_beams}
 
 - **Beam steered** by phased array antennas
 - Employ circular polarizations: \acr{RHCP} and \acr{LHCP}

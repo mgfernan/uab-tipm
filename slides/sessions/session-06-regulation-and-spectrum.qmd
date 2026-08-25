@@ -33,3 +33,14 @@ Info extracted from Space Exploration Holdings, LLC (Starlink) FCC regulatory fi
 | 71000	- 76000 | V | [@fccreport_SATLOA2020052600055] |
 | 76000 - 86000 | W | [@fccreport_SATLOA2020052600055] |
 
+
+### Starlink: Regulatory timeline {.use-case-slide background-image="assets/starry_sky.png"}
+
+
+FCC Authorization History (see [@axis2026starlink])
+
+| Date      |    Authorization      |    Cumulative Approved |
+|:----------------:|:----------------------:|:----------------------:|
+| 2018      |    Initial 4,425 satellite approval      |    4,425 |
+| November 2022      |    First Gen2 batch (7,500 satellites)      |    ~12,000 |
+| January 9, 2026      |    Additional 7,500 Gen2 satellites      |    15,000 |
