@@ -230,7 +230,7 @@ lat_curve, lon_curve = compute_boundary_lat_lon(
 
 fig = go.Figure()
 fig.add_trace(
-    go.Scattermapbox(
+    go.Scattermap(
         lat=lat_curve,
         lon=lon_curve,
         mode="lines",
@@ -239,7 +239,7 @@ fig.add_trace(
     )
 )
 fig.add_trace(
-    go.Scattermapbox(
+    go.Scattermap(
         lat=[lat_bcn],
         lon=[lon_bcn],
         mode="markers",
@@ -263,7 +263,7 @@ fig.update_layout(
         yanchor="top",
         bgcolor="rgba(255,255,255,0.85)",
     ),
-    mapbox=dict(
+    map=dict(
         style="carto-positron",
         center=dict(lat=lat_bcn, lon=lon_bcn),
         zoom=7,
