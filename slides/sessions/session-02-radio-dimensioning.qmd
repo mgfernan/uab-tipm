@@ -97,7 +97,7 @@ $$
 \mu_{Earth} = 3.986 \times 10^{14} m^3/s^2 \\
 \mu_{Moon} = 4.904 \times 10^{12} m^3/s^2 \\
 \mu_{Mars} = 4.282 \times 10^{13} m^3/s^2 \\
-\R_{Earth} = 6,371 km \\
+R_{Earth} = 6,371 km \\
 \end{array}
 $$
 
@@ -123,8 +123,6 @@ $$
 <img src="assets/starlink__sat_versions.jpg" />
 :::
 :::
-
-</div>
 
 [^starlink_sat]:  Starlink. [Starlink Technology](https://starlink.com/technology)
 
