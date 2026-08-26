@@ -112,11 +112,18 @@ $$
 - \acr{ISL}: provided by 3 optical lasers with up tp 200 Gbps[^starlink_sat]
 - Star trackers for location and attiude determination
 - Ka and Ku band antennas for user access and gateway links
-- Various versions of [Starlink satellites](https://en.wikipedia.org/wiki/Starlink#Satellite_revisions). As of August 2026, most satellites are v1.5 and v2mini.
+- Various versions of [Starlink satellites](https://en.wikipedia.org/wiki/Starlink#Satellite_revisions). As of August 2026, most satellites are `v1.5` and `v2mini`.
 
-<div style="display: flex; gap: 1rem; align-items: center; justify-content: center; margin-top: 0.5rem;">
-    <img src="assets/01_starlink_satellite.png" style="width: 48%; max-height: 46vh; object-fit: contain;" />
-    <img src="assets/starlink__sat_versions.jpg" style="width: 48%; max-height: 46vh; object-fit: contain;" />
+::: {.columns}
+::: {.column width="50%"}
+<img src="assets/01_starlink_satellite.png" />
+:::
+
+::: {.column width="50%"}
+<img src="assets/starlink__sat_versions.jpg" />
+:::
+:::
+
 </div>
 
 [^starlink_sat]:  Starlink. [Starlink Technology](https://starlink.com/technology)
