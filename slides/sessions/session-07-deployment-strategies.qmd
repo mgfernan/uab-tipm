@@ -5,3 +5,73 @@
 - Scenario-dependent strategies.
 - Progressive rollout and infrastructure sharing.
 - Technical versus economic trade-offs.
+
+This section is planned as a group exercise
+
+## The design challenge
+
+::: {.columns}
+::: {.column width="50%"}
+<img
+src="assets/figures/session-07/skybit_logo.png"
+alt="Skybit logo (source: ChatGPT)"
+style="display: block; width: 100%; max-height: 70vh; margin: 0.5rem auto 0;"
+/>
+:::
+
+::: {.column width="50%"}
+As the NTN deployment team, you are requested to plan a 5G NTN connectivity service across a region with rural areas, maritime zones, occasional disasters and several dense cities.
+:::
+:::
+
+## The design challenge: priorities
+
+*Which objective should be prioritised during the first deployment phase?*
+
+::: {.columns}
+::: {.column width="50%"}
+1. Maximise geographic coverage
+2. Maximise peak throughput and service quality
+:::
+
+::: {.column width="50%"}
+3. Maximize number of users
+4. Minimise initial investment and cost
+:::
+:::
+
+::: {.fragment}
+Deployment and planning is a **multi-objective optimization problem**! Focus on **value**, not just *coverage* or *throughput*.
+
+The first deployment should maximise the value of usable service under realistic technical, regulatory and economic constraints—not simply the percentage of Earth illuminated by a satellite beam.
+:::
+
+::: {.notes}
+Applicable questions:
+
+- Would you rather have 80% coverage with poor evening performance, or 40% coverage with a reliable 50 Mbps service?
+:::
+
+## Service to deploy?
+
+| Option | Service candidate                       | Throughput | Latency sensitivity | Coverage | Price | Availability |
+| :----: | --------------------------------------- | ----------- | ------- | -------- | ----- | ----------- |
+| A      | Messaging and emergency alerts          | | | | | |
+| B      | NB-IoT environmental sensors            | | | | | |
+| C      | Voice and low-rate data for smartphones | | | | | |
+| D      | Broadband for fixed rural users         | | | | | |
+| E      | Broadband for aircraft and ships        | | | | | |
+
+::: {.fragment}
+Give rankings from 1 (lowest) to 5 (highest) for each service candidate in every category
+:::
+
+::: {.notes}
+| Service                            | Throughput | Coverage | cost | Availability | Latency sensitivity | Initial NTN attractiveness |
+| ---------------------------------- | ---------- | -------- | ---- | --------     | ------------------- | -------------------------- |
+| Messaging and emergency alerts     | 1          | 5        | 1    | 5            | 1                   |  5                          |
+| NB-IoT environmental sensors       | 1          | 5        | 1    | 3            | 1                   |  5                          |
+| Voice and low-rate smartphone data | 2          | 5        | 3    | 4            | 3                   |  4                          |
+| Fixed rural broadband              | 5          | 3        | 4    | 4            | 4                   |  4                          |
+| Aircraft and maritime broadband    | 5          | 4        | 5    | 5            | 4                   |  4                          |
+:::

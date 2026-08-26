@@ -25,8 +25,10 @@ format:
     #navigation-mode: linear
     #controls-layout: edges
     #pdf-separate-fragments: false
+    chalkboard: true
     slide-level: 3
-    embed-resources: true
+    # RevealChalkboard is incompatible with self-contained output.
+    embed-resources: false
     include-in-header:
       text: |
         <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
