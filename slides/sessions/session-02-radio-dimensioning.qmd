@@ -323,7 +323,7 @@ Beam dynamics force **handover** between beams, similar to terrestrial networks.
 
 [@huston2026protocol; @neinavaie2022unveiling]
 
-### Starlink beams {.use-case-slide background-image="assets/starry_sky.png"} {#sec-starlinlk_beams}
+### Starlink beams {#sec-starlink_beams .use-case-slide background-image="assets/starry_sky.png"}
 
 - **Beam steered** by phased array antennas
 - Employ circular polarizations: \acr{RHCP} and \acr{LHCP}
