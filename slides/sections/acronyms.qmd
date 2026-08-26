@@ -9,6 +9,8 @@ acronyms:
       longname: Automatic Identification System
     - shortname: ADS-B
       longname: Automatic Dependent Surveillance-Broadcast
+    - shortname: D2D
+      longname: Direct to Device
     - shortname: EE
       longname: Energy Efficiency
     - shortname: bps
@@ -21,8 +23,14 @@ acronyms:
       longname: Field of View
     - shortname: FSPL
       longname: Free-Space Path Loss
+    - shortname: GEO
+      longname: Geostationary Earth Orbit
     - shortname: gNB
       longname: Next Generation Node B
+    - shortname: HAPS
+      longname: High-Altitude Platform Station
+    - shortname: IOV
+      longname: In-Orbit Validation
     - shortname: ISL
       longname: Inter-Satellite Link
     - shortname: KPI
@@ -33,6 +41,10 @@ acronyms:
       longname: Left-Hand Circular Polarization
     - shortname: MEO
       longname: Medium Earth Orbit
+    - shortname: MIFR
+      longname: Master International Frequency Register
+    - shortname: MNO
+      longname: Mobile Network Operator
     - shortname: NB-IoT
       longname: Narrowband Internet of Things
     - shortname: NGSO

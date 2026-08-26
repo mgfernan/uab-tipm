@@ -11,19 +11,197 @@
 
 - ITU (International Telecommunication Union)
 - ETSI (European Telecommunications Standards Institute)
+- FCC (Federal Communications Commission)
 - 3GPP (3rd Generation Partnership Project)
 
-# Session 6 Starlink case study {.use-case-slide background-image="assets/starry_sky.png"}
+## Licensing process
 
-## Regulation and Spectrum {.use-case-slide background-image="assets/starry_sky.png"}
+```{mermaid}
+gantt
+    title 5G NTN to Initial Service Launch
+    dateFormat YYYY-MM
+    axisFormat %Y-%m
+    excludes weekends
 
-- [FCC regulatory filings](https://apps.fcc.gov/els/GetAtt.html?id=185534&x=) for Starlink's first test Microsat satellites.
+    section Phase 1: Pre-Filing
+        Mission & Feasibility      :p1_feas, 2027-01, 3M
+        Band Selection & Consulting :p1_freq, after p1_feas, 2M
+        PHASE 1 COMPLETE            :milestone, after p1_freq, 0d
 
+    section Phase 2: National Authorization
+        Application Prep       :p2_fcc_api, after p1_freq, 4M
+        Review & Authorization :p2_review, after p2_fcc_api, 6M
+        National LICENSE GRANTED         :milestone, after p2_review, 0d
 
-### Starlink: Regulation and Spectrum {.use-case-slide background-image="assets/starry_sky.png"}
+    section Phase 3: ITU Coordination (Parallel)
+        API Filing & Publication   :p3_itu_api, after p1_feas, 3M
+        Bilateral Coordination     :p3_itu_coord, after p3_itu_api, 18M
+        API FILED (7-year clock)   :milestone, after p3_itu_coord, 0d
+
+    section Phase 4: Equipment (Parallel)
+        3GPP Testing              :p4_3gpp_test, after p1_feas, 4M
+        Regional Certification     :p4_regional_cert, after p4_3gpp_test, 2M
+        EQUIPMENT READY             :milestone, after p4_regional_cert, 0d
+
+    section Phase 5: Launch & Service
+        Launch Authorization (FAA) :p5_launch_auth, after p2_review, 4M
+        Build & Deploy 1st Satellite :p5_build_sat, after p5_launch_auth, 8M
+        In-Orbit Testing           :p5_iov, after p5_build_sat, 2M
+        Service Activation         :p5_serv_activation, after p5_iov, 1M
+        INITIAL SERVICE LIVE        :milestone, after p5_serv_activation, 0d
+
+    section Phase 6: 5G Integration (Parallel)
+        3GPP Compliance            :p6_3gpp_compliance, after p1_freq, 3M
+        MNO Partnerships           :p6_mno, after p6_3gpp_compliance, 4M
+        Core Integration           :p6_integration, after p6_mno, 3M
+        NTN READY                   :milestone, after p6_integration, 0d
+```
+
+### P1: Pre-filling
+
+**Pre-filling phase objective**: turn a service idea into a licensable technical concept.
+
+- Define the intended service: \acr{D2D}, IoT, fixed broadband, backhaul, emergency messaging...
+- Define the target geography, expected users, throughput, availability, latency, and continuity requirements.
+- Choose the space segment: \acr{LEO}, \acr{MEO}, \acr{GEO}, \acr{HAPS}
+- Type of architecture (transparent or regenerative)
+
+**Pre-filling phase deliverables**: regulatory strategy approved ⇒ national and international filings can start in parallel.
+
+### P1: Technical feasibility
+
+"*Can the proposed service meet its target performance with proposed spacecraft, terminals, gateways, and spectrum?*"
+
+- Perform a link budget for the forward link and return link.
+- Evaluate Doppler, propagation delay, atmospheric loss, clutter, antenna pointing, and availability.
+- Size the constellation and gateway network for coverage and capacity.
+- Identify whether a single satellite can support the promised “initial service” or only a demonstration / geographically limited service.
+
+### P1: Spectrum strategy
+
+Objective: select bands that are physically suitable, legally available, and supported by equipment.
+
+- Start with the ITU allocation table: determine whether the band supports the proposed radio service.
+- Map the regulatory allocation to a usable 3GPP NTN operating band and to the target region.
+- Assess the trade-off between lower-band coverage robustness and higher-band bandwidth.
+- Identify co-primary services and incumbent users that may trigger coordination or constrain emissions.
+
+### P2: National Authorization
+
+**Objective**: obtain permission from the national regulator to operate a space station, earth station, satellite service, or market-access service.
+
+- National authorisation is jurisdiction-specific: e.g. FCC  is relevant to the US, while ETSI is relevant in Europe.
+- The regulator examines public-interest issues, spectrum compatibility, technical parameters, ownership/security requirements, and debris mitigation.
+
+**Inputs**: evidence for the regulator to assess compatibility and compliance (output of phase 1)
+
+### P2: National Authorization result
+
+Once the application is approved:
+
+- The operator has authority to proceed under explicit technical and operational conditions.
+- International coordination, equipment authorisation, launch approvals, and host-country market access may still be required.
+- The operator should treat the authorisation as a controlled baseline: material changes in orbit, frequency, EIRP, or service may require modification.
+
+::: {.callout-important}
+The licence does not automatically authorise service in every country.
+:::
+
+### P3: ITU filing
+
+**Objective**: secure internationally recognised use of spectrum and associated orbital resources while managing cross-border interference.
+
+- The ITU does not license a private operator directly; the relevant national administration submits the filing.
+- The process makes planned networks visible to other administrations and identifies cases requiring coordination.
+- It is a spectrum-rights and interference-management process, distinct from a domestic operating licence.
+- Bilateral coordination can be time-consuming.
+
+### P3: ITU filing result
+
+- Successful filing results in a “notification” of the planned network, which is published in the ITU Master Register.
+- A successful entry in the \acr{MIFR}
+- *ITU 7-Year Deadline*: You have 7 years from API filing to launch 1 satellite.
+
+::: {.callout-note}
+Launching a satellite, national authorisation, and final MIFR recording (ITU coordination) are related—but separate—events
+:::
+
+### P4: Equipment certification
+
+**Objective**: show that terminals, gateways, and radio equipment meet the technical rules applicable to the markets in which they are sold or operated.
+
+In particular, for RF equipment, the certification process verifies:
+
+- Transmitted power and occupied bandwidth.
+- Adjacent-channel leakage and emissions outside the authorised band.
+- Receiver sensitivity, blocking, and immunity to unwanted signals.
+- Antenna radiation performance and, where applicable, NTN-specific motion effects.
+
+### P4: NTN-specific device and network testing
+
+The following aspects are specifically relevant to NTN equipment:
+
+- Spectrum **leakage** due to Doppler and motion of the satellite (specially for \acr{LEO} and \acr{MEO}).
+- Satellites and gateways may impose different **uplink power and antenna constraints** than terrestrial base stations.
+- Direct-to-device operation requires realistic evaluation of handset antennas, body loss, and low elevation angles.
+
+### P5: Launch and initial service
+
+**Objective**: obtain the right to launch and demonstrate readiness to place the spacecraft into its planned orbit.
+
+- Launch authorisation is separate from spectrum licensing.
+- The launch authority evaluates public safety, environmental and security considerations, and the launch operator’s compliance.
+- The spacecraft must satisfy the launch provider’s mechanical, electrical, safety, and interface requirements.
+- The operator needs insurance, a launch contract, mission operations procedures, and contingency plans.
+
+### P5: Space agencies
+
+<img
+src="assets/figures/launch_agencies.png"
+alt="Launch agencies (source: ChatGPT+Perplexity)"
+style="display: block; width: 100%; max-height: 70vh; margin: 0.5rem auto 0;"
+/>
+
+### P5: IOV, activation and decomissioning
+
+- \acr{IOV} aims at proving that the actual satellite system behaves within its technical and regulatory envelope. This includes: orbit, RF performance, link budget, and service quality.
+- The activation moves from technical demonstration to a controlled, commercially usable initial service.
+- Regarding decommissioning, the operator must demonstrate that the satellite can be safely de-orbited or moved to a graveyard orbit at the end of its life.
+  - Debris mitigation is not an afterthought: it must be designed, financed, monitored, and reported throughout the mission.
+
+### P6: 5G NTN integration
+
+**Objective**: make the satellite access network behave as an extension of the 5G system rather than as an isolated overlay.
+
+- Implement the applicable 3GPP NTN features in the UE, radio access network, gateway, and 5G Core.
+- Integrate authentication, policy, charging, roaming, emergency-service handling, and observability.
+- Support appropriate mobility behaviour between terrestrial and satellite coverage.
+- Align the technical architecture with the chosen commercial model: satellite operator, \acr{MNO} partner, wholesale provider, or joint offering.
+
+## Licensing timeline for Starlink {.use-case-slide background-image="assets/starry_sky.png"}
+
+| Date     | Milestone                                         | Time from Start |
+| -------- | ------------------------------------------------- | --------------- |
+| Nov 2016 | FCC application filed (4,425 satellites)          | Month 0         |
+| Mar 2018 | **FCC authorization granted**                     | **~16 months**      |
+| Feb 2018 | First test satellites (Tintin A/B) launched       | ~15 months      |
+| May 2019 | First operational batch (60 satellites) launched  | ~30 months      |
+| Oct 2020 | Public beta service launched                      | ~48 months      |
+| 2026     | 15,000+ satellites authorized, thousands deployed | 10 years        |
+
+### Starlink FCC authorization history {.use-case-slide background-image="assets/starry_sky.png"}
+
+FCC Authorization History (see [@axis2026starlink])
+
+| Date             |    Authorization                       |    Cumulative Approved |
+|:----------------:|:--------------------------------------:|:----------------------:|
+| 2018             |    Initial 4,425 satellite approval    |    4,425               |
+| November 2022    |    First Gen2 batch (7,500 satellites) |    ~12,000             |
+| January 9, 2026  |    Additional 7,500 Gen2 satellites    |    15,000              |
+
+### Starlink spectrum fillings {.use-case-slide background-image="assets/starry_sky.png"}
 
 Info extracted from Space Exploration Holdings, LLC (Starlink) FCC regulatory filings
-
 
 |Frequency range | Band | Usage |
 |:----------------:|:-----:|:------:|
@@ -33,14 +211,5 @@ Info extracted from Space Exploration Holdings, LLC (Starlink) FCC regulatory fi
 | 71000	- 76000 | V | [@fccreport_SATLOA2020052600055] |
 | 76000 - 86000 | W | [@fccreport_SATLOA2020052600055] |
 
+- [FCC regulatory filings](https://apps.fcc.gov/els/GetAtt.html?id=185534&x=) for Starlink's first test Microsat satellites.
 
-### Starlink: Regulatory timeline {.use-case-slide background-image="assets/starry_sky.png"}
-
-
-FCC Authorization History (see [@axis2026starlink])
-
-| Date      |    Authorization      |    Cumulative Approved |
-|:----------------:|:----------------------:|:----------------------:|
-| 2018      |    Initial 4,425 satellite approval      |    4,425 |
-| November 2022      |    First Gen2 batch (7,500 satellites)      |    ~12,000 |
-| January 9, 2026      |    Additional 7,500 Gen2 satellites      |    15,000 |
