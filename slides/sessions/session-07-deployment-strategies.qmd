@@ -41,9 +41,9 @@ As the NTN deployment team, you are requested to plan a 5G NTN connectivity serv
 :::
 
 ::: {.fragment}
-Deployment and planning is a **multi-objective optimization problem**! Focus on **value**, not just *coverage* or *throughput*.
+- Deployment and planning is a **multi-objective optimization problem**!
 
-The first deployment should maximise the value of usable service under realistic technical, regulatory and economic constraints—not simply the percentage of Earth illuminated by a satellite beam.
+- The first deployment should maximise the **value** of usable service under realistic technical, regulatory and economic constraints—not simply the percentage of Earth illuminated by a satellite beam.
 :::
 
 ::: {.notes}
@@ -74,4 +74,209 @@ Give rankings from 1 (lowest) to 5 (highest) for each service candidate in every
 | Voice and low-rate smartphone data | 2          | 5        | 3    | 4            | 3                   |  4                          |
 | Fixed rural broadband              | 5          | 3        | 4    | 4            | 4                   |  4                          |
 | Aircraft and maritime broadband    | 5          | 4        | 5    | 5            | 4                   |  4                          |
+:::
+
+## Coverage levels
+
+Consider this coverage map of Starlink:
+
+![source: Starlink](assets/figures/starlink__availability_map.png)
+
+Which regions are *covered*?
+
+## Coverage levels
+
+| Level | Definition |
+| ----- | ---------- |
+| Geographical  | The footprint reaches the location |
+| Radio  | The link closes with sufficient margin |
+| Service  | The required throughput and continuity are available |
+| Commercial  | The service is licensed and economically viable |
+
+- Which coverage problems (levels) affect the following scenarios?
+
+::: {.incremental}
+  1. A satellite is visible for two minutes, but sessions are constantly interrupted
+  2. The link works, but only at 10 kbps
+  3. The service is available, but the price is too high for most users
+  4. The link supports the requested service but only in a licensed country
+  5. A rural area has excellent link margin but the beam is congested
+  6. A deserted area is outside the satellite footprint
+:::
+
+## Coverage levels
+
+![source: Starlink](assets/figures/starlink__latency_map.png)
+
+::: {.incremental}
+- What is the main coverage issue in this map?
+- What is the coverage for a service that demands ~30 ms latency?
+:::
+
+::: {.notes}
+Even if we have geographical coverage, the service may not be available if the latency is too high.
+:::
+
+## Initial deployment strategy
+
+Given these scenarios:
+
+| Region                   | Population | Terrestrial coverage | Expected demand       |
+| ------------------------ | ---------- | -------------------- | --------------------- |
+| A: Dense city            | High       | Excellent            | Very high             |
+| B: Rural interior        | Low        | Poor                 | Moderate              |
+| C: Maritime corridor     | Very low   | None                 | Specialised           |
+| D: Disaster-prone region | Variable   | Unreliable           | Sporadic but critical |
+
+Where each of the following operators would deploy first, given their business model?
+
+::: {.columns}
+::: {.column width="50%"}
+1. A mass market operator
+2. A broadband operator
+:::
+
+::: {.column width="50%"}
+3. A public-safety operator
+4. A maritime specialist
+:::
+:::
+
+Justify it based on: social value, revenue potential, competitive advantage, technical feasibility, ...
+
+## Deployment strategies
+
+Given the following strategies:
+
+::: {.columns}
+::: {.column width="50%"}
+**Coverage**-first strategy
+
+- Broad footprint
+- Limited initial capacity
+- Focus on underserved regions
+- Risk of poor user experience during busy periods
+:::
+
+::: {.column width="50%"}
+**Capacity**-first strategy
+
+- Focused beams over selected demand hotspots
+- Spectrum reuse and gateway capacity
+- Better performance for early customers
+- Less attractive for global proposition
+:::
+:::
+
+Which one would you choose for the **first deployment** phase under **limited capital**?
+
+::: {.notes}
+A capacity-first, regionally focused deployment is usually preferable when capital is scarce and demand is uncertain. It provides a usable service for a defined user population, generates early revenue and reputation, and allows the network to be expanded incrementally as traffic grows.
+
+On the other hand, a coverage-first strategy may be more appropriate for a public-safety operator that needs to provide service in remote areas, even if the service is limited and intermittent.
+:::
+
+## Deployment strategies
+
+How these aspects could impact the deployment strategy?
+
+- Faster-than-expected subscriber growth in a region
+- Regulatory approval in a high-value market
+- A competitor entering the same market
+- Gateway deployment delays
+- Emergency demand after a terrestrial outage
+
+
+## Progressive rollout
+
+Deployment should be **progressive** to control and reduce risk:
+
+```{mermaid}
+flowchart LR
+
+    subgraph TF["Technical Feasibility"]
+        A1["Link availability"]
+        A["Pilot"]
+        A <--> A1
+    end
+
+    subgraph EV["Economic Viability"]
+        B["Regional Service"]
+        B1["Cost per connected user"]
+        B <--> B1
+    end
+
+    TF --> EV
+
+    subgraph CA["Coverage Adequacy"]
+        C["Coverage Expansion"]
+        C1["Geographic service probability"]
+        C <--> C1
+    end
+
+    EV --> CA
+
+    subgraph CAP["Capacity Adequacy"]
+        D["Densification"]
+        D1["Busy-hour throughput"]
+        D <--> D1
+    end
+
+    CA --> CAP
+
+    subgraph CS["Commercial Sustainability"]
+        E["Mature Operation"]
+        E1["Revenue per satellite<br/>or SLA compliance"]
+        E <--> E1
+    end
+
+    CAP --> CS
+
+
+    style TF fill:#EAF3FF,stroke:#8AB4F8,stroke-width:2px,color:#0D47A1
+    style EV fill:#EDF7F1,stroke:#7CBF9E,stroke-width:2px,color:#145A32
+    style CA fill:#FFF4E8,stroke:#F2A65A,stroke-width:2px,color:#7A3E00
+    style CAP fill:#F3EEFF,stroke:#A78BFA,stroke-width:2px,color:#4C1D95
+    style CS fill:#EAF8F7,stroke:#52B7B0,stroke-width:2px,color:#0F4C5C
+
+
+    classDef phase fill:#1565C0,stroke:#0D47A1,color:#FFFFFF,stroke-width:2px;
+    classDef metric fill:#E3F2FD,stroke:#1565C0,color:#0D47A1,stroke-width:1.5px;
+
+    class A,B,C,D,E phase;
+    class A1,B1,C1,D1,E1 metric;
+```
+
+## Starlink progressive rollout {.use-case-slide background-image="assets/starry_sky.png"}
+
+| Deployment aspect      | Phase | Starlink milestone  |
+| ---------------------- | ----- | ------------------- |
+| Technical feasibility  | Pilot | 2018 – **Tintin** A/B** </br> May 2019 – first 60 operational-design satellites (v0.9)  |
+| Economic viability     | Regional service   | 2020 – "**[Better Than Nothing Beta](https://www.satellitetoday.com/connectivity/2020/10/28/spacex-launches-better-than-nothing-public-starlink-beta-with-99-month-service/)"** test begins </br> 2021 – rapidly expanding commercial availability         |
+| Coverage adequacy      | Coverage expansion | 2021–2022 – rapid constellation deployment </br> 2022 – **>1 million customers**   |
+| Capacity adequacy      | Densification      | 2023 – **Gen2 authorization** + higher-capacity satellites**   </br>  2023–2025 – thousands of additional satellites             |
+| Commercial sustainability | Mature operation | 2024–2025 – **multi-million customer** base + global services |
+
+::: {.notes}
+- Technical feasibility: Tintin demonstrated link availability and performance, and the first 60 operational-design satellites (v0.9) demonstrated that the production architecture could operate as a constellation.
+- Economic viability: The "Better Than Nothing Beta" program demonstrated that real customers are willing to pay for the service, and the rapidly expanding commercial availability in 2021 showed that the service could scale.
+- Coverage adequacy: The rapid constellation deployment in 2021–2022 increased geographic service availability, going from a regional experiment to a full-fledged global service.
+- Capacity adequacy: The Gen2 authorization and higher-capacity satellites in 2023 addressed the growing demand and increased aggregate capacity, allowing for better service quality during peak hours.
+- Commercial sustainability: By 2024–2025, Starlink had a multi-million customer base and global services, demonstrating that the business model is sustainable and that the service can operate at a mature level with steady-state KPIs.
+:::
+
+## Starlink rollout study case {.use-case-slide background-image="assets/starry_sky.png"}
+
+What do you think would had happened if the "**Better Than Nothing Beta**" program had been failed?
+
+::: {.incremental}
+- First we had to identify the reason for the failure
+  - High cost/user?
+    - Reduce satellite/terminal cost, increase service value (e.g. capacity?)
+  - Poor throughput?
+    - Increase constellation capacity, spectrum reuse, ...
+  - Poor availability?
+    - Redesign constellation or ground infrastructure
+  - Poor latency?
+    - Optimize routing and ground-system networking, or redesign constellation
 :::
