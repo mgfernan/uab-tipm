@@ -12,11 +12,7 @@ This section is planned as a group exercise
 
 ::: {.columns}
 ::: {.column width="50%"}
-<img
-src="assets/figures/session-07/skybit_logo.png"
-alt="Skybit logo (source: ChatGPT)"
-style="display: block; width: 100%; max-height: 70vh; margin: 0.5rem auto 0;"
-/>
+![Skybit logo (source: ChatGPT](assets/figures/session-07/skybit_logo.png)
 :::
 
 ::: {.column width="50%"}
@@ -84,6 +80,19 @@ Consider this coverage map of Starlink:
 
 Which regions are *covered*?
 
+## Coverage levels (revisited)
+
+![source: Starlink](assets/figures/starlink__latency_map.png)
+
+::: {.incremental}
+- What is the main coverage issue in this map?
+- What is the coverage for a service that demands ~30 ms latency?
+:::
+
+::: {.notes}
+Even if we have geographical coverage, the service may not be available if the latency is too high.
+:::
+
 ## Coverage levels
 
 | Level | Definition |
@@ -102,19 +111,6 @@ Which regions are *covered*?
   4. The link supports the requested service but only in a licensed country
   5. A rural area has excellent link margin but the beam is congested
   6. A deserted area is outside the satellite footprint
-:::
-
-## Coverage levels
-
-![source: Starlink](assets/figures/starlink__latency_map.png)
-
-::: {.incremental}
-- What is the main coverage issue in this map?
-- What is the coverage for a service that demands ~30 ms latency?
-:::
-
-::: {.notes}
-Even if we have geographical coverage, the service may not be available if the latency is too high.
 :::
 
 ## Initial deployment strategy
@@ -280,3 +276,162 @@ What do you think would had happened if the "**Better Than Nothing Beta**" progr
   - Poor latency?
     - Optimize routing and ground-system networking, or redesign constellation
 :::
+
+## Bottlenecks
+
+::: {.columns}
+::: {.column width="40%"}
+Consider this end-to-end service path:
+:::
+
+::: {.column width="60%"}
+![](assets/figures/session-07/architecture__tnt_service_path.svg)
+:::
+:::
+
+If users report poor throughput, which part of the system is responsible?
+
+::: {.incremental}
+
+::: {.columns}
+::: {.column width="50%"}
+- Weak user link
+- Congested spot beam
+- Insufficient satellite payload capacity
+- Gateway congestion
+:::
+
+::: {.column width="50%"}
+- ISL bottleneck
+- Terrestrial backhaul limitation
+- Application-server limitation
+:::
+:::
+
+:::
+
+::: {.notes}
+- Bottlenecks cannot be identified unless service quality is monitored end-to-end, and the system is instrumented to provide the necessary telemetry.
+:::
+
+## Bottleneck diagnosis
+
+What are the likely bottlenecks in the following cases?
+
+::: {.columns}
+::: {.column width="33%"}
+
+::: {.fragment data-fragment-index="1"}
+- Strong signal
+- Low modulation and coding rate
+- Poor weather
+- Many users active
+:::
+
+::: {.fragment  data-fragment-index="2"}
+- **Likely bottleneck**: radio conditions and beam loading
+:::
+
+:::
+
+::: {.column width="33%"}
+
+::: {.fragment data-fragment-index="3"}
+- Strong signal.
+- Few users in the beam
+- Gateway over-subscribed
+:::
+
+::: {.fragment  data-fragment-index="4"}
+- **Likely bottleneck**: gateway or feeder link
+:::
+
+:::
+
+::: {.column width="33%"}
+
+::: {.fragment data-fragment-index="5"}
+- Good satellite and gateway performance
+- High round-trip delay
+- Application uses many sequential transactions
+:::
+
+::: {.fragment data-fragment-index="6"}
+- **Likely bottleneck**: protocol and application sensitivity to delay
+:::
+
+:::
+
+:::
+
+## Densification choices
+
+Densification can be done through the following strategies:
+
+::: {.incremental}
+- Launch more satellites
+  - Improves availability and aggregate capacity
+- Use smaller spot beams
+  - Concentrates power and spectrum over smaller areas, raising capacity per square kilometre.
+- Increase frequency reuse
+  - Reuses the same spectrum across spatially separated beams, multiplying total network capacity
+- Add gateways
+  - Relieves feeder-link and gateway congestion, enabling higher throughput and better resilience
+:::
+
+
+## Densification choices (continued)
+
+Densification can be done through the following strategies:
+
+::: {.incremental}
+- Add spectrum
+  - Provides more raw bandwidth, directly increasing achievable data rates and system capacity
+- Improve terrestrial offload
+  - Reduces satellite load, adds flexibility in routing
+- Introduce traffic shaping or differentiated QoS
+  - Prioritises critical or high-value traffic, improving perceived service quality under congestion
+:::
+
+## Densification trade-offs
+
+Complete this table
+
+| Decision            | Bottleneck addressed | Main new cost | New technical risk |
+| ------------------- | -------------------- | ------------- | ------------------ |
+| More satellites     |                      |               |                    |
+| More gateways       |                      |               |                    |
+| Smaller beams       |                      |               |                    |
+| Terrestrial offload |                      |               |                    |
+
+::: {.notes}
+| Decision            | Bottleneck addressed                                                             | Main new cost                                                         | New technical risk                                                                               |
+| ------------------- | -------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| More satellites     | Limited orbital density and aggregate capacity; poor availability in some areas. | Satellite manufacturing, launch and operations cost.                  | Increased constellation complexity, collision risk and coordination overhead.                    |
+| More gateways       | Feeder-link or gateway congestion; limited backhaul capacity.                    | Ground infrastructure, site, fibre and regulatory cost.               | More complex network routing, synchronization and multi-gateway management.                      |
+| Smaller beams       | Low capacity per square kilometre; inefficient spatial reuse.                    | More complex payload design and beam-management software.             | More frequent handovers, tighter beam tracking and higher interference-management complexity.    |
+| Terrestrial offload | Satellite access or backhaul congestion in areas with terrestrial coverage.      | Integration with terrestrial RAN/core and possible backhaul upgrades. | More complex traffic steering, policy control and seamless mobility between terrestrial and NTN. |
+:::
+
+## Infrastructure sharing
+
+The satellite operator can either build its own mobile core and customer platform or partner with an established MNO.
+
+| Option                                      | Pros                                                                     | Cons                                                                                 |
+| ------------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| Build own mobile core and customer platform | Full control over service design, QoS and branding.                      | High capital and operational cost; complex regulatory and spectrum responsibilities. |
+|                                             | Direct relationship with customers and revenue stream.                   | Must develop or acquire core-network, OSS/BSS and customer-support capabilities.     |
+|                                             | Flexibility to serve multiple MNOs or verticals as a wholesale provider. | Slower time to market; higher business risk if adoption is low.                      |
+| Partner with an established MNO             | Faster time to market using existing core, billing and customer base.    | Reduced control over service differentiation and QoS policies.                       |
+|                                             | Lower upfront investment in core and operations.                         | Revenue sharing and dependence on MNO strategy and priorities.                       |
+|                                             | Easier spectrum and regulatory alignment via the MNO.                    | Integration complexity and potential lock-in to a single operator.                   |
+
+## Main takeaways
+
+- **Deployment** is a multi-objective problem
+- Geographic **coverage** is not the same as usable service
+- The first deployment should **maximize the value** of usable service under real constraints
+- Progressive rollout reduces **risk** and allows for **incremental investment** and iteration over:
+  - Densification
+  - Traffic prioritization
+  - Service definition and consolidation
