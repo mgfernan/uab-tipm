@@ -247,10 +247,10 @@ flowchart LR
 
 | Deployment aspect      | Phase | Starlink milestone  |
 | ---------------------- | ----- | ------------------- |
-| Technical feasibility  | Pilot | 2018 – **Tintin** A/B** </br> May 2019 – first 60 operational-design satellites (v0.9)  |
+| Technical feasibility  | Pilot | 2018 – **Tintin A/B** </br> May 2019 – first 60 operational-design satellites (v0.9)  |
 | Economic viability     | Regional service   | 2020 – "**[Better Than Nothing Beta](https://www.satellitetoday.com/connectivity/2020/10/28/spacex-launches-better-than-nothing-public-starlink-beta-with-99-month-service/)"** test begins </br> 2021 – rapidly expanding commercial availability         |
 | Coverage adequacy      | Coverage expansion | 2021–2022 – rapid constellation deployment </br> 2022 – **>1 million customers**   |
-| Capacity adequacy      | Densification      | 2023 – **Gen2 authorization** + higher-capacity satellites**   </br>  2023–2025 – thousands of additional satellites             |
+| Capacity adequacy      | Densification      | 2023 – **Gen2 authorization** + higher-capacity satellites   </br>  2023–2025 – thousands of additional satellites             |
 | Commercial sustainability | Mature operation | 2024–2025 – **multi-million customer** base + global services |
 
 ::: {.notes}
@@ -263,7 +263,7 @@ flowchart LR
 
 ## Starlink rollout study case {.use-case-slide background-image="assets/starry_sky.png"}
 
-What do you think would had happened if the "**Better Than Nothing Beta**" program had been failed?
+What do you think would have happened if the "**Better Than Nothing Beta**" program had failed?
 
 ::: {.incremental}
 - First we had to identify the reason for the failure

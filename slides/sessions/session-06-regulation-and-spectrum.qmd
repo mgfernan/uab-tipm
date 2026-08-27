@@ -141,7 +141,7 @@ In particular, for RF equipment, the certification process verifies:
 
 The following aspects are specifically relevant to NTN equipment:
 
-- Spectrum **leakage** due to Doppler and motion of the satellite (specially for \acr{LEO} and \acr{MEO}).
+- Spectrum **leakage** due to Doppler and motion of the satellite (especially for \acr{LEO} and \acr{MEO}).
 - Satellites and gateways may impose different **uplink power and antenna constraints** than terrestrial base stations.
 - Direct-to-device operation requires realistic evaluation of handset antennas, body loss, and low elevation angles.
 

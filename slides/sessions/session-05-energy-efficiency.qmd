@@ -190,7 +190,7 @@ $$
 E_{launch} = \frac{11.6 TJ}{60} \approx 0.193 TJ/satellite \approx 190 GJ/satellite
 $$
 
-This is around 7 times the minimum energy required to place a Sarlink `v2mini` satellite into LEO (without considering any overhead).
+This is around 7 times the minimum energy required to place a Starlink `v2mini` satellite into LEO (without considering any overhead).
 
 ## Satellite energy cost
 
