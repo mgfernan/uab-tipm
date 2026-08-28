@@ -52,3 +52,53 @@ You can use this quick decision frame:
 - Where can large FoV become a capacity bottleneck?
 - Which option is most robust to demand uncertainty?
 - What would change first if latency target is cut in half?
+
+
+## Coverage vs capacity stress test
+
+### Objective
+
+Identify the dominant bottleneck (coverage or capacity) and justify one design action.
+
+### Team setup and tasks
+
+- Group size: 3-4 students
+- Time budget: 10 minutes
+- Roles: calculator, checker, spokesperson
+
+Tasks:
+
+1. Use the cell sizing model found in the course deck
+2. Use these assumptions for the analysis
+
+    - $A_{beam}=650\ km^2$
+    - $C_{beam}=41.7\ Mbps$
+    - $N_{beams/sat}=48$
+    - $\phi_{ov}=1.10$
+    - $\phi_{cap}=1.20$
+    - $\rho_{reuse}=0.85$
+
+3. Consider those scenarios
+
+| Scenario | $A_{scenario}$ | $D_{scenario}$ | Context |
+| --- | ---: | ---: | --- |
+| A | $200,000\ km^2$ | $2,500\ Mbps$ | Rural-wide |
+| B | $30,000\ km^2$ | $8,000\ Mbps$ | Urban-hotspot |
+
+### Compute and classify
+
+Fill the table below.
+
+| Scenario | $N_{beams,cov}$ | $N_{beams,cap}$ | $N_{beams}$ | $N_{sat}$ | Limiting side |
+| --- | ---: | ---: | ---: | ---: | --- |
+| A |  |  |  |  | coverage / capacity |
+| B |  |  |  |  | coverage / capacity |
+
+### Propose one design response per scenario
+
+Choose one lever and explain the expected trade-off.
+
+| Scenario | Chosen lever | Why this lever? | Expected side effect |
+| --- | --- | --- | --- |
+| A | Beamwidth / reuse / per-beam bandwidth / more satellites |  | handovers / interference / cost |
+| B | Beamwidth / reuse / per-beam bandwidth / more satellites |  | handovers / interference / cost |

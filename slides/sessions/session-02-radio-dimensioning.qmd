@@ -313,39 +313,58 @@ $$
 
 ## Cell sizing and radio node count
 
-Coverage and capacity sizing can be approximated with two checks:
+Cell sizing can be framed as a constrained design problem: choose the minimum infrastructure that satisfies coverage and traffic targets with margin.
 
-### Cell sizing: coverage-driven beam count
+Three requirement blocks:
 
-- **Coverage check**
+- **Geometric requirement**: enough beams to cover the service area.
+- **Traffic requirement**: enough beams to carry demand at busy hour.
+- **Implementation margins**: overlap, reuse efficiency, and operational reserve.
+
+### Cell sizing relevant variables
+
+- $A_{scenario}$: service area to cover
+- $A_{beam}$: effective beam area at design elevation
+- $D_{scenario}$: offered traffic (busy hour aggregate)
+- $C_{beam}$: effective throughput per beam
+- $\phi_{ov} \ge 1$: coverage overlap factor
+- $\phi_{cap} \ge 1$: capacity overhead factor
+- $\rho_{reuse} \in (0,1]$: reuse/efficiency factor
+- $N_{beams/sat}$: usable simultaneous beams per satellite
+
+### Cell sizing: model
+
+Coverage-driven beam requirement:
 
 $$
-N_{beams,cov} = \left\lceil \frac{A_{scenario}}{A_{beam}} \right\rceil
+N_{beams,cov} = \left\lceil \phi_{ov}\frac{A_{scenario}}{A_{beam}} \right\rceil
 $$
 
-### Cell sizing: capacity-driven beam count
-
-- **Capacity check**
+Capacity-driven beam requirement:
 
 $$
-N_{beams,cap} = \left\lceil \frac{D_{scenario}}{C_{beam}} \right\rceil
+N_{beams,cap} = \left\lceil \phi_{cap}\frac{D_{scenario}}{\rho_{reuse} C_{beam}} \right\rceil
 $$
 
-### Cell sizing: final beam and satellite count
-
-Final beam count is the stricter one:
+Final beam requirement:
 
 $$
 N_{beams} = \max(N_{beams,cov}, N_{beams,cap})
 $$
 
-Satellite count depends on usable beams per satellite:
+Satellite count:
 
 $$
 N_{sat} = \left\lceil \frac{N_{beams}}{N_{beams/sat}} \right\rceil
 $$
 
-### Cell sizing and radio node count: simple Starlink-like example
+### Cell sizing: interpretation
+
+- If $N_{beams,cov} > N_{beams,cap}$, the system is **coverage-limited**.
+- If $N_{beams,cap} > N_{beams,cov}$, the system is **capacity-limited**.
+- In practice, $A_{beam}$ and $C_{beam}$ are coupled: smaller beams usually reduce area but may improve spatial reuse.
+
+### Cell sizing and beams: example
 
 Assume:
 
@@ -353,19 +372,19 @@ Assume:
 - $A_{scenario}=100,000\ km^2$
 - $C_{beam}=2\ Gbps / 48 \approx 41.7\ Mbps$
 - $D_{scenario}=3,200\ Mbps$
+- $\phi_{ov}=1.10$ (10% overlap reserve)
+- $\phi_{cap}=1.20$ (20% peak/engineering headroom)
+- $\rho_{reuse}=0.85$
+- $N_{beams/sat}=48$
 
-Then:
+### Cell sizing and beams: example (cont'd)
 
-- $N_{beams,cov}=\lceil 100,000/650 \rceil = 154$
-- $N_{beams,cap}=\lceil 3,200/41.7 \rceil = 77$
-- $N_{beams}=154$ (coverage-limited)
-- $N_{sat}=\lceil 154/48 \rceil = 4$ satellites (idealized, no overlap margin)
+Result:
 
-## Transition: from geometry and beams to spectrum
-
-- After sizing coverage/capacity blocks, we choose radio spectrum resources.
-- Band selection and channelization condition both capacity and robustness.
-
+- $N_{beams,cov}=\left\lceil 1.10 \cdot 100,000/650 \right\rceil = 170$
+- $N_{beams,cap}=\left\lceil 1.20 \cdot 3,200/(0.85\cdot 41.7) \right\rceil = 109$
+- $N_{beams}=170$ (coverage-limited)
+- $N_{sat}=\lceil 170/48 \rceil = 4$ satellites
 
 ## Spectrum
 
