@@ -12,6 +12,21 @@
 - Cell sizing and radio node count.
 - Trade-offs between coverage and densification.
 
+## From demand to radio decisions
+
+```{mermaid}
+flowchart LR
+    A["Service definition<br/>Demand, latency, availability"] --> B["Radio design knobs<br/>Orbit, beams, spectrum, modulation,<br/>EIRP, G/T"]
+    B --> C["Radio design outputs<br/>N<sub>beams</sub>, N<sub>sat</sub>, link margin, etc"]
+```
+
+| Design question | Main variables | Typical output |
+|:--|:--|:--|
+| How much area can one beam cover? | Orbit altitude, beamwidth, elevation | Beam footprint and coverage-limited beam count |
+| Can target traffic be carried? | Bandwidth, spectral efficiency, reuse | Capacity-limited beam count |
+| Does the radio link close? | EIRP, G/T, path loss, losses, threshold | Link margin ($C/N - C/N_{ref}$) |
+| Can latency targets be met? | Slant range and routing path | One-way delay and RTT bounds |
+
 
 ## NTN Platforms
 
