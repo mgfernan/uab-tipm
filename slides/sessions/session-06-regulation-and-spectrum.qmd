@@ -34,7 +34,7 @@ flowchart LR
     B --> F["P6<br/>5G integration and partnerships"]
     F --> E
 ```
-## Licensing process
+## Licensing process: phases
 
 | Phase | Main question | Typical output |
 |:--|:--|:--|
