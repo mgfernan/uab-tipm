@@ -1,0 +1,25 @@
+# Architecture stack: overview
+
+![source: Perplexity AI](assets/architecture__stack.png)
+
+## Architecture stack: Layer 1 - PHY
+
+Controls **physical layer** (PHY, ,i.e. "radio") aspects[^l1_ref]:
+
+- Radio interface
+- Channel coding and modulation schemes.
+- MIMO processing and beamforming
+- Hybrid Automatic Repeat reQuest (HARQ) buffering
+
+[^l1_ref]: See [5G NTN Stack Architecture](https://gatehousesatcom.com/product/5g-ntn-new-radio/5g-ntn-new-radio-gnodeb/){target="_blank"}
+
+## Architecture stack: Layer 2 - MAC
+
+Controls **Medium Access Control** (MAC, i.e. protocol) aspects of the radio interface:
+
+- Manages scheduling and multiplexing
+- Hybrid Automatic Repeat reQuest (HARQ) management and execution:
+    - Combine retransmissions to improve reliability and reduce latency.
+    - Replay a packet after an error
+    - Manage ACK/NACK feedback from the receiver
+- For NTN, MAC includes HARQ adaptations for longer round‑trip time (RTT) delays.
