@@ -1,0 +1,47 @@
+# Notation and Units {.session-marker}
+
+- Shared conventions for symbols, indices, and engineering units.
+- Used consistently across demand, radio, transport, economics, energy, regulation, and deployment slides.
+
+## Units and naming conventions
+
+::: {.compact-table}
+| Quantity | Convention used in this deck | Examples |
+|:--|:--|:--|
+| Data rate / capacity / throughput | `bps`, `kbps`, `Mbps`, `Gbps` | `10 kbps`, `41.7 Mbps`, `2 Gbps` |
+| Delay | `ms` for one-way delay unless `RTT` is stated explicitly | `25 ms`, `RTT = 118 ms` |
+| Area | `km^2` | `650 km^2`, `100,000 km^2` |
+| Distance / altitude | `km` | `550 km`, `36,000 km` |
+| Power | `W`, `kW` | `15 kW`, `1-2 kW` |
+| Energy | `J`, `GJ`, `TJ` | `190 GJ/satellite`, `11.6 TJ/launch` |
+| Ratios | Dimensionless unless a unit is stated | `R_{OS} = 4:1`, `EE = 5.9 Mbps/J` |
+| Currency/time quantities | Write symbol first, then horizon or unit in prose | `5% discount rate`, `BUSD over 5 years` |
+:::
+
+- Use `capacity` for engineered network supply and `traffic demand` for requested load.
+- Use `delay` for one-way timing and `RTT` only for round-trip time.
+- Use `power` for instantaneous consumption and `energy` for accumulated expenditure.
+
+## Core symbols used across sessions
+
+::: {.compact-table}
+| Symbol | Meaning | Typical unit |
+|:--|:--|:--|
+| $A_c$ | Area of cell or scenario region | `km^2` |
+| $\rho_{c,t}$ | User density in cell $c$ at time $t$ | `users/km^2` |
+| $N_{c,t}$ | Number of users in cell $c$ at time $t$ | users |
+| $D_{c,t}$ | Traffic demand in cell $c$ at time $t$ | `Mbps` |
+| $C_{beam}$ | Capacity of one beam | `Mbps` |
+| $N_{beams}$ | Number of beams required | count |
+| $N_{sat}$ | Number of satellites required | count |
+| $R_{aggregate}$ | Aggregated traffic over a shared link | `Mbps` or `Gbps` |
+| $R_{OS}$ | Oversubscription ratio | dimensionless |
+| $K_{CAPEX}$, $K_{OPEX}$ | Capital and operational costs | currency |
+| $PV(TCO)$, $NPV$ | Discounted cost / value metrics | currency |
+| $P_{op}$ | Operational power | `kW` |
+| $E_{launch}$ | Launch energy expenditure | `GJ` |
+| $EE$ | Energy efficiency | `Mbps/J` or `bit/J` |
+:::
+
+- Index convention: $c$ = cell, $t$ = time, $s$ = service class, `beam` = beam quantity, `sat` = satellite quantity, `op` = operational quantity.
+- Symbol convention: uppercase Latin symbols denote totals, capacities, powers, energies, or costs; Greek symbols denote densities, adoption factors, or weights.

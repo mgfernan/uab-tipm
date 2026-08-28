@@ -8,6 +8,12 @@
 
 This section is planned as a group exercise
 
+## Why deployment starts here
+
+- Regulation defines where you may operate and which spectrum you may use.
+- Deployment strategy decides where and how you create the **first usable service** with those constraints.
+
+
 ## The design challenge
 
 ::: {.columns}
@@ -58,9 +64,27 @@ Applicable questions:
 | D      | Broadband for fixed rural users         | | | | | |
 | E      | Broadband for aircraft and ships        | | | | | |
 
+Scoring rules:
+
+- Throughput: `1` = low-rate service; `5` = sustained broadband
+- Latency sensitivity: `1` = delay-tolerant; `5` = service degrades with delay
+- Coverage: `1` = highly localized demand; `5` = service needs wide-area reach
+- Price: `1` = low cost; `5` = premium pricing
+- Availability: `1` = interruptions are acceptable; `5` = continuity is mission-critical
+
 ::: {.fragment}
 Give rankings from 1 (lowest) to 5 (highest) for each service candidate in every category
 :::
+
+## Worked example: option A
+
+| Service candidate | Throughput | Latency sensitivity | Coverage | Price | Availability |
+|:--|:--:|:--:|:--:|:--:|:--:|
+| Messaging and emergency alerts | 1 | 1 | 5 | 1 | 5 |
+
+- Throughput is low because short alert messages need very little carried traffic.
+- Latency sensitivity is low because a delay of a few seconds may still be acceptable for many alerting scenarios.
+- Coverage and availability are high because the service is only useful if it reaches people when terrestrial service fails.
 
 ::: {.notes}
 | Service                            | Throughput | Coverage | cost | Availability | Latency sensitivity | Initial NTN attractiveness |
@@ -165,6 +189,22 @@ Given the following strategies:
 :::
 
 Which one would you choose for the **first deployment** phase under **limited capital**?
+
+## Strategy decision tree
+
+```{mermaid}
+flowchart LR
+  A["Start with</br>business goal"] --> B{"Capital</br>scarce?"}
+  B -->|Yes| C{"Demand in</br>few hotspots?"}
+  B -->|No| D{"Coverage</br>obligation?"}
+  C -->|Yes| E["Capacity-first rollout"]
+  C -->|No| F["Pilot coverage-first rollout"]
+  D -->|Yes| G["Coverage-first rollout"]
+  D -->|No| H["Choose the region with best early revenue-to-risk ratio"]
+```
+
+- Capacity-first favored when capital is limited and demand is predictable.
+- Coverage-first attractive when public service, resilience or regulatory obligations dominate.
 
 ::: {.notes}
 A capacity-first, regionally focused deployment is usually preferable when capital is scarce and demand is uncertain. It provides a usable service for a defined user population, generates early revenue and reputation, and allows the network to be expanded incrementally as traffic grows.
@@ -315,6 +355,28 @@ If users report poor throughput, which part of the system is responsible?
 :::
 
 ## Bottleneck diagnosis
+
+```{mermaid}
+flowchart LR
+  A["User reports poor throughput"] --> B{"SNR margin</br>acceptable?"}
+  B -->|No| C["Radio bottleneck:</br>weak link, weather, pointing,</br>interference"]
+  B -->|Yes| D{"Beam load</br>high?"}
+  D -->|Yes| E["Capacity bottleneck:</br>beam congestion or scheduler</br>saturation"]
+  D -->|No| F{"Gateway</br>or feeder link</br>congested?"}
+  F -->|Yes| G["Transport bottleneck:</br>gateway or feeder path"]
+  F -->|No| H{"RTT high?"}
+  H -->|Yes| I["Protocol or application</br>bottleneck"]
+  H -->|No| J["Investigate payload or</br>external server limitations"]
+```
+
+Use the same reasoning order each time:
+
+1. Check radio quality.
+2. Check shared capacity in the beam.
+3. Check gateway or feeder congestion.
+4. Check delay sensitivity at protocol or application level.
+
+## Bottleneck diagnosis examples
 
 What are the likely bottlenecks in the following cases?
 

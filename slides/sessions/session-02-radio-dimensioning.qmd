@@ -240,7 +240,7 @@ fig.add_trace(
         lon=lon_curve,
         mode="lines",
         line=dict(width=3, color="#ff4d4f"),
-        name=f"Beam edge ({half_angle_beamwidth_deg:g}º half-angle, A = {area_km2:,.0f} km²)",
+            name=f"Beam edge ({half_angle_beamwidth_deg:g}º half-angle, A = {area_km2:,.0f} km^2)",
     )
 )
 fig.add_trace(
@@ -258,7 +258,7 @@ fig.update_layout(
     height=520,
     margin=dict(l=8, r=8, t=50, b=8),
     title=dict(
-        text=f"Starlink FoV Footprint Over Barcelona (550 km altitude, A = {area_km2:,.0f} km²)",
+        text=f"Starlink FoV Footprint Over Barcelona (550 km altitude, A = {area_km2:,.0f} km^2)",
         x=0.5,
     ),
     legend=dict(

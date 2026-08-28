@@ -179,16 +179,16 @@ Assume the following capacities:
 
 | Segment                                | Symbol  | Available capacity |
 | -------------------------------------- |:-------:|:------------------:|
-| User-to-satellite service link         | $C_{service}$  |   2 Gbit/s         |
-| Each optical ISL                       | $C_{ISL}$      |   1 Gbit/s         |
-| Feeder link to the selected gateway    | $C_{feeder}$   |   1.5 Gbit/s       |
-| Gateway-to-5G Core fiber               | $C_{gateway}$  |  10 Gbit/s        |
+| User-to-satellite service link         | $C_{service}$  |   2 Gbps           |
+| Each optical ISL                       | $C_{ISL}$      |   1 Gbps           |
+| Feeder link to the selected gateway    | $C_{feeder}$   |   1.5 Gbps         |
+| Gateway-to-5G Core fiber               | $C_{gateway}$  |  10 Gbps           |
 
-The capacity in both cases is limited by the minimum capacity of the segments in the path. For the gateway-first topology, the bottleneck is the feeder link ($C_{feeder} = 1.5\,Gbit/s$). For the ISL-assisted topology, the bottleneck is the optical ISL ($C_{ISL} = 1\,Gbit/s$).
+The capacity in both cases is limited by the minimum capacity of the segments in the path. For the gateway-first topology, the bottleneck is the feeder link ($C_{feeder} = 1.5\,\text{Gbps}$). For the ISL-assisted topology, the bottleneck is the optical ISL ($C_{ISL} = 1\,\text{Gbps}$).
 
 ### Gateway and ISL trade-off: oversubscription
 
-Now suppose 700 Mbit/s of traffic is already using the first ISL and a new flow requires 500 Mbit/s (**oversubscription**). The new flow cannot receive its requested rate without either:
+Now suppose 700 Mbps of traffic is already using the first ISL and a new flow requires 500 Mbps (**oversubscription**). The new flow cannot receive its requested rate without either:
 
 - Using another ISL route
 - Selecting another gateway
@@ -219,18 +219,18 @@ Assume the following traffic load and capacity utilization:
 
 | Route         | One-way propagation and processing | Current utilization | Available capacity |
 | ------------- | ---------------------------------- | ------------------- | ------------------ |
-| Gateway-first | 81 ms                              | 60%                 | 600 Mbit/s         |
-| ISL-assisted  | 22 ms                              | 85%                 | 150 Mbit/s         |
+| Gateway-first | 81 ms                              | 60%                 | 600 Mbps           |
+| ISL-assisted  | 22 ms                              | 85%                 | 150 Mbps           |
 
 ::: {style="text-align:center;"}
-Which route should carry a 100 Mbit/s voice-and-control flow? Which should carry a 500 Mbit/s bulk transfer?
+Which route should carry a 100 Mbps voice-and-control flow? Which should carry a 500 Mbps bulk transfer?
 :::
 
 ::: {.fragment}
-- The ISL path is attractive for the 100 Mbit/s latency-sensitive flow because 100 Mbit/s fits within its 150 Mbit/s residual capacity.
+- The ISL path is attractive for the 100 Mbps latency-sensitive flow because 100 Mbps fits within its 150 Mbps residual capacity.
 :::
 ::: {.fragment}
-- The gateway-first path is preferable for the 500 Mbit/s bulk transfer because the ISL path lacks sufficient residual capacity.
+- The gateway-first path is preferable for the 500 Mbps bulk transfer because the ISL path lacks sufficient residual capacity.
 :::
 
 
@@ -247,10 +247,10 @@ style="display: block; max-height: 50vh; margin: 0.5rem auto 0;"
 
 ## Aggregation: example
 
-For example, if four NTN beams generate 200, 150, 100, and 250 Mbit/s:
+For example, if four NTN beams generate 200, 150, 100, and 250 Mbps:
 
 $$
-R_{aggregate}=200+150+100+250=700 Mbit/s.
+R_{aggregate}=200+150+100+250=700\ \text{Mbps}.
 $$
 
 - The shared link carrying this traffic must be dimensioned according to expected demand, traffic variability, QoS requirements, and acceptable congestion risk.
@@ -271,7 +271,7 @@ $$
 
 ::: {.column width="50%"}
 - $R_{OS} < 1 \Rightarrow$ **under-subscription**
-- $R_{OS} = 1 \Rightarrow$ **fully subscription**
+- $R_{OS} = 1 \Rightarrow$ **fully subscribed**
 - $R_{OS} > 1 \Rightarrow$ **over-subscription**
 :::
 :::
@@ -284,8 +284,8 @@ The key is to ensure that the oversubscription ratio is acceptable for the appli
 
 Suppose this scenario:
 
-- 20 terminals each have a 1 Gbit/s peak access rate.
-- The shared feeder link has 5 Gbit/s capacity.
+- 20 terminals each have a 1 Gbps peak access rate.
+- The shared feeder link has 5 Gbps capacity.
 
 $$
 R_{OS}=\frac{20\times1}{5} = 4:1
@@ -304,17 +304,17 @@ This does not mean that the link is permanently congested. It means that it cann
 
 | Satellite   | Peak capacity | Peak demand traffic |
 | ----------- | ------------- | ------------------ |
-|  LEO-1      | 1 Gbit/s      | 400 Mbit/s         |
-|  LEO-2      | 1 Gbit/s      | 300 Mbit/s         |
-|  LEO-3      | 1 Gbit/s      | 250 Mbit/s         |
-|  LEO-4      | 1 Gbit/s      | 350 Mbit/s         |
-| **Total**   | **4 Gbit/s**  | **1.3 Gbit/s**     |
+|  LEO-1      | 1 Gbps        | 400 Mbps           |
+|  LEO-2      | 1 Gbps        | 300 Mbps           |
+|  LEO-3      | 1 Gbps        | 250 Mbps           |
+|  LEO-4      | 1 Gbps        | 350 Mbps           |
+| **Total**   | **4 Gbps**    | **1.3 Gbps**       |
 :::
 
 
 ::: {.column width="50%"}
 - The traffic is aggregated onto a shared feeder link
-- Shared feeder link capacity: 2 Gbit/s.
+- Shared feeder link capacity: 2 Gbps.
 :::
 :::
 
@@ -324,20 +324,20 @@ R_{OS} = \frac{1.3}{2} = 0.65
 $$
 
 - The expected busy-hour load is 65% of capacity ⇒ There is nominal capacity for bursts, protocol overhead, and traffic variation.
-- If the actual simultaneous demand rises to 2.3 Gbit/s, then $R_{OS} > 1$ and the feeder link becomes congested unless traffic is shaped, prioritized, or rerouted.
+- If the actual simultaneous demand rises to 2.3 Gbps, then $R_{OS} > 1$ and the feeder link becomes congested unless traffic is shaped, prioritized, or rerouted.
 
 ## Oversubscription: ISL level example
 
-For an ISL with capacity 1 Gbit/s:
+For an ISL with capacity 1 Gbps:
 
-- Existing traffic: $700 Mbit/s$
-- New flow request: $500 Mbit/s$
-- Total requested traffic: $1.2 Gbit/s$
+- Existing traffic: $700\ \text{Mbps}$
+- New flow request: $500\ \text{Mbps}$
+- Total requested traffic: $1.2\ \text{Gbps}$
 
 The residual capacity before accepting the new flow is:
 $$
-C_{residual}=1,000−700=300 Mbit/s.
+C_{residual}=1000-700=300\ \text{Mbps}.
 $$
 
-Therefore, the new $500 Mbit/s$ flow cannot be admitted at its requested rate on that ISL.
+Therefore, the new $500\ \text{Mbps}$ flow cannot be admitted at its requested rate on that ISL.
 In this case, the network must either reject the new flow, reroute it through another path, or apply traffic shaping or prioritization to accommodate it.

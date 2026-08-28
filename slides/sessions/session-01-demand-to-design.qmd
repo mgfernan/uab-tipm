@@ -54,6 +54,10 @@ flowchart LR
 Release is a key milestone as its specifications enabled direct satellite-to-ground communication within the 5G ecosystem.
 :::
 
+## NTN acronym soup
+
+![source: ChatGPT](assets/01_ntn_building_blocks.png)
+
 ## NTN use cases
 
 <img

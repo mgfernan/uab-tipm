@@ -6,67 +6,65 @@
 - Coverage obligations.
 - Infrastructure and spectrum sharing.
 
+## Why this session now
+
+- Sessions 1 to 5 defined the demand, radio design, transport architecture, cost structure, and energy implications.
+- Before rollout, the system must still clear national authorization, international coordination, equipment certification, and launch approval.
+- In this session, **coverage** should be read as regulatory or commercial service reach unless the slide says **radio** or **service** coverage explicitly.
 
 ## Regulatory agencies
 
-- ITU (International Telecommunication Union)
-- ETSI (European Telecommunications Standards Institute)
-- FCC (Federal Communications Commission)
-- 3GPP (3rd Generation Partnership Project)
+| Body | Scope | Main role for NTN |
+|:--|:--|:--|
+| ITU | Global | Coordinates spectrum and orbital-resource use across administrations |
+| National regulator, e.g. FCC | Country | Authorizes operation, market access, and national spectrum use |
+| Regional standards or certification bodies, e.g. ETSI | Regional market | Translate regulatory requirements into testing and equipment compliance processes |
+| 3GPP | Global standardization | Defines how NTN integrates with the 5G system, but does not grant licenses |
 
 ## Licensing process
 
 ```{mermaid}
-gantt
-    title 5G NTN to Initial Service Launch
-    dateFormat YYYY-MM
-    axisFormat %Y-%m
-    excludes weekends
-
-    section Phase 1: Pre-Filing
-        Mission & Feasibility      :p1_feas, 2027-01, 3M
-        Band Selection & Consulting :p1_freq, after p1_feas, 2M
-        PHASE 1 COMPLETE            :milestone, after p1_freq, 0d
-
-    section Phase 2: National Authorization
-        Application Prep       :p2_fcc_api, after p1_freq, 4M
-        Review & Authorization :p2_review, after p2_fcc_api, 6M
-        National LICENSE GRANTED         :milestone, after p2_review, 0d
-
-    section Phase 3: ITU Coordination (Parallel)
-        API Filing & Publication   :p3_itu_api, after p1_feas, 3M
-        Bilateral Coordination     :p3_itu_coord, after p3_itu_api, 18M
-        API FILED (7-year clock)   :milestone, after p3_itu_coord, 0d
-
-    section Phase 4: Equipment (Parallel)
-        3GPP Testing              :p4_3gpp_test, after p1_feas, 4M
-        Regional Certification     :p4_regional_cert, after p4_3gpp_test, 2M
-        EQUIPMENT READY             :milestone, after p4_regional_cert, 0d
-
-    section Phase 5: Launch & Service
-        Launch Authorization (FAA) :p5_launch_auth, after p2_review, 4M
-        Build & Deploy 1st Satellite :p5_build_sat, after p5_launch_auth, 8M
-        In-Orbit Testing           :p5_iov, after p5_build_sat, 2M
-        Service Activation         :p5_serv_activation, after p5_iov, 1M
-        INITIAL SERVICE LIVE        :milestone, after p5_serv_activation, 0d
-
-    section Phase 6: 5G Integration (Parallel)
-        3GPP Compliance            :p6_3gpp_compliance, after p1_freq, 3M
-        MNO Partnerships           :p6_mno, after p6_3gpp_compliance, 4M
-        Core Integration           :p6_integration, after p6_mno, 3M
-        NTN READY                   :milestone, after p6_integration, 0d
+flowchart LR
+    A["P1<br/>Pre-filing"] --> B["P2<br/>National authorization"]
+    A --> C["P3<br/>ITU coordination"]
+    A --> D["P4<br/>Equipment certification"]
+    B --> E["P5<br/>Launch and initial service"]
+    C --> E
+    D --> E
+    B --> F["P6<br/>5G integration and partnerships"]
+    F --> E
 ```
+## Licensing process
 
-### P1: Pre-filling
+| Phase | Main question | Typical output |
+|:--|:--|:--|
+| P1 Pre-filing | Is the proposed service technically and commercially coherent? | Baseline mission, target band, initial link-budget and coverage assumptions |
+| P2 National authorization | Can we operate this service in a given country? | National operating authorization with conditions |
+| P3 ITU coordination | Can this system coexist internationally with other filings? | Filing visibility, coordination path, and long-term spectrum protection |
+| P4 Equipment certification | Do terminals and gateways satisfy market rules? | Certified devices and gateway equipment |
+| P5 Launch and initial service | Can we launch safely and activate a compliant first service? | In-orbit validation and controlled initial operation |
+| P6 5G integration | Can the system interwork with mobile operators and the 5G core? | Roaming, charging, core integration, and commercial readiness |
 
-**Pre-filling phase objective**: turn a service idea into a licensable technical concept.
+## National authorization vs ITU coordination
+
+| Aspect | National authorization | ITU coordination |
+|:--|:--|:--|
+| Decision maker | Country regulator | National administration interacting with ITU |
+| Main concern | Domestic permission to operate | International interference management |
+| Output | License, market access, or operating approval | Filing record, coordination, and eventual MIFR entry |
+| Time logic | Needed before service in that country | Runs in parallel and can outlast first service launch |
+| Student shortcut | "Can I serve users here?" | "Can I keep using this spectrum internationally?" |
+
+### P1: Pre-filing
+
+**Pre-filing phase objective**: turn a service idea into a licensable technical concept.
 
 - Define the intended service: \acr{D2D}, IoT, fixed broadband, backhaul, emergency messaging...
 - Define the target geography, expected users, throughput, availability, latency, and continuity requirements.
 - Choose the space segment: \acr{LEO}, \acr{MEO}, \acr{GEO}, \acr{HAPS}
 - Type of architecture (transparent or regenerative)
 
-**Pre-filling phase deliverables**: regulatory strategy approved ⇒ national and international filings can start in parallel.
+**Pre-filing phase deliverables**: regulatory strategy approved, so national and international filings can start in parallel.
 
 ### P1: Technical feasibility
 
@@ -120,7 +118,7 @@ The licence does not automatically authorise service in every country.
 
 - Successful filing results in a “notification” of the planned network, which is published in the ITU Master Register.
 - A successful entry in the \acr{MIFR}
-- *ITU 7-Year Deadline*: You have 7 years from API filing to launch 1 satellite.
+- *ITU 7-year deadline*: you have 7 years from the **Advance Publication Information (API)** filing to launch one satellite.
 
 ::: {.callout-note}
 Launching a satellite, national authorisation, and final MIFR recording (ITU coordination) are related—but separate—events
@@ -199,17 +197,19 @@ FCC Authorization History (see [@axis2026starlink])
 | November 2022    |    First Gen2 batch (7,500 satellites) |    ~12,000             |
 | January 9, 2026  |    Additional 7,500 Gen2 satellites    |    15,000              |
 
-### Starlink spectrum fillings {.use-case-slide background-image="assets/starry_sky.png"}
+### Starlink spectrum filings {.use-case-slide background-image="assets/starry_sky.png"}
 
 Info extracted from Space Exploration Holdings, LLC (Starlink) FCC regulatory filings
 
-|Frequency range | Band | Usage |
-|:----------------:|:-----:|:------:|
-| 10700 - 14500 | Ku | [@fccreport_SATLOA2016111500118;@fccreport_SATLOA2017072600110;@fccreport_SATLOA2020052600055] |
-| 17800 - 30000 | Ka | [@fccreport_SATLOA2016111500118;@fccreport_SATLOA2017072600110;@fccreport_SATLOA2020052600055] |
-| 37500 - 52400 | V | [@fccreport_SATLOA2017030100027] |
-| 71000	- 76000 | V | [@fccreport_SATLOA2020052600055] |
-| 76000 - 86000 | W | [@fccreport_SATLOA2020052600055] |
+| Frequency range | Band | Typical NTN role | Why it matters |
+|:--:|:--:|:--|:--|
+| 10700 - 14500 | Ku | User access and some gateway links | Stronger propagation than higher bands, but less total bandwidth |
+| 17800 - 30000 | Ka | High-capacity user and feeder links | More bandwidth, but greater sensitivity to atmospheric loss |
+| 37500 - 52400 | V | Future high-capacity feeder or backhaul use | Very large bandwidth, but stricter propagation and equipment constraints |
+| 71000 - 76000 | V | Experimental or high-capacity backbone use | Attractive capacity, but demanding RF implementation |
+| 76000 - 86000 | W | Very high-frequency backhaul or feeder use | Highest bandwidth potential, highest atmospheric penalty |
+
+References: [@fccreport_SATLOA2016111500118;@fccreport_SATLOA2017072600110;@fccreport_SATLOA2020052600055;@fccreport_SATLOA2017030100027]
 
 - [FCC regulatory filings](https://apps.fcc.gov/els/GetAtt.html?id=185534&x=) for Starlink's first test Microsat satellites.
 
