@@ -290,15 +290,6 @@ HTML(pio.to_html(fig, full_html=False, include_plotlyjs="cdn", include_mathjax=F
     - Beam mobility and handover strategy
     - Capacity and throughput
 
-### Beam design
-
-- Antenna dimensioning: Beam design (https://www.satsig.net/satellite/satellite-beam-design.htm)
-
-Ref: https://www.youtube.com/watch?v=bQpu14JgNz0
-https://www.ni.com/es/solutions/semiconductor/non-terrestrial-network-test/nonterrestrial-networks-for-5g-and-beyond.html
-
-See example in Section 3.3.2 of [@vanelli20245g]
-
 ### Fixed beams
 
 ![](assets/01_beam__fixed.svg)
