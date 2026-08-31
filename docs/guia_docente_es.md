@@ -145,15 +145,15 @@ La nota final de la asignatura se calculará según:
 si (Nota_ET >= 3.5 y Nota_ES >= 3.5) --> Nota_Final = 0.25 x Nota_ET + 0.25 x Nota_ES + 0.50 x Nota_PROJ
 si (Nota_ET < 3.5 o Nota_ES < 3.5) --> Nota_Final = min(Nota_ET, Nota_ES)
 
-Recuperación
+### Recuperación
 
 Para aprobar la asignatura se exige que Nota_Final >= 5. El alumnado con Nota_Final < 5 podrá acogerse a una prueba de recuperación correspondiente a la parte de exámenes. El proyecto integrador, por su carácter progresivo, aplicado y basado en evaluación continua durante las sesiones prácticas, no será recuperable.
 
-Consideración de "No Evaluable"
+### Consideración de "No Evaluable"
 
 El alumnado que no se presente a ninguna de las pruebas escritas ni participe en las actividades mínimas de evaluación continua tendrá la consideración de "No Evaluable".
 
-Consideraciones adicionales
+### Consideraciones adicionales
 
 Sin perjuicio de otras medidas disciplinarias que se estimen oportunas, y de acuerdo con la normativa vigente, las irregularidades cometidas por el estudiante que puedan conducir a una variación de la calificación de un acto de evaluación se calificarán con un cero. Copiar o dejar copiar actividades evaluables, incluidos informes, cálculos, documentos o presentaciones del proyecto, implicará suspender la actividad correspondiente y podrá comportar el suspenso de la asignatura.
 
@@ -165,8 +165,8 @@ Esta asignatura no prevé el sistema de evaluación única.
 
 - Dahlman, E., Parkvall, S., Sköld, J. [*5G NR: The Next Generation Wireless Access Technology*](https://www.sciencedirect.com/book/monograph/9780128143230/5g-nr).
 - Dahlman, E., Parkvall, S., Sköld, J. [*4G, LTE-Advanced Pro and The Road to 5G*](https://shop.elsevier.com/books/4g-lte-advanced-pro-and-the-road-to-5g/dahlman/978-0-12-804575-6).
-- Poikselkä, M., Mayer, G. *5G System Design*. 
-- Alleman, J., Noam, E. *The Economics of Telecommunications Networks*. 
+- Poikselkä, M., Mayer, G. *5G System Design*.
+- Alleman, J., Noam, E. *The Economics of Telecommunications Networks*.
 - Samdanis, K., Rost, P., Maeder, A., Meo, M., Verikoukis, C. [*Green Communications: Principles, Concepts and Practice*](https://onlinelibrary.wiley.com/doi/book/10.1002/9781118759257).
 - IEEE Communications Surveys. [*A Survey of Energy-Efficient Techniques for 5G Networks and Challenges Ahead*](https://arxiv.org/abs/1604.00786).
 - Cave, M. *Spectrum Management: Principles and Practice*.
@@ -174,7 +174,7 @@ Esta asignatura no prevé el sistema de evaluación única.
 
 ## Programario
 
-Las sesiones prácticas se podrán realizar con hojas de cálculo, notebooks en Python, Matlab o herramientas open source equivalentes, en función del tipo de ejercicio y del escenario de diseño planteado. 
+Las sesiones prácticas se podrán realizar con hojas de cálculo, notebooks en Python, Matlab o herramientas open source equivalentes, en función del tipo de ejercicio y del escenario de diseño planteado.
 
 ### Uso de la IA
 

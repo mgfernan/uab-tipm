@@ -145,17 +145,17 @@ La qualificació final de l'assignatura es calcularà segons:
 si (TE_Qualificació >= 3.5 i SE_Qualificació >= 3.5) --> Qualificació_Final = 0,25 × TE_Qualificació + 0,25 × SE_Qualificació + 0,50 × PROJ_Qualificació
 si (TE_Qualificació < 3.5 o SE_Qualificació < 3.5) --> Qualificació_Final = min(TE_Qualificació, SE_Qualificació)
 
-Recuperació
+### Recuperació
 
 Per aprovar l'assignatura es requereix que Qualificació_Final >= 5. L'alumnat amb Qualificació_Final < 5 podrà acollir-se a una prova de recuperació corresponent a la part d'exàmens.
 
 El projecte integrador, pel seu caràcter progressiu, aplicat i basat en avaluació continuada durant les sessions pràctiques, no serà recuperable.
 
-Consideració de "No Avaluable"
+### Consideració de "No Avaluable"
 
 L'alumnat que no es presenti a cap examen escrit ni participi en les activitats mínimes d'avaluació continuada tindrà la consideració de "No Avaluable".
 
-Consideracions addicionals
+### Consideracions addicionals
 
 Sense perjudici d'altres mesures disciplinàries que es considerin oportunes, i d'acord amb la normativa vigent, les irregularitats comeses per l'estudiant que puguin conduir a una variació de la qualificació d'un acte d'avaluació es qualificaran amb un zero. Copiar o deixar copiar activitats avaluables, inclosos informes, càlculs, documents o presentacions del projecte, comportarà suspendre l'activitat corresponent i pot comportar el suspens de l'assignatura.
 
@@ -178,7 +178,7 @@ Aquesta assignatura no preveu el sistema d'avaluació única.
 
 Les sessions pràctiques es podran realitzar amb fulls de càlcul, notebooks en Python, Matlab o eines equivalents de codi obert, en funció del tipus d'exercici i de l'escenari de disseny plantejat.
 
-Ús de la IA
+### Ús de la IA
 
 El material docent s'estructurarà de forma que pugui ser reutilitzat en entorns d'estudi assistits per IA (per exemple NotebookLM) i plataformes de consulta documental.
 

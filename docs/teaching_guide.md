@@ -145,15 +145,15 @@ The final course grade will be calculated as follows:
 if (TE_Grade >= 3.5 and SE_Grade >= 3.5) --> Final_Grade = 0.25 × TE_Grade + 0.25 × SE_Grade + 0.50 × PROJ_Grade
 if (TE_Grade < 3.5 or SE_Grade < 3.5) --> Final_Grade = min(TE_Grade, SE_Grade)
 
-Recovery
+### Recovery
 
 To pass the course, Final_Grade >= 5 is required. Students with Final_Grade < 5 may take a recovery exam corresponding to the exam portion. The integrative project, given its progressive nature, applied character, and continuous assessment during practical sessions, is not recoverable.
 
-"Not Evaluated" Consideration
+### "Not Evaluated" Consideration
 
 Students who do not take any written exams or participate in the minimum continuous assessment activities will receive a "Not Evaluated" grade.
 
-Additional Considerations
+### Additional Considerations
 
 Without prejudice to other disciplinary measures deemed appropriate, and in accordance with applicable regulations, irregularities committed by the student that could lead to a change in the grade of an evaluation activity will be graded as zero. Copying or allowing copying of evaluable activities, including reports, calculations, documents, or project presentations, will result in failing the corresponding activity and may result in failing the course.
 
