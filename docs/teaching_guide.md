@@ -165,8 +165,8 @@ This course does not provide for a single assessment system.
 
 - Dahlman, E., Parkvall, S., Sköld, J. [*5G NR: The Next Generation Wireless Access Technology*](https://www.sciencedirect.com/book/monograph/9780128143230/5g-nr).
 - Dahlman, E., Parkvall, S., Sköld, J. [*4G, LTE-Advanced Pro and The Road to 5G*](https://shop.elsevier.com/books/4g-lte-advanced-pro-and-the-road-to-5g/dahlman/978-0-12-804575-6).
-- Poikselkä, M., Mayer, G. *5G System Design*.
-- Alleman, J., Noam, E. *The Economics of Telecommunications Networks*.
+- Lei, Wan, et al. [*5G System Design: An End to End Perspective*](https://link.springer.com/book/10.1007/978-3-030-73703-0)
+- Verma, Pramode K., Zhang, Fan [*The economics of telecommunication services : an engineering perspective*](https://link.springer.com/book/10.1007/978-3-030-33865-7)
 - Samdanis, K., Rost, P., Maeder, A., Meo, M., Verikoukis, C. [*Green Communications: Principles, Concepts and Practice*](https://onlinelibrary.wiley.com/doi/book/10.1002/9781118759257).
 - IEEE Communications Surveys. [*A Survey of Energy-Efficient Techniques for 5G Networks and Challenges Ahead*](https://arxiv.org/abs/1604.00786).
 - Cave, M. *Spectrum Management: Principles and Practice*.
