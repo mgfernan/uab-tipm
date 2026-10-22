@@ -2,7 +2,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Quarto: Render PTIG presentation",
+      "label": "Quarto: Render presentation",
       "type": "shell",
       "command": "quarto render ptig_presentation.qmd",
       "options": {
@@ -10,7 +10,9 @@
         "env": {
           "XDG_CACHE_HOME": "${workspaceFolder}/.cache",
           "DENO_DIR": "${workspaceFolder}/.cache/deno",
-          "QUARTO_CACHE_DIR": "${workspaceFolder}/.cache/quarto"
+          "QUARTO_CACHE_DIR": "${workspaceFolder}/.cache/quarto",
+          "PATH": "${workspaceFolder}/.venv/bin:${env:PATH}",
+          "VIRTUAL_ENV": "${workspaceFolder}/.venv"
         }
       },
       "group": {

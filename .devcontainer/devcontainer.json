@@ -1,17 +1,17 @@
 {
-  "name": "PTIG Quarto",
+  "name": "AMI Quarto",
+
   "build": {
     "dockerfile": "Dockerfile",
     "context": ".."
   },
+
   "overrideCommand": true,
-  "remoteUser": "vscode",
-  "updateRemoteUserUID": true,
-  "mounts": [
-    "source=ptig-quarto-home-cache,target=/home/vscode/.cache,type=volume",
-    "source=ptig-quarto-home-local,target=/home/vscode/.local,type=volume",
-    "source=ptig-quarto-pip-cache,target=/home/vscode/.cache/pip,type=volume"
-  ],
+
+  "remoteUser": "ubuntu",
+  "updateRemoteUserUID": false,
+
+
   "customizations": {
     "vscode": {
       "extensions": [
@@ -20,12 +20,17 @@
         "ms-python.python",
         "ms-toolsai.jupyter"
       ],
+
       "settings": {
         "files.trimTrailingWhitespace": true,
         "quarto.render.renderOnSave": false,
-        "terminal.integrated.defaultProfile.linux": "bash"
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "python.defaultInterpreterPath": "/workspaces/uab-tipm/.venv/bin/python"
       }
     }
   },
+
+  "runArgs": ["--add-host=host.docker.internal:host-gateway"],
+
   "postCreateCommand": "bash .devcontainer/post-create.sh"
 }

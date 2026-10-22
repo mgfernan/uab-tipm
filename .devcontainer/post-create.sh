@@ -2,22 +2,65 @@
 
 set -euo pipefail
 
-# Devcontainer named volumes are created as root, so fix ownership once
-# before commands that rely on ~/.cache or ~/.local.
-sudo mkdir -p /home/vscode/.cache /home/vscode/.local/share/quarto/logs
-sudo chown -R vscode:vscode /home/vscode/.cache /home/vscode/.local
-chmod -R u+rwX /home/vscode/.cache /home/vscode/.local
+echo "=== AMI Quarto: post-create setup ==="
 
-VENV_DIR="/workspaces/uab_ptig/.venv"
+# ------------------------------------------------------------
+# User directories
+# ------------------------------------------------------------
+
+mkdir -p \
+    "${HOME}/.cache" \
+    "${HOME}/.local/share/quarto/logs"
+
+# ------------------------------------------------------------
+# Project Python virtual environment
+# ------------------------------------------------------------
+
+VENV_DIR="/workspaces/uab-tipm/.venv"
 
 if [[ ! -d "${VENV_DIR}" ]]; then
-	python3 -m venv "${VENV_DIR}"
+    echo "Creating Python virtual environment..."
+    python3 -m venv "${VENV_DIR}"
 fi
 
-"${VENV_DIR}/bin/python" -m pip install --upgrade pip
-"${VENV_DIR}/bin/pip" install -r /workspaces/uab_ptig/requirements.txt
-"${VENV_DIR}/bin/pip" install jupyter numpy
+# ------------------------------------------------------------
+# Python dependencies
+# ------------------------------------------------------------
 
+echo "Installing Python dependencies..."
+
+"${VENV_DIR}/bin/python" -m pip install \
+    -r /workspaces/uab-tipm/requirements.txt
+
+# ------------------------------------------------------------
+# Verification
+# ------------------------------------------------------------
+
+echo
+echo "=== Versions ==="
+
+echo "Quarto:"
 quarto --version
+
+echo
+echo "Python:"
 "${VENV_DIR}/bin/python" --version
+
+echo
+echo "Jupyter:"
 "${VENV_DIR}/bin/jupyter" --version
+
+echo
+echo "User:"
+id
+
+echo
+echo "Home:"
+ls -ld "${HOME}"
+
+echo
+echo "Quarto logs:"
+ls -ld "${HOME}/.local/share/quarto/logs"
+
+echo
+echo "=== Setup complete ==="
