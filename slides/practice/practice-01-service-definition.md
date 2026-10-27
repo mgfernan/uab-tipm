@@ -95,7 +95,7 @@ For each traffic class, discuss and fill the table. If the group cannot defend a
 
 ## Practice 1 decision sheet
 
-Before moving on, the group should be able to hand over:
+Before moving on to the next session, the group should be able to define:
 
 - A concise problem and service statement.
 - The chosen TN, NTN, or hybrid scope and why it is needed.
