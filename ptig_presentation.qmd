@@ -22,6 +22,8 @@ from: markdown+emoji
 
 {{< include slides/sessions/session-07-deployment-strategies.qmd >}}
 
+{{< include slides/sections/annex__requirement_definition.qmd >}}
+
 {{< include slides/sections/annex__satellite_fov_footprint_derivation.qmd >}}
 
 {{< include slides/sections/annex__cnr_ref_computation.qmd >}}

@@ -260,7 +260,15 @@ Compare demand against average per-beam capacity:
 - QoS tells us **how well** that service must behave.
 - Both are needed before defining network performance objectives.
 
-## Traffic and QoS
+### QoS definition by example
+
+::: {style="text-align:center;"}
+*"John Doe starts a session in his smartphone. He wants to do a live stream in Instagram and, occasionally, send some e-mails to his viewers."*
+:::
+
+![Simplified QoS model](assets/qos__overview.svg){width=100}
+
+## QoS parameters
 
 A \acr{QoS} is a set of parameters that define the performance of a network service, such as latency, throughput, and reliability. A simple model of \acr{QoS} can be defined with the following elements:
 
@@ -269,7 +277,7 @@ A \acr{QoS} is a set of parameters that define the performance of a network serv
   - **5QI** (5G QoS Identifier): a standardized identifier that defines the characteristics of a QoS flow (see Table 5.7.4-1 in [@etsi_ts123501_v181000p])
   - **ARP** (Allocation and Retention Priority): a parameter that determines the priority of a QoS flow in case of network congestion
 
-### QoS profile parameters
+### 5QI identifiers
 
 The 5QI identifiers are defined in [@etsi_ts123501_v181000p] and summarized in the following table:
 
@@ -280,45 +288,14 @@ The 5QI identifiers are defined in [@etsi_ts123501_v181000p] and summarized in t
 - Maximum **Data burst volume**: maximum amount of data that can be sent in a burst (in bytes)
 - Default **averaging window**: time window for measuring the average throughput (in ms)
 
-### QoS definition example: statement
-
-::: {style="text-align:center;"}
-*"John Doe starts a session in his smartphone. He wants to do a live stream in Instagram and, occasionally, send some e-mails to his viewers."*
-:::
-
-![Simplified QoS model](assets/qos__overview.svg){width=100}
-
 ### QoS definition example: mapping
 
-- PDU session *contains* both the live stream and the e-mail traffic.
-- Live stream mapped to a **QoS flow** with a **5QI** of **2** (*high-throughput*): Guaranteed Bit Rate (GBR), default priority level of 20, packet delay budget of 100ms (low-latency), packet error rate of $10^{-2}$.
-- E-mail flow mapped to a QoS flow with a 5QI of **10** (*best effort*): non-GBR, default priority level of 90, packet delay budget of 1100ms (high latency), packet error rate of $10^{-6}$.
+- PDU session *contains* two *QoS flow* both the live stream and the e-mail traffic.
 
-### Estimation and targets
-
-::: {.callout-important appearance="simple" icon=false title="Start from traffic class/type, ignore QoS assumptions"}
-[@corici2024ntnQos]
-:::
-
-::: {.callout-note appearance="simple" icon=false title="Determine the type of traffic"}
-![](assets/traffic_classes.svg)
-:::
-
-### Estimation and targets (continued)
-
-::: {.callout-warning appearance="simple" title="Short, sporadic packets or sustained sessions?"}
-This will place different demands on satellite resources and scheduling
-:::
-
-::: {.callout-note appearance="simple" icon=false title="Keep the 5G QoS language"}
-Map each service (identified with QoS flows, 5QI, ...) to an NTN-feasible target
-:::
-
-::: {.callout-warning appearance="simple" title="Low-latency traffic deserves special attention"}
-Must be validated against the orbit, architecture, and service path.
-:::
-
-Takeaway: Keep the standard 5G QoS framework, but only assign targets that the satellite path can realistically honor.
+| QoS Flow    | 5QI | QoS type | Default priority | Packet delay budget | Packet error rate |
+|:------------|:---:|:--------:|:----------------:|:-------------------:|:-----------------:|
+| Live stream |  2 (*high-throughput*) |   GBR   | 20 | 100 ms (*low-latency*)   | $10^{-2}$ |
+| E-mail      | 10 (*best effort*)     | Non-GBR | 90 | 1100 ms (*high latency*) | $10^{-6}$ |
 
 ### Impact of QoS on NTN
 
@@ -345,7 +322,6 @@ Due to the physical limitations, the question is not *"which 5QI do we want?"* b
 
 - 🔴 High-risk: strict delay-critical flows (terrestrial-style 5 ms budgets are generally incompatible with conventional satellite delay, but might be achievable with HAPS).
 
-
 ### QoS in Starlink {.use-case-slide background-image="assets/starry_sky.png"}
 
 Some key parameters of Starlink's network:
@@ -358,15 +334,11 @@ Some key parameters of Starlink's network:
 
 Most 5QI classes are feasible, but some delay-critical flows (e.g., 5 ms required in V2X, autonomous driving, etc.) are not compatible with the Starlink network.
 
-## From QoS targets to network KPIs
-
-- QoS targets are service-level constraints.
-- KPIs are the measurable network outcomes that indicate if targets are met.
-- We focus on three core KPI families: capacity, latency, and availability.
-
 ## Network KPIs
 
-\acr{KPI} are measurable values that indicate how well a network is performing in relation to its objectives. They are used to assess the quality of service, efficiency, and overall performance of the network.
+- QoS targets are service-level constraints.
+- We need to translate them into **network-level performance objectives** that can be measured and monitored.
+- \acr{KPI} are measurable values that indicate how well a network is performing in relation to its objectives. They are used to assess the quality of service, efficiency, and overall performance of the network.
 
 See [@5gppp_beyond5g6g_kpis_target_values_v1_0] for a detailed list of KPIs for 5G networks.
 
@@ -451,11 +423,6 @@ The Starlink latency budget highly depends on network topology and areas (lower 
 ![source: Starlink](assets/figures/starlink__latency_map.png)
 :::
 :::
-
-## From KPIs to deployment scenarios
-
-- KPI priorities change by context (urban, rural, mobility, remote, industrial).
-- Scenario definition helps translate generic targets into practical design requirements.
 
 ## Scenario types
 
@@ -629,85 +596,3 @@ pie showData title Starlink Market distribution [BUSD]
 ```
 :::
 :::
-
-## From scenarios to requirement statements
-
-- Scenarios identify operational context.
-- Requirements convert context into **testable** engineering criteria.
-- Good requirements are quantified, specific, and verifiable.
-
-## Service and requirements
-
-```{mermaid}
----
-config:
-  sankey:
-    showValues: false
----
-sankey-beta
-
-  Coverage,Footprint,1
-  Coverage,Link budget,1
-  Coverage,Propagation resilience,1
-  Coverage,Compatible with sparse ground infrastructure,1
-  Coverage,Beam configuration,1
-  Coverage,Has adaptive resource allocation,1
-
-  Continuity,Has seamless mobility management,1
-  Continuity,Has handover support,1
-  Continuity,Has session persistence,1
-  Continuity,Has multi-layer network integration,1
-
-  Connectivity,Efficient spectrum strategy,1
-  Connectivity,Signaling,1
-
-  Resilience,Availability,1
-  Resilience,Redundancy,1
-  Resilience,Has fallback connectivity,1
-  Resilience,Operation under degraded conditions,1
-
-  IoT / Low-power messaging,Power consumption,1
-  IoT / Low-power messaging,Footprint,1
-  IoT / Low-power messaging,Scalable access,1
-
-  Higher-throughput services,Bandwidth,1
-  Higher-throughput services,Latency,1
-  Higher-throughput services,Efficient spectrum strategy,1
-  Higher-throughput services,Scalable access,1
-
-  Low-latency-sensitive services,Latency,1
-  Low-latency-sensitive services,Routing and architecture,1
-  Low-latency-sensitive services,Platform,1
-
-  Mobility services,Beam configuration,1
-  Mobility services,Has Doppler compensation,1
-  Mobility services,Has handover support,1
-
-  Multi-operator services,Supported networks,1
-  Multi-operator services,Interface,1
-  Multi-operator services,Spectrum coordination,1
-```
-
-
-### Definitions
-
-- *Reach*: Broad reach for disconnected or hard-to-reach users
-- *Connectivity*: Refers to direct-to-device or direct-to-handset connectivity.
-- *Resilience*: Suitable for service that demand critical communications, such as emergency services, disaster recovery, and mission-critical applications.
-- *Scalable access*: "How many terminals can be served simultaneously?""
-
-### Requirement definition guidelines
-
-- Requirements should be **quantifiable** in terms of measurable KPIs
-- Requirements should be **specific and unambiguous**, avoiding vague/subjective terms like "high", "low", or "good".
-- One requirement should address **one aspect** of the system, avoiding compound requirements that combine multiple aspects.
-
-In general, a requirement is poorly defined if no **test** can be designed to verify its fulfillment.
-
-## Requirement definition (examples)
-
-| Poorly defined requirement ❌ | Problem | Corrected version ✅  |
-|:---------------------------|:-----------------|:-----------------|
-| "The system should provide high throughput" | Is not quantifiable | "The system should provide a minimum throughput of 10 Mbps/user in rural areas" |
-| "IoT coverage should be high" | Not specific/not quantified | "IoT coverage should reach >90% in Iberian Peninsula" |
-| "The system should provide >10 Mbps/user in rural areas and >100 Mbps/user in urban areas" | Multiple aspects | Split requirement in two, one for *rural* and another for *urban* |

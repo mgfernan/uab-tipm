@@ -1,0 +1,17 @@
+# Annex: Requirement definition {#sec-annex_requirement_definition}
+
+## Requirement definition guidelines
+
+- Requirements should be **quantifiable** in terms of measurable KPIs
+- Requirements should be **specific and unambiguous**, avoiding vague/subjective terms like "high", "low", or "good".
+- One requirement should address **one aspect** of the system, avoiding compound requirements that combine multiple aspects.
+
+In general, a requirement is poorly defined if no **test** can be designed to verify its fulfillment.
+
+## Requirement definition (examples)
+
+| Poorly defined requirement ❌ | Problem | Corrected version ✅  |
+|:---------------------------|:-----------------|:-----------------|
+| "The system should provide high throughput" | Is not quantifiable | "The system should provide a minimum throughput of 10 Mbps/user in rural areas" |
+| "IoT coverage should be high" | Not specific/not quantified | "IoT coverage should reach >90% in Iberian Peninsula" |
+| "The system should provide >10 Mbps/user in rural areas and >100 Mbps/user in urban areas" | Multiple aspects | Split requirement in two, one for *rural* and another for *urban* |
