@@ -4,15 +4,9 @@
 
 Turn a small set of activity reports into an estimate of user density, traffic demand, and a first capacity check. The exercise follows the demand model:
 
-```mermaid
-flowchart LR
-    A["user observations"] -->B["estimated users"]
-    B --> C["service mix"]
-    C --> D["traffic demand"]
-    D --> E["capacity implication"]
-```
+![Demand to capacity](./figures/demand_to_capacity.svg)
 
-The output of this exercise to build a traceable demand model with assumptions that can be challenged. 
+The output of this exercise to build a traceable demand model with assumptions that can be challenged.
 
 **Recommendation:** Use a spreadsheet to solve this exercises
 
