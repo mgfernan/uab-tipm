@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: >-
+  If you use these course materials, please cite this repository.
+title: Telecommunications Infrastructure Planning and Management Course Materials
+authors:
+  - family-names: Garcia-Fernandez
+    given-names: Miquel
+    orcid: "https://orcid.org/0000-0003-4844-6004"
+type: software
+version: 0.3.3
+doi: 10.5281/zenodo.24038860
+abstract: >-
+  Quarto-based teaching materials for the Telecommunications Infrastructure
+  Planning and Management (TIPM) course, including presentation sources,
+  reusable Python course code, and supporting learning resources.
+url: https://github.com/mgfernan/uab-tipm
+repository-code: https://github.com/mgfernan/uab-tipm
