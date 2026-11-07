@@ -2,11 +2,22 @@
 
 ## Purpose
 
-Turn a broad connectivity idea into a service definition that can be checked by the later radio, transport, and feasibility practices. The group may choose a terrestrial network (TN), a non-terrestrial network (NTN), or a hybrid TN–NTN design. Do not choose technology first: begin with users, context, and the problem to solve.
+Turn a connectivity idea into a service definition that can be checked by the later practice sessions of radio, transport, and feasibility study. The group may choose a terrestrial network (TN), a non-terrestrial network (NTN), or a hybrid TN–NTN design. Do not choose technology first: begin with users, context, and the problem to solve.
+
+This document is not a template to be filled in, but a guide for group discussion. Therefore, some of the questions may be adapted to the specific service being defined.
 
 ## Group discussion script
 
 Discuss the questions in order. Write down assumptions when evidence is unavailable, and distinguish facts from guesses. Every numerical target should have a unit, a measurement point, and a time or geographic scope.
+
+### 0. Define working team
+
+Define teams of 2 to 3 students. The team constitution shall stay the same for all practice sessions.
+
+Organization within each team is up to the team members, however, it is reacommended to assign early in the practice sessions at least the following roles:
+
+- **Team lead:** responsible for keeping the team on track and ensuring that all questions are answered.
+- **Presenter:** responsible for presenting the team’s answers to the class.
 
 ### 1. What problem are we solving?
 
