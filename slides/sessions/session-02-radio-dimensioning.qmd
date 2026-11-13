@@ -331,9 +331,9 @@ The spectrum in 5G NTN is typically divided into two frequency ranges:
 #| label: fig-freqs_fr1
 #| fig-cap: "Frequency bands allocated for FR1-NTN"
 
-from tipm.plots import plot_frequency_bands
+from tipm.plots import plot_fr1_bands
 
-plot_frequency_bands()
+plot_fr1_bands()
 ```
 
 ### Upper Frequency bands: FR2
@@ -342,9 +342,9 @@ plot_frequency_bands()
 #| label: fig-freqs_fr2
 #| fig-cap: "Frequency bands allocated for FR2-NTN"
 
-from tipm.plots import plot_frequency_bands
+from tipm.plots import plot_fr2_bands
 
-plot_frequency_bands()
+plot_fr2_bands()
 ```
 
 ### Waveforms
