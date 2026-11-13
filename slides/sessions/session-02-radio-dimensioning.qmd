@@ -360,7 +360,7 @@ plot_fr2_bands()
 See [@humphreys2023signal; @blazquez2024capabilities] for more details on Starlink's radio dimensioning
 
 
-## Multiple accessx
+## Multiple access
 
 ![source: Perplexity AI](assets/multiple_access.png)
 
