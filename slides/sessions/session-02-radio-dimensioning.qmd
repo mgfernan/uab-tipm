@@ -347,49 +347,24 @@ from tipm.plots import plot_fr2_bands
 plot_fr2_bands()
 ```
 
-### Waveforms
-
-- Usage of Orthogonal Frequency Division Multiplexing (OFDM) waveform in 5G NR, which is robust against multipath fading and allows for flexible spectrum usage.
-- Sub-carrier spacing (SCS) depend on the frequency band:
-  - For FR1 (L and S bands): 15 kHz, 30 kHz, 60 kHz
-  - For FR1 (Ku band) and FR2 (Ka band): 60 kHz, 120 kHz, 240 kHz
-- QAM modulation schemes are used, with higher-order QAM (e.g., up to 1024-QAM in downlink ) providing higher spectral efficiency but requiring better signal quality.
-- Different modulations for data transmission and control channels (L1 and L2)
-
-## Spectral efficiency
-
-Spectral efficiency links throughput, bandwidth, and modulation/coding choices:
-
-$$
-\eta = \frac{R_b}{B}\ [bit/s/Hz]
-$$
-
-Where higher-order modulation and higher code rates increase $\eta$, but require higher received signal quality. This is why dimensioning always couples:
-
-- spectrum allocation ($B$),
-- link budget margin ($C/N$ vs. $C/N_{ref}$), and
-- achievable user/beam throughput.
-
-
-### Frequency plan {.use-case-slide background-image="assets/starry_sky.png"}
+### Starlink Frequency plan {.use-case-slide background-image="assets/starry_sky.png"}
 
 - Downlink signal in 10.7 to 12.7 GHz (Ku band)
 - 250 MHz channels
-- Spot beams with 2.5° beamwidth
+- Spot beams with 1.5° beamwidth
 - To avoid interference between spot beams, different frequency channels are used for adjacent beams.
 - Effective Isotropic Radiated Power (EIRP) of -56.2 dBW/Hz to -52.8 dBW/Hz
 - bidirectional links with user terminals at X/Ku band and with gateways at Ka band using \acr{LHCP} or \acr{RHCP}
-
 - OFDM modulation
 
 See [@humphreys2023signal; @blazquez2024capabilities] for more details on Starlink's radio dimensioning
 
 
-## Multiple access: visual intuition
+## Multiple accessx
 
 ![source: Perplexity AI](assets/multiple_access.png)
 
-## Multiple access strategies
+### Multiple access strategies
 
 How different users share the same radio resources:
 
@@ -397,10 +372,6 @@ How different users share the same radio resources:
 - **TDMA** (Time Division Multiple Access): Users are allocated the same frequency band but in different time slots.
 - **SDMA** (Space Division Multiple Access): Users are separated by spatial beams.
 
-## Transition: from resource sharing to link feasibility
-
-- Spectrum and access explain resource allocation.
-- Link budget verifies whether each allocated link is physically supportable.
 
 ## Link budget
 
