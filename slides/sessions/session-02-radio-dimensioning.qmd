@@ -297,6 +297,19 @@ Beam dynamics force **handover** between beams, similar to terrestrial networks.
 
 [@huston2026protocol; @neinavaie2022unveiling]
 
+## Coverage and densification trade-offs
+
+Increasing beam density can improve spatial reuse and peak throughput, but it also increases operational complexity and interference-management needs.
+
+Typical design tensions:
+
+- **Larger beams**: better wide-area coverage, fewer handovers, lower per-area capacity.
+- **Smaller/more beams**: higher capacity and reuse, tighter pointing/tracking, more handovers.
+- **Higher frequency/wider channels**: more capacity, typically higher path loss and stronger dependence on link conditions.
+- **More satellites/gateways**: better continuity and lower path stretch, higher deployment and operations cost.
+
+Dimensioning therefore iterates between KPI targets (coverage, capacity, latency) and practical constraints (spectrum, power, architecture, and cost).
+
 ### Starlink beams {#sec-starlink_beams .use-case-slide background-image="assets/starry_sky.png"}
 
 - **Beam steered** by phased array antennas
@@ -801,80 +814,4 @@ md_table = tabulate(rows, headers=headers, tablefmt="pipe", colalign=("left", "c
 Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
 ```
 
-## Transition: from link closure to delay performance
 
-- A link can close in power terms and still fail latency targets.
-- We now check delay constraints from propagation geometry.
-
-
-## Latency limits
-
-If we define the two-way latency as $\tau = \frac{2d}{c}$, where $c$ is the speed of light, we can compute the latency for the given slant range.
-
-```{python}
-two_way_latency_s = compute_two_way_latency_s(slant_ranges_km['GEO'])
-Markdown(f"<span class='link_perf_LEO'>Two-way latency (ms): {two_way_latency_s * 1000.0:.1f} ms</span>")
-```
-
-##  Earth–Platform Geometry: slant ranges
-
-```{python}
-#| label: fig-slant_range
-#| fig-cap: "Slant range vs. elevation angle for different satellite altitudes"
-import plotly.graph_objects as go
-import plotly.io as pio
-import numpy as np
-from IPython.display import HTML
-
-height_colors = {
-    500: "#0e4a75",    # blue
-    1200: "#f10800",   # red
-    36000: "#2ca02c",  # green
-}
-
-heights_km = list(height_colors.keys())
-
-elevation_angle_grid_deg = np.linspace(0, 90, 100)  # 0 to 90 degrees
-slant_ranges = {h: compute_slant_range(h, elevation_angle_grid_deg) for h in heights_km}
-
-fig = go.Figure()
-
-
-for h in heights_km:
-    fig.add_trace(
-        go.Scatter(
-            x=elevation_angle_grid_deg,
-            y=slant_ranges[h],
-            mode="lines",
-            name=f"Altitude: {h} km",
-            line=dict(color=height_colors[h])
-        )
-    )
-
-fig.update_layout(
-    title="Slant Range vs. Elevation Angle",
-    xaxis_title="Elevation Angle (degrees)",
-    yaxis_title="Slant Range (km)",
-    template="plotly_white",
-    legend_title_text="",
-)
-
-fig.update_xaxes(range=[0, 90], showgrid=True)
-fig.update_yaxes(showgrid=True)
-
-# Avoid injecting MathJax from Plotly; Quarto already handles page-level LaTeX.
-HTML(pio.to_html(fig, full_html=False, include_plotlyjs="cdn", include_mathjax=False))
-```
-
-## Trade-offs between coverage and densification
-
-Increasing beam density can improve spatial reuse and peak throughput, but it also increases operational complexity and interference-management needs.
-
-Typical design tensions:
-
-- **Larger beams**: better wide-area coverage, fewer handovers, lower per-area capacity.
-- **Smaller/more beams**: higher capacity and reuse, tighter pointing/tracking, more handovers.
-- **Higher frequency/wider channels**: more capacity, typically higher path loss and stronger dependence on link conditions.
-- **More satellites/gateways**: better continuity and lower path stretch, higher deployment and operations cost.
-
-Dimensioning therefore iterates between KPI targets (coverage, capacity, latency) and practical constraints (spectrum, power, architecture, and cost).
