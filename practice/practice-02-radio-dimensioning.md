@@ -50,7 +50,7 @@ Bring the target footprint, user/device density, busy-hour demand, traffic class
 1. What candidate band(s) suit the access link and the environment? What propagation, antenna, licensing, and terminal implications follow?
 2. What bandwidth is available or assumed in each direction? Is the service paired, unpaired, or time-shared?
 3. What spectral efficiency is a defensible planning assumption for the link conditions and service? What modulation/coding is using?
-4. Using capacity ≈ bandwidth × spectral efficiency (and any reuse/sharing factor), can the candidate bandwidth carry the estimated demand?
+4. Using $capacity \simeq bandwidth \times spectral$ efficiency (and any reuse/sharing factor), can the candidate bandwidth carry the estimated demand?
 5. How many carriers or channels would be required per cell/beam? Is frequency reuse possible, and what interference assumption does it imply?
 6. What multiple-access strategy shares radio resources among users, and what trade-off does it make between efficiency, fairness, and latency?
 7. Does the estimated bandwidth exceed what is available or plausible? Which design variable could be changed first?
