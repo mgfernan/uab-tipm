@@ -584,7 +584,7 @@ Markdown(f"::: {{.link-budget-table}}\n{md_table}\n:::")
 
 $$
 \scriptsize
-d &= - R_{Earth} \sin(El) + \sqrt{R_{sat}^2 - R_{Earth}^2 \cos^2(El)} \quad [\text{km}]
+d = - R_{Earth} \sin(El) + \sqrt{R_{sat}^2 - R_{Earth}^2 \cos^2(El)} \quad [\text{km}]
 $$
 
 ### NB-IoT uplink example: budget worksheet
