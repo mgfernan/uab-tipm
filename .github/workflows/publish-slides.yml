@@ -81,7 +81,7 @@ jobs:
         if: steps.version.outputs.is_release == 'true'
         run: cp dist/ptig_presentation.html dist/index.html
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         if: steps.version.outputs.is_release == 'true'
         with:
           path: dist
