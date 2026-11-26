@@ -148,7 +148,10 @@ $$
 
 ### Gateway and ISL trade-off: latency
 
-- Let's consider two simple NTN topologies (both using a LEO constellation). Based on example found in Starlink's Reunion Island to Europe connection in Slides 16 to 19 of [@nohan2025starlink_performance]:
+- Let's consider two simple NTN topologies (both using a LEO constellation). Based on example found in Starlink's Reunion Island to Europe connection in Slides 16 to 19 of [@nohan2025starlink_performance] (next slide).
+
+### Gateway and ISL trade-off: latency (cont'd)
+
   - **Gateway first**: 1 gateway, 1 satellites, no \acr{ISL}
   - **ISL assisted**: 1 gateway, 3 satellites, 2 \acr{ISL} hops
 
