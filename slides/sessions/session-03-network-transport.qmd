@@ -344,3 +344,11 @@ $$
 
 Therefore, the new $500\ \text{Mbps}$ flow cannot be admitted at its requested rate on that ISL.
 In this case, the network must either reject the new flow, reroute it through another path, or apply traffic shaping or prioritization to accommodate it.
+
+## Wrap-up and key takeaways
+
+- **Architecture:** Transparent payloads rely more on gateways; regenerative payloads add on-board processing and routing.
+- **Topology:** Gateway placement and ISLs trade latency against capacity, complexity, and cost.
+- **Mobility:** Feeder-link switch-over can delay, reorder, duplicate, or lose packets.
+- **Aggregation:** Shared links must be sized for simultaneous demand, traffic variability, and QoS.
+- **Oversubscription:** Demand above capacity risks congestion; reroute, prioritize, or shape traffic to meet application needs.
