@@ -140,3 +140,42 @@ $$
 4. The remaining traffic arrives at 175 Mbps. During the interruption, $175\ \text{Mbps} \times 0.4\ \text{s} = 70\ \text{Mb} = 8.75\ \text{MB}$ arrives, so $8.75 - 8 = 0.75\ \text{MB}$ is lost. The buffer drains at $300 - 175 = 125\ \text{Mbps}$, taking $64\ \text{Mb} / 125\ \text{Mbps} = 0.512\ \text{s}$.
 5. The backup must already be active, independent of the unavailable path, and provide at least 25 Mbps throughout the interruption and recovery. The redirection and backup path must not themselves cause packet loss.
 
+$$
+\pagebreak
+$$
+
+## 5. Graph-based routing cost
+
+Model the satellite network and its connection to a gateway as a weighted graph. Satellites and the gateway are nodes; communication links are edges. Assume links are bidirectional, and the edge costs add along a route. The edge cost represents a combination of delay, congestion, and deployment cost.
+
+Traffic starts at satellite $A$ and must reach gateway $G$. The available links and their costs are:
+
+| Link | Cost |
+|---|---:|
+| A--B | 2 |
+| A--C | 5 |
+| B--C | 1 |
+| B--D | 4 |
+| C--D | 1 |
+| C--G | 7 |
+| D--G | 3 |
+
+1. Draw the graph and label each edge with its cost.
+2. Calculate the total cost of each route: $A$--$C$--$G$, $A$--$B$--$D$--$G$, and $A$--$B$--$C$--$D$--$G$.
+3. Which route has the lowest cost?
+4. Congestion increases the cost of link C--D from 1 to 5. Recalculate the three route costs and identify the lowest-cost route.
+
+$$
+\pagebreak
+$$
+
+### Answer
+
+1. The graph has nodes $A$, $B$, $C$, $D$, and $G$, connected by the links in the table.
+2. The route costs are:
+   1. $A$--$C$--$G$: $5 + 7 = 12$.
+   2. $A$--$B$--$D$--$G$: $2 + 4 + 3 = 9$.
+   3. $A$--$B$--$C$--$D$--$G$: $2 + 1 + 1 + 3 = 7$.
+3. Choose $A$--$B$--$C$--$D$--$G$, with a total cost of 7.
+4. With the C--D cost increased to 5, the routes cost 12, 9, and $2 + 1 + 5 + 3 = 11$, respectively. The lowest-cost route is now $A$--$B$--$D$--$G$, with a cost of 9.
+
