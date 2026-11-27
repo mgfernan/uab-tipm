@@ -9,6 +9,7 @@ Practice choosing a network topology for a non-terrestrial network (NTN) and the
 Work in teams of 2 to 3. Pick one scenario below and one stress event assigned by your instructor (or choose one yourselves). Answer the questions in order; record your assumptions and calculations. Use the reference values below where needed, selecting one value rather than an entire range.
 
 This activity will help you practice the following skills:
+
 - **Network design:** Choose a topology and justify it based on traffic demand, capacity, and latency.
 - **Resilience analysis:** Identify how a stress event affects the network and propose a solution to maintain service.
 - **Capacity planning:** Calculate link utilization and identify potential bottlenecks.
